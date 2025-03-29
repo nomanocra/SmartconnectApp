@@ -1,0 +1,26 @@
+:root {
+  /* Light Theme (default) */
+  --background-level-0: var(--color-white);
+  --background-level-1: var(--color-neutral-50);
+  --background-level-2: var(--color-neutral-100);
+  --background-level-3: var(--color-neutral-200);
+  --primary-default: var(--color-primary-400);
+
+  --primary-hover: var(--color-primary-500);
+  --primary-active: var(--color-primary-600);
+
+  --primary-hover-transparent: rgba(132, 141, 245, 0.1); /* #848df519 */
+  --primary-active-transparent: rgba(132, 141, 245, 0.2); /* #848df533 */
+}
+
+/* Dark Theme */
+[data-theme='dark'] {
+  --background-level-0: #060608;
+  --background-level-1: #0b0b0e;
+  --background-level-2: #191920;
+  --background-level-3: #2a2a34;
+
+  --primary-default: var(--color-primary-400);
+  --primary-hover: var(--color-primary-500);
+  --primary-active: var(--color-primary-600);
+}
