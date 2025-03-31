@@ -2,30 +2,46 @@
   <div class="login-container">
     <div class="login-card">
       <h1>Connexion</h1>
-      <form @submit.prevent="handleLogin">
-        <div class="form-group">
-          <label for="email">Email</label>
-          <input type="email" id="email" v-model="email" required placeholder="Votre email" />
-        </div>
-        <div class="form-group">
-          <label for="password">Mot de passe</label>
-          <input
-            type="password"
-            id="password"
-            v-model="password"
-            required
-            placeholder="Votre mot de passe"
-          />
-        </div>
-        <button type="submit" class="login-button">Se connecter</button>
-      </form>
+      <Form @submit="handleLogin" class="form-group">
+        <InputText
+          name="username"
+          type="email"
+          placeholder="Username"
+          fluid
+          size="large"
+          v-model="email"
+        />
+        <InputText
+          name="username"
+          type="password"
+          placeholder="Password"
+          fluid
+          size="large"
+          v-model="password"
+        />
+        <Button type="submit" label="Connexion" size="large" fluid />
+      </Form>
     </div>
+    <Button
+      @click="toggleTheme"
+      :aria-label="theme === 'light' ? 'Activer le mode sombre' : 'Activer le mode clair'"
+      size="large"
+      class="theme-toggle"
+      icon="pi pi-moon"
+      :label="theme === 'light' ? 'Mode sombre' : 'Mode clair'"
+    >
+    </Button>
   </div>
 </template>
 
 <script setup>
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
+import useTheme from '../utils/useTheme'
+import Button from 'primevue/button'
+import InputText from 'primevue/inputtext'
+import { Form } from '@primevue/forms'
+import 'primeicons/primeicons.css'
 
 const router = useRouter()
 const email = ref('')
@@ -35,63 +51,40 @@ const handleLogin = () => {
   // Pour l'instant, on redirige simplement vers le dashboard
   router.push('/dashboard')
 }
+
+const { theme, toggleTheme } = useTheme()
 </script>
 
 <style scoped>
 .login-container {
   height: 100vh;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  background-color: var(--background-level-0);
+  background-image: url('../assets/images/login_background-min.jpg');
+  background-size: cover;
+  background-position: center;
 }
 
 .login-card {
-  background: var(--background-level-1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
   padding: 2rem;
   border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   width: 100%;
   max-width: 400px;
-}
-
-h1 {
-  text-align: center;
-  color: var(--color-neutral-900);
-  margin-bottom: 2rem;
+  background-color: var(--surface-login-card);
 }
 
 .form-group {
-  margin-bottom: 1rem;
-}
-
-label {
-  display: block;
-  margin-bottom: 0.5rem;
-  color: var(--color-neutral-900);
-}
-
-input {
-  width: 100%;
-  padding: 0.5rem;
-  border: 1px solid var(--color-neutral-300);
-  border-radius: 4px;
-  font-size: 1rem;
-}
-
-.login-button {
-  width: 100%;
-  padding: 0.75rem;
-  background-color: var(--primary-default);
-  color: var(--color-white);
-  border: none;
-  border-radius: 4px;
-  font-size: 1rem;
-  cursor: pointer;
-  transition: background-color 0.2s;
-}
-
-.login-button:hover {
-  background-color: var(--primary-hover);
+  display: flex;
+  flex-direction: column;
+  align-self: stretch;
+  padding: 1rem;
+  gap: 0.8rem;
 }
 </style>
