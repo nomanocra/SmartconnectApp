@@ -1,0 +1,51 @@
+/**
+This file is used to manage the PrimeVue Components overrides that are not managed by the theme
+*/
+
+/* Buttons */
+Button:not(.p-button-vertical) {
+  height: 2.5rem;
+  max-height: 2.5rem;
+}
+
+Button.p-button-lg:not(.p-button-vertical) {
+  height: 3rem;
+  max-height: 3rem;
+}
+
+Button.p-button-sm:not(.p-button-vertical) {
+  height: 2rem;
+  max-height: 2rem;
+}
+
+.p-button.p-button-text:not(:disabled):hover {
+  background: color-mix(in srgb, var(--p-primary-color), transparent 90%) !important;
+}
+
+.p-button.p-button-text:not(:disabled):active {
+  background: color-mix(in srgb, var(--p-primary-color), transparent 80%) !important;
+}
+
+.p-button.p-button-outlined:not(:disabled):hover {
+  background: color-mix(in srgb, var(--p-primary-color), transparent 90%) !important;
+}
+
+.p-button.p-button-outlined:not(:disabled):active {
+  background: color-mix(in srgb, var(--p-primary-color), transparent 80%) !important;
+}
+
+/* Inputs */
+Input {
+  height: 2.5rem;
+  max-height: 2.5rem;
+}
+
+Input.p-inputtext-lg {
+  height: 3rem;
+  max-height: 3rem;
+}
+
+Input.p-inputtext-sm {
+  height: 2rem;
+  max-height: 2rem;
+}
