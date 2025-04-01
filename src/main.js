@@ -9,7 +9,6 @@ import 'primeicons/primeicons.css'
 import { definePreset } from '@primeuix/themes'
 import Aura from '@primeuix/themes/aura'
 import { SmartTheme } from './assets/styles/tokens/SmartTheme'
-import { initTheme } from './utils/useTheme'
 const app = createApp(App)
 
 const MyPreset = definePreset(Aura, SmartTheme)
@@ -26,5 +25,3 @@ app.use(PrimeVue, {
 // app.use(PrimeVue, { unstyled: true })
 app.use(router)
 app.mount('#app')
-
-initTheme()

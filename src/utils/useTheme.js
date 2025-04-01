@@ -3,6 +3,9 @@ import { ref, watch } from 'vue'
 const theme = ref(null)
 let isInitialized = false
 
+// Define updateThemeBasedOnSystem in the global scope
+let updateThemeBasedOnSystem = null
+
 function initTheme() {
   if (isInitialized) return
 
@@ -14,7 +17,8 @@ function initTheme() {
   // Setup favicon handling
   const favicon = document.getElementById('favicon')
 
-  function updateThemeBasedOnSystem() {
+  // Define the function and store it in the global variable
+  updateThemeBasedOnSystem = () => {
     const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
     if (favicon) {
       favicon.href = isDarkMode ? '/favicon_dark.ico' : '/favicon_light.ico'
@@ -41,6 +45,14 @@ function initTheme() {
   isInitialized = true
 }
 
+export function destroyTheme() {
+  if (isInitialized) {
+    const systemTheme = window.matchMedia('(prefers-color-scheme: dark)')
+    systemTheme.removeEventListener('change', updateThemeBasedOnSystem)
+    isInitialized = false
+  }
+}
+
 export function useTheme() {
   if (!isInitialized) {
     console.warn('Theme not initialized. Call initTheme() first.')
@@ -50,9 +62,18 @@ export function useTheme() {
     theme.value = theme.value === 'light' ? 'dark' : 'light'
   }
 
+  const setTheme = (newTheme) => {
+    if (newTheme && ['light', 'dark'].includes(newTheme)) {
+      theme.value = newTheme
+    } else {
+      console.warn('Invalid theme value. Use "light" or "dark"')
+    }
+  }
+
   return {
     theme,
     toggleTheme,
+    setTheme,
   }
 }
 

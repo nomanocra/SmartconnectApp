@@ -155,7 +155,7 @@ const handleLogin = () => {
   border-end-end-radius: 0px !important;
 }
 .p-inputgroupaddon {
-  background-color: color-mix(in srgb, var(--p-background-lvl4) 30%, transparent);
+  /* background-color: color-mix(in srgb, var(--p-background-lvl4) 30%, transparent); */
 }
 
 .p-floatlabel-on label {
