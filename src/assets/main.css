@@ -1,7 +1,6 @@
 @import './styles/tokens/colors-primitives.css';
-@import './styles/tokens/colors-semantic.css';
 @import './styles/components/components.css';
-
+@import './styles/tokens/images.css';
 * {
   margin: 0;
   padding: 0;

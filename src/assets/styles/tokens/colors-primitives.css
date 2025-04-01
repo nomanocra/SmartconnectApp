@@ -30,11 +30,10 @@
   --color-neutral-700: #46475e;
   --color-neutral-800: #3d3e4f;
   --color-neutral-900: #363744;
-  --color-neutral-920: #2a2a34;
-  --color-neutral-940: #191920;
-  --color-neutral-960: #0b0b0e;
-  --color-neutral-980: #060608;
-  --color-neutral-1000: #000000;
+  --color-neutral-925: #2a2a34;
+  --color-neutral-950: #191920;
+  --color-neutral-975: #0b0b0e;
+  --color-neutral-1000: #060608;
 }
 
 /* --surface-0: #060608;

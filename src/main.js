@@ -9,7 +9,7 @@ import 'primeicons/primeicons.css'
 import { definePreset } from '@primeuix/themes'
 import Aura from '@primeuix/themes/aura'
 import { SmartTheme } from './assets/styles/tokens/SmartTheme'
-import { setupFaviconTheme } from './utils/favicon'
+import { initTheme } from './utils/useTheme'
 const app = createApp(App)
 
 const MyPreset = definePreset(Aura, SmartTheme)
@@ -27,4 +27,4 @@ app.use(PrimeVue, {
 app.use(router)
 app.mount('#app')
 
-setupFaviconTheme()
+initTheme()
