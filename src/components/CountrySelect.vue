@@ -1,6 +1,11 @@
 <template>
   <div>
-    <Select v-model="selectedLanguage" :options="languages" size="small">
+    <Select
+      :modelValue="selectedLanguage"
+      @update:modelValue="handleLanguageChange"
+      :options="languages"
+      size="small"
+    >
       <template #value="slotProps">
         <img
           v-if="slotProps.value"
@@ -27,14 +32,32 @@
 
 <script setup>
 import Select from 'primevue/select'
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
+import { useI18n } from 'vue-i18n'
 
 const languages = ref([
-  { name: 'English', code: 'FR' },
-  { name: 'Français', code: 'GB' },
+  { name: 'fr', code: 'FR' },
+  { name: 'en', code: 'GB' },
 ])
 
-const selectedLanguage = ref(languages.value[0])
+const { locale } = useI18n()
+
+const selectedLanguage = computed(
+  () => {
+    return languages.value.find((language) => language.name === locale.value)
+  },
+  {
+    immediate: true,
+  },
+)
+
+const handleLanguageChange = (value) => {
+  // Mettre à jour la locale
+  locale.value = value.name
+
+  // Sauvegarder la préférence de langue dans le localStorage
+  localStorage.setItem('language', value.name)
+}
 </script>
 
 <style scoped>

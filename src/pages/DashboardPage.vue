@@ -6,7 +6,7 @@
 <script setup>
 import { useTheme } from '@/utils/useTheme'
 
-const { theme, toggleTheme } = useTheme()
+const { toggleTheme } = useTheme()
 </script>
 
 <style scoped>

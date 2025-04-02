@@ -1,47 +1,12 @@
 <template>
   <div class="login-container">
     <div class="login-card">
-      <header class="logo-container">
+      <header class="header">
         <img :src="logoPath" alt="Logo" class="logo" />
       </header>
-      <Form @submit="handleLogin" class="form-group">
-        <InputGroup>
-          <InputGroupAddon>
-            <i class="pi pi-user"></i>
-          </InputGroupAddon>
-          <FloatLabel variant="on">
-            <InputText
-              id="username"
-              name="username"
-              type="email"
-              fluid
-              size="large"
-              v-model="email"
-              class="login-input"
-            />
-            <label for="username">User email</label>
-          </FloatLabel>
-        </InputGroup>
 
-        <InputGroup>
-          <InputGroupAddon>
-            <i class="pi pi-key"></i>
-          </InputGroupAddon>
-          <FloatLabel variant="on">
-            <InputText
-              id="password"
-              name="password"
-              type="password"
-              fluid
-              size="large"
-              v-model="password"
-              class="login-input"
-            />
-            <label for="password">Password</label>
-          </FloatLabel>
-        </InputGroup>
-        <Button type="submit" label="Connexion" size="large" fluid />
-      </Form>
+      <LoginForm />
+
       <footer class="footer">
         <LabeledInput label="Lang" id="Lang">
           <CountrySelect />
@@ -59,27 +24,18 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
-import { useRouter } from 'vue-router'
+import { computed } from 'vue'
 import useTheme from '@/utils/useTheme'
-import Button from 'primevue/button'
-import InputText from 'primevue/inputtext'
-import { Form } from '@primevue/forms'
+
 import 'primeicons/primeicons.css'
 import LogoLight from '@/assets/svgs/Logo_and_Text_Vertical.svg'
 import LogoDark from '@/assets/svgs/Logo_and_Text_Vertical_dark.svg'
-import InputGroup from 'primevue/inputgroup'
-import InputGroupAddon from 'primevue/inputgroupaddon'
-import FloatLabel from 'primevue/floatlabel'
+
 import ToggleSwitch from 'primevue/toggleswitch'
 import LabeledInput from '@/components/LabeledInput.vue'
 import CountrySelect from '@/components/CountrySelect.vue'
-
+import LoginForm from '@/components/LoginForm.vue'
 const { theme, toggleTheme } = useTheme()
-
-const router = useRouter()
-const email = ref('')
-const password = ref('')
 
 const themeSwitch = computed({
   get: () => theme.value === 'dark',
@@ -89,16 +45,12 @@ const themeSwitch = computed({
 const logoPath = computed(() => {
   return theme.value === 'light' ? LogoLight : LogoDark
 })
-
-const handleLogin = () => {
-  // Pour l'instant, on redirige simplement vers le dashboard
-  router.push('/dashboard')
-}
 </script>
 
 <style scoped>
 .login-container {
   height: 100vh;
+  height: 100dvh; /* Us Fallback for browsers that don't support dvh */
   padding: 1rem;
   display: flex;
   flex-direction: column;
@@ -118,48 +70,24 @@ const handleLogin = () => {
 .login-card {
   display: flex;
   flex-direction: column;
-  align-items: center;
   justify-content: center;
-  gap: 2.5rem;
+  gap: 3rem;
   padding: 4rem;
   border-radius: 8px;
   width: 100%;
-  max-width: 454px;
+  max-width: 440px;
+  min-height: 600px;
   backdrop-filter: blur(10px);
   background-color: color-mix(in srgb, var(--p-background-lvl1) 50%, transparent);
 }
 
-.form-group {
+.header {
   display: flex;
-  flex-direction: column;
-  align-self: stretch;
-  padding: 1rem;
-  gap: 1.25rem;
-}
-
-.logo {
-  width: 240px;
-}
-
-.login-input,
-.p-inputgroupaddon {
-  border-radius: 0px;
-  border-top: none;
-  border-left: none;
-  border-right: none;
-  background-color: transparent;
-  border-inline-start: none !important;
-  border-start-start-radius: 0px !important;
-  border-end-start-radius: 0px !important;
-  border-start-end-radius: 0px !important;
-  border-end-end-radius: 0px !important;
-}
-.p-inputgroupaddon {
-  /* background-color: color-mix(in srgb, var(--p-background-lvl4) 30%, transparent); */
-}
-
-.p-floatlabel-on label {
-  background-color: transparent !important;
+  justify-content: center;
+  align-items: center;
+  .logo {
+    width: 240px;
+  }
 }
 
 .footer {
@@ -168,5 +96,18 @@ const handleLogin = () => {
   justify-content: space-between;
   align-items: top;
   gap: 1rem;
+}
+
+/* Small tablets (portrait) */
+@media screen and (max-width: 576px) {
+  .login-card {
+    max-width: none;
+    height: 100%;
+    padding: 2rem;
+  }
+
+  .login-container {
+    justify-content: flex-start;
+  }
 }
 </style>
