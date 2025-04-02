@@ -1,5 +1,4 @@
 import { createRouter, createWebHistory } from 'vue-router'
-
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -8,7 +7,7 @@ const router = createRouter({
       name: 'login',
       component: () => import('../pages/LoginPage.vue'),
       meta: {
-        title: 'SmartConnect - Login',
+        titleKey: 'pages.login.title',
       },
     },
     {
@@ -16,16 +15,10 @@ const router = createRouter({
       name: 'dashboard',
       component: () => import('../pages/DashboardPage.vue'),
       meta: {
-        title: 'SmartConnect - Dashboard',
+        titleKey: 'pages.dashboard.title',
       },
     },
   ],
-})
-
-// Navigation Guard pour mettre à jour le titre
-router.beforeEach((to, from, next) => {
-  document.title = to.meta.title || 'SmartConnect'
-  next()
 })
 
 export default router

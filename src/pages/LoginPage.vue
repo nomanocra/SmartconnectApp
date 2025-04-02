@@ -12,11 +12,7 @@
           <CountrySelect />
         </LabeledInput>
         <LabeledInput label="Theme" id="theme">
-          <ToggleSwitch v-model="themeSwitch" size="large">
-            <template #handle>
-              <i :class="['!text-xs pi', themeSwitch ? 'pi-moon' : 'pi-sun']" />
-            </template>
-          </ToggleSwitch>
+          <ThemeSwitch />
         </LabeledInput>
       </footer>
     </div>
@@ -31,17 +27,12 @@ import 'primeicons/primeicons.css'
 import LogoLight from '@/assets/svgs/Logo_and_Text_Vertical.svg'
 import LogoDark from '@/assets/svgs/Logo_and_Text_Vertical_dark.svg'
 
-import ToggleSwitch from 'primevue/toggleswitch'
-import LabeledInput from '@/components/LabeledInput.vue'
-import CountrySelect from '@/components/CountrySelect.vue'
-import LoginForm from '@/components/LoginForm.vue'
-const { theme, toggleTheme } = useTheme()
+import LabeledInput from '@/components/base/LabeledInput.vue'
+import CountrySelect from '@/components/base/CountrySelect.vue'
+import LoginForm from '@/components/features/auth/LoginForm.vue'
+import ThemeSwitch from '@/components/base/ThemeSwitch.vue'
 
-const themeSwitch = computed({
-  get: () => theme.value === 'dark',
-  set: () => toggleTheme(),
-})
-
+const { theme } = useTheme()
 const logoPath = computed(() => {
   return theme.value === 'light' ? LogoLight : LogoDark
 })
@@ -75,7 +66,7 @@ const logoPath = computed(() => {
   padding: 4rem;
   border-radius: 8px;
   width: 100%;
-  max-width: 440px;
+  max-width: 480px;
   min-height: 600px;
   backdrop-filter: blur(10px);
   background-color: color-mix(in srgb, var(--p-background-lvl1) 50%, transparent);

@@ -8,6 +8,14 @@ export default {
       loginSubtitle: 'Connectez-vous à votre compte',
       loginButton: 'Se connecter',
     },
+    pages: {
+      login: {
+        title: 'SmartConnect - Connexion',
+      },
+      dashboard: {
+        title: 'SmartConnect - Tableau de bord',
+      },
+    },
   },
   en: {
     login: {
@@ -17,6 +25,14 @@ export default {
       title: 'SmartConnect App',
       loginSubtitle: 'Log in to your account',
       loginButton: 'Login',
+    },
+    pages: {
+      login: {
+        title: 'SmartConnect - Login',
+      },
+      dashboard: {
+        title: 'SmartConnect - Dashboard',
+      },
     },
   },
 }

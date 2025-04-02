@@ -1,16 +1,54 @@
 <template>
-  <h1>Dashboard</h1>
-  <button @click="toggleTheme">Toggle Theme</button>
+  <div class="dashboard-page">
+    <MainSidebar />
+    <main class="dashboard-container">
+      <div class="dashboard-content lvl1">
+        <div class="dashboard-content lvl2">
+          <div class="dashboard-content lvl3">
+            <div class="dashboard-content lvl4"></div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
 </template>
 
 <script setup>
-import { useTheme } from '@/utils/useTheme'
-
-const { toggleTheme } = useTheme()
+import MainSidebar from '@/components/layout/MainSidebar.vue'
 </script>
 
 <style scoped>
-.dashboard-container {
+.dashboard-page {
   background-color: var(--p-background-lvl0);
+  display: flex;
+  flex-direction: row;
+  height: 100vh;
+  height: 100dvh; /* Us Fallback for browsers that don't support dvh */
+}
+
+.dashboard-container {
+  display: flex;
+  flex: 1;
+  padding: 4rem;
+  align-self: stretch;
+}
+
+.dashboard-content {
+  display: flex;
+  flex: 1;
+  align-self: stretch;
+  padding: 4rem;
+  &.lvl1 {
+    background-color: var(--p-background-lvl1);
+  }
+  &.lvl2 {
+    background-color: var(--p-background-lvl2);
+  }
+  &.lvl3 {
+    background-color: var(--p-background-lvl3);
+  }
+  &.lvl4 {
+    background-color: var(--p-background-lvl4);
+  }
 }
 </style>
