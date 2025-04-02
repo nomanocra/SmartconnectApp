@@ -425,11 +425,11 @@ const SmartTheme = {
           1000: '{smartGrey.1000}',
         },
         background: {
-          lvl0: '{surface.0}',
-          lvl1: '{surface.50}',
-          lvl2: '{surface.100}',
-          lvl3: '{surface.200}',
-          lvl4: '{surface.300}',
+          lvl0: '{surface.50}',
+          lvl1: '{surface.0}',
+          lvl2: '{surface.50}',
+          lvl3: '{surface.100}',
+          lvl4: '{surface.200}',
         },
         primary: {
           color: '{primary.600}',
