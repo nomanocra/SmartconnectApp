@@ -2,9 +2,8 @@ import { ref, watch } from 'vue'
 
 const theme = ref(null)
 let isInitialized = false
-
-// Define updateThemeBasedOnSystem in the global scope
-let updateThemeBasedOnSystem = null
+let favicon = document.getElementById('favicon')
+let themeWatcher = null
 
 function initTheme() {
   if (isInitialized) return
@@ -14,27 +13,15 @@ function initTheme() {
     localStorage.getItem('theme') ||
     (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light')
 
-  // Setup favicon handling
-  const favicon = document.getElementById('favicon')
-
-  // Define the function and store it in the global variable
-  updateThemeBasedOnSystem = () => {
-    const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
-    if (favicon) {
-      favicon.href = isDarkMode ? '/favicon_dark.ico' : '/favicon_light.ico'
-    }
-    theme.value = isDarkMode ? 'dark' : 'light'
-  }
-
-  // Initial setup
-  updateThemeBasedOnSystem()
-
   // Watch for system theme changes
   const systemTheme = window.matchMedia('(prefers-color-scheme: dark)')
   systemTheme.addEventListener('change', updateThemeBasedOnSystem)
 
+  // Initial tab iconColor
+  updateTabIcon(systemTheme.matches)
+
   // Setup theme watcher
-  watch(theme, (newTheme) => {
+  themeWatcher = watch(theme, (newTheme) => {
     document.documentElement.setAttribute('data-theme', newTheme)
     localStorage.setItem('theme', newTheme)
   })
@@ -49,6 +36,10 @@ export function destroyTheme() {
   if (isInitialized) {
     const systemTheme = window.matchMedia('(prefers-color-scheme: dark)')
     systemTheme.removeEventListener('change', updateThemeBasedOnSystem)
+    if (themeWatcher) {
+      themeWatcher()
+      themeWatcher = null
+    }
     isInitialized = false
   }
 }
@@ -75,6 +66,20 @@ export function useTheme() {
     toggleTheme,
     setTheme,
   }
+}
+
+// Set the Icon of the tab based on the system theme
+function updateTabIcon(isDarkMode) {
+  if (favicon) {
+    favicon.href = isDarkMode ? '/favicon_dark.ico' : '/favicon_light.ico'
+  }
+}
+
+// Set the theme based on the system theme
+function updateThemeBasedOnSystem() {
+  const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+  updateTabIcon(isDarkMode)
+  theme.value = isDarkMode ? 'dark' : 'light'
 }
 
 export { initTheme }

@@ -1,4 +1,4 @@
-import { $dt } from '@primeuix/themes'
+// import { $dt } from '@primeuix/themes'
 
 /**
  *  Theme for PrimeVue Components
@@ -431,6 +431,13 @@ const SmartTheme = {
           lvl3: '{surface.100}',
           lvl4: '{surface.200}',
         },
+        border: {
+          lvl0: '{surface.100}',
+          lvl1: '{surface.100}',
+          lvl2: '{surface.100}',
+          lvl3: '{surface.200}',
+          lvl4: '{surface.300}',
+        },
         primary: {
           color: '{primary.600}',
           contrastColor: '#ffffff',
@@ -557,6 +564,13 @@ const SmartTheme = {
           lvl2: '{surface.950}',
           lvl3: '{surface.925}',
           lvl4: '{surface.900}',
+        },
+        border: {
+          lvl0: '{surface.975}',
+          lvl1: '{surface.950}',
+          lvl2: '{surface.925}',
+          lvl3: '{surface.900}',
+          lvl4: '{surface.800}',
         },
         primary: {
           color: '{primary.300}',

@@ -8,9 +8,11 @@ import PrimeVue from 'primevue/config'
 import 'primeicons/primeicons.css'
 import { definePreset } from '@primeuix/themes'
 import Aura from '@primeuix/themes/aura'
-import { SmartTheme } from './assets/styles/tokens/SmartTheme'
+import { SmartTheme } from './assets/styles/SmartTheme'
 import { createI18n } from 'vue-i18n'
 import i18nSettings from './lang/i18n-settings'
+import Tooltip from 'primevue/tooltip'
+
 const app = createApp(App)
 
 const MyPreset = definePreset(Aura, SmartTheme)
@@ -45,4 +47,6 @@ const i18n = createI18n({
 // app.use(PrimeVue, { unstyled: true })
 app.use(i18n)
 app.use(router)
+app.directive('tooltip', Tooltip)
+
 app.mount('#app')

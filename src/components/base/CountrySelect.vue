@@ -33,14 +33,13 @@
 <script setup>
 import Select from 'primevue/select'
 import { ref, computed } from 'vue'
-import { useI18n } from 'vue-i18n'
-
+import useLang from '@/utils/useLang'
 const languages = ref([
   { name: 'fr', code: 'FR' },
   { name: 'en', code: 'GB' },
 ])
 
-const { locale } = useI18n()
+const { locale, setLang } = useLang()
 
 const selectedLanguage = computed(
   () => {
@@ -52,11 +51,7 @@ const selectedLanguage = computed(
 )
 
 const handleLanguageChange = (value) => {
-  // Mettre à jour la locale
-  locale.value = value.name
-
-  // Sauvegarder la préférence de langue dans le localStorage
-  localStorage.setItem('language', value.name)
+  setLang(value.name)
 }
 </script>
 

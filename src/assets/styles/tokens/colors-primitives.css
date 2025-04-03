@@ -35,3 +35,20 @@
   --color-neutral-975: #101015;
   --color-neutral-1000: #040405;
 }
+
+/* Remove popover arrows */
+.p-popover::after,
+.p-popover::before {
+  display: none !important;
+}
+
+:root {
+  --image-login-background: url('@/assets/images/Smart-City-futuristic.jpg');
+  --image-login-logo: url('@/assets/svgs/Logo_and_Text_Vertical.svg');
+  --image-dashboard-logo: url('@/assets/svgs/Logo.svg');
+}
+
+[data-theme='dark'] {
+  --image-login-logo: url('@/assets/svgs/Logo_and_Text_Vertical_dark.svg');
+  --image-dashboard-logo: url('@/assets/svgs/Logo_dark.svg');
+}

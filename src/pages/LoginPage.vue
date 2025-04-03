@@ -2,7 +2,7 @@
   <div class="login-container">
     <div class="login-card">
       <header class="header">
-        <img :src="logoPath" alt="Logo" class="logo" />
+        <div class="logo" role="img" aria-label="Smart Connect Logo" />
       </header>
 
       <LoginForm />
@@ -20,22 +20,11 @@
 </template>
 
 <script setup>
-import { computed } from 'vue'
-import useTheme from '@/utils/useTheme'
-
 import 'primeicons/primeicons.css'
-import LogoLight from '@/assets/svgs/Logo_and_Text_Vertical.svg'
-import LogoDark from '@/assets/svgs/Logo_and_Text_Vertical_dark.svg'
-
 import LabeledInput from '@/components/base/LabeledInput.vue'
 import CountrySelect from '@/components/base/CountrySelect.vue'
 import LoginForm from '@/components/features/auth/LoginForm.vue'
 import ThemeSwitch from '@/components/base/ThemeSwitch.vue'
-
-const { theme } = useTheme()
-const logoPath = computed(() => {
-  return theme.value === 'light' ? LogoLight : LogoDark
-})
 </script>
 
 <style scoped>
@@ -77,7 +66,13 @@ const logoPath = computed(() => {
   justify-content: center;
   align-items: center;
   .logo {
-    width: 240px;
+    width: 200px;
+    height: 140px;
+    /* Remove background-image property as we'll use an img tag instead */
+    background-image: var(--image-login-logo);
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
   }
 }
 

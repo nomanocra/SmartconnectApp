@@ -20,6 +20,8 @@ export function initPageNameManagement() {
   const updateTitle = (to) => {
     if (to.meta.titleKey) {
       document.title = i18n.t(to.meta.titleKey)
+    } else {
+      document.title = 'SmartConnect'
     }
   }
 

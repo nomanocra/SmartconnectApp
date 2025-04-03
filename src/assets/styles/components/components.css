@@ -54,3 +54,9 @@ Input.p-inputtext-sm {
   height: 2rem !important;
   max-height: 2rem !important;
 }
+
+/* Remove popover arrows */
+.p-popover::after,
+.p-popover::before {
+  display: none !important;
+}
