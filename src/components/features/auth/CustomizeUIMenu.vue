@@ -18,7 +18,7 @@
           :class="`flag flag-${item.code.toLowerCase()}`"
           style="width: 24px; margin-right: 8px"
         />
-        <span>{{ $t(item.label) }}</span>
+        <span class="menu-item-label">{{ $t(item.label) }}</span>
       </div>
       <div
         v-else
@@ -29,7 +29,7 @@
         @click="item.onClick"
       >
         <i :class="item.icon" style="margin-right: 8px" />
-        <span>{{ $t(item.label) }}</span>
+        <span class="menu-item-label">{{ $t(item.label) }}</span>
       </div>
     </template>
   </Menu>
@@ -116,5 +116,9 @@ const items = ref([
 .subtitle {
   font-size: 0.8rem;
   color: var(--p-text-secondary-color);
+}
+.menu-item-label {
+  font-size: 0.875rem;
+  color: var(--p-text-primary-color);
 }
 </style>

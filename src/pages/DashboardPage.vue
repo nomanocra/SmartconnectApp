@@ -1,15 +1,7 @@
 <template>
   <div class="dashboard-page">
     <MainSidebar />
-    <main class="dashboard-container">
-      <div class="dashboard-content lvl1">
-        <div class="dashboard-content lvl2">
-          <div class="dashboard-content lvl3">
-            <div class="dashboard-content lvl4"></div>
-          </div>
-        </div>
-      </div>
-    </main>
+    <RouterView />
   </div>
 </template>
 
