@@ -1,7 +1,7 @@
 <template>
   <header class="main-sidebar">
     <div class="sidebar-header">
-      <img src="@/assets/svgs/logo.svg" alt="Logo" />
+      <div class="logo" role="img" aria-label="Smart Connect Logo" />
     </div>
     <nav class="sidebar-nav">
       <Button
@@ -9,19 +9,24 @@
         aria-label="Monitoring"
         variant="text"
         v-tooltip="$t('sidebar.monitoring')"
-        class="selected"
+        :class="currentRoute === 'monitoring' ? 'selected' : ''"
+        @click="handleMonitoring"
       />
       <Button
         icon="pi pi-chart-bar"
         aria-label="Analytics"
         variant="text"
         v-tooltip="$t('sidebar.analytics')"
+        :class="currentRoute === 'analytics' ? 'selected' : ''"
+        @click="handleAnalytics"
       />
       <Button
         icon="pi pi-cog"
         aria-label="Settings"
         variant="text"
         v-tooltip="$t('sidebar.settings')"
+        :class="currentRoute === 'settings' ? 'selected' : ''"
+        @click="handleSettings"
       />
     </nav>
     <div class="sidebar-footer">
@@ -48,14 +53,27 @@
 <script setup>
 import Button from 'primevue/button'
 import { useRouter } from 'vue-router'
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import CustomizeUIMenuContent from '@/components/features/auth/CustomizeUIMenu.vue'
 const router = useRouter()
-
 const customizeUIMenu = ref()
+
+const currentRoute = computed(() => router.currentRoute.value.name)
 
 function handleSignOut() {
   router.push('/')
+}
+
+function handleMonitoring() {
+  router.push('/dashboard/monitoring')
+}
+
+function handleAnalytics() {
+  router.push('/dashboard/analytics')
+}
+
+function handleSettings() {
+  router.push('/dashboard/settings')
 }
 
 function toggleCustomizeUIMenu(event) {
@@ -66,7 +84,6 @@ function toggleCustomizeUIMenu(event) {
 <style scoped>
 .main-sidebar {
   --sidebar-width: 4rem;
-  width: var(--sidebar-width);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -81,15 +98,19 @@ function toggleCustomizeUIMenu(event) {
   display: flex;
   align-items: center;
   justify-content: center;
-  img {
+  .logo {
     width: 1.75rem;
-    height: auto;
+    height: 1.75rem;
+    background-image: var(--image-dashboard-logo);
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
   }
 }
 
 .sidebar-nav {
   flex: 1;
-  padding: 0.5rem;
+  padding: var(--size-content-padding-xs);
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
