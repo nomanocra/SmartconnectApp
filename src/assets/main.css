@@ -1,6 +1,7 @@
-@import './styles/tokens/colors-primitives.css';
+@import './styles/tokens/colors.css';
 @import './styles/components/components.css';
 @import './styles/tokens/images.css';
+@import './styles/tokens/sizes.css';
 @import './flags.css';
 
 * {

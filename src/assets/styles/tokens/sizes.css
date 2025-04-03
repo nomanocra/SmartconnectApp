@@ -1,0 +1,8 @@
+:root {
+  --size-content-padding-xs: 0.5rem;
+  --size-content-padding-sm: 0.75rem;
+  --size-content-padding: 1rem;
+  --size-content-padding-md: 1.5rem;
+  --size-content-padding-lg: 2rem;
+  --size-content-padding-xl: 2.5rem;
+}

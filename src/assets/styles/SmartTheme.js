@@ -3346,8 +3346,8 @@ const SmartTheme = {
     },
     splitter: {
       root: {
-        background: '{content.background}',
-        borderColor: '{content.border.color}',
+        background: '{transparent}',
+        borderColor: '{transparent}',
         color: '{content.color}',
         transitionDuration: '{transition.duration}',
       },
@@ -3355,7 +3355,7 @@ const SmartTheme = {
       handle: {
         size: '24px',
         background: 'transparent',
-        borderRadius: '{content.border.radius}',
+        borderRadius: '0px',
         focusRing: {
           width: '{focus.ring.width}',
           style: '{focus.ring.style}',

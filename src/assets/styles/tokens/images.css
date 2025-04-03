@@ -1,0 +1,10 @@
+:root {
+  --image-login-background: url('@/assets/images/login-background-image.jpg');
+  --image-login-logo: url('@/assets/svgs/Logo_200_140.svg');
+  --image-dashboard-logo: url('@/assets/svgs/Logo.svg');
+}
+
+[data-theme='dark'] {
+  --image-login-logo: url('@/assets/svgs/Logo_200_140_dark.svg');
+  --image-dashboard-logo: url('@/assets/svgs/Logo_dark.svg');
+}
