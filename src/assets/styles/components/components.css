@@ -60,3 +60,9 @@ Input.p-inputtext-sm {
 .p-popover::before {
   display: none !important;
 }
+
+.p-tree {
+  font-size: 0.875rem;
+  --p-icon-size: 0.875rem;
+  --p-tree-node-toggle-button-size: 0.875rem;
+}

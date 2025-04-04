@@ -15,6 +15,8 @@ export default {
       },
       dashboard: {
         title: 'SmartConnect - Tableau de bord',
+        addDevice: 'Ajouter un appareil',
+        addGroup: 'Ajouter un groupe',
       },
     },
     sidebar: {
@@ -46,6 +48,8 @@ export default {
       },
       dashboard: {
         title: 'SmartConnect - Dashboard',
+        addDevice: 'Add device',
+        addGroup: 'Add group',
       },
     },
     sidebar: {

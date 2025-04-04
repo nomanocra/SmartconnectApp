@@ -4040,9 +4040,9 @@ const SmartTheme = {
     },
     tree: {
       root: {
-        background: '{content.background}',
+        background: '{transparent}',
         color: '{content.color}',
-        padding: '1rem',
+        padding: '0.5rem',
         gap: '2px',
         indent: '1rem',
         transitionDuration: '{transition.duration}',
