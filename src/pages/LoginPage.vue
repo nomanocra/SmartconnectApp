@@ -23,7 +23,7 @@
 import 'primeicons/primeicons.css'
 import LabeledInput from '@/components/base/LabeledInput.vue'
 import CountrySelect from '@/components/base/CountrySelect.vue'
-import LoginForm from '@/components/features/auth/LoginForm.vue'
+import LoginForm from '@/components/features/LoginForm.vue'
 import ThemeSwitch from '@/components/base/ThemeSwitch.vue'
 </script>
 

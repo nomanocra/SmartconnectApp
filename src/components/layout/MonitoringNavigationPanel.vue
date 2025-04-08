@@ -18,35 +18,33 @@
       </div>
     </div>
     <div class="tree-menu">
-      <TreeNode label="Toulouse" id="2">
-        <TreeLeaf label="Devices" id="1" />
-        <TreeLeaf label="Devices" id="1" />
-        <TreeLeaf label="Devices" id="1" />
-        <TreeLeaf label="Devices" id="1" />
-      </TreeNode>
-      <TreeNode label="Paris" id="2">
-        <TreeLeaf label="Devices" id="1" />
-        <TreeNode label="Building1" id="2">
-          <TreeLeaf label="Devices" id="1" />
-          <TreeLeaf label="Devices" id="1" />
-          <TreeLeaf label="Devices" id="1" />
-          <TreeLeaf label="Devices" id="1" />
-        </TreeNode>
-      </TreeNode>
+      <TreeMenu :data="treeData" :status="status" />
     </div>
   </div>
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
-import { NodeService } from '@/utils/NodeService.js'
 import Button from 'primevue/button'
-import TreeLeaf from '@/components/base/TreeLeaf.vue'
-import TreeNode from '@/components/base/TreeNode.vue'
+import TreeMenu from '@/components/features/TreeMenu.vue'
+import { ref, onMounted } from 'vue'
+import { fetchPostWithCache } from '@/apis/apiFunctions'
 
-const nodes = ref([])
+const treeData = ref([])
+const status = ref('loading')
+const abortController = ref(null)
+
+const STORAGE_KEY = 'monitoring-tree-data'
+const CACHE_DURATION = 120 * 60 * 1000 // 120 minutes in milliseconds
+
 onMounted(() => {
-  NodeService.getTreeNodes().then((data) => (nodes.value = data))
+  fetchPostWithCache(
+    'https://my-json-server.typicode.com/nomanocra/SmartConnectAPIFaker/monitoringList',
+    treeData,
+    status,
+    abortController,
+    STORAGE_KEY,
+    CACHE_DURATION,
+  )
 })
 </script>
 

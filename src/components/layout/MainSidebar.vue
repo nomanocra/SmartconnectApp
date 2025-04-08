@@ -54,7 +54,7 @@
 import Button from 'primevue/button'
 import { useRouter } from 'vue-router'
 import { ref, computed } from 'vue'
-import CustomizeUIMenuContent from '@/components/features/auth/CustomizeUIMenu.vue'
+import CustomizeUIMenuContent from '@/components/features/CustomizeUIMenu.vue'
 const router = useRouter()
 const customizeUIMenu = ref()
 

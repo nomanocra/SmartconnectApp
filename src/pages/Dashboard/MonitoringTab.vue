@@ -1,10 +1,10 @@
 <template>
-  <MonitoringNavigation />
+  <MonitoringNavigationPanel />
   <MonitoringContent />
 </template>
 
 <script setup>
-import MonitoringNavigation from '@/components/layout/MonitoringNavigation.vue'
+import MonitoringNavigationPanel from '@/components/layout/MonitoringNavigationPanel.vue'
 import MonitoringContent from '@/components/layout/MonitoringContent.vue'
 </script>
 

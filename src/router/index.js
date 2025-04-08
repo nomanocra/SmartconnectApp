@@ -20,10 +20,10 @@ const router = createRouter({
     {
       path: '/dashboard',
       component: DashboardPage,
-      name: 'dashboard',
       children: [
         {
           path: '',
+          name: 'dashboard',
           redirect: '/dashboard/monitoring',
         },
         {
