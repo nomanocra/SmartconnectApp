@@ -1,35 +1,65 @@
-# .
+# SmartConnect App
 
-This template should help get you started developing with Vue 3 in Vite.
+A smart monitoring application for IoT devices built with Vue 3 and PrimeVue.
 
-## Recommended IDE Setup
+## Features
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+- Real-time device monitoring
+- Interactive dashboard
+- Multi-language support
+- Modern and responsive UI
+- Dark/Light theme support
 
-## Customize configuration
+## Getting Started
 
-See [Vite Configuration Reference](https://vite.dev/config/).
+### Prerequisites
 
-## Project Setup
+- Node.js (v18 or higher)
+- pnpm
 
-```sh
+### Installation
+
+```bash
+# Clone the repository
+git clone https://github.com/nomanocra/SmartconnectApp.git
+
+# Navigate to the project directory
+cd SmartconnectApp
+
+# Install dependencies
 pnpm install
-```
 
-### Compile and Hot-Reload for Development
-
-```sh
+# Start the development server
 pnpm dev
 ```
 
-### Compile and Minify for Production
+### Building for Production
 
-```sh
+```bash
+# Build the application
 pnpm build
+
+# Preview the production build
+pnpm preview
 ```
 
-### Lint with [ESLint](https://eslint.org/)
+## Technologies Used
 
-```sh
-pnpm lint
-```
+- Vue 3
+- Vue Router
+- PrimeVue
+- Phosphor Icons
+- Vite
+- i18n
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## Author
+
+- nomanocra
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.

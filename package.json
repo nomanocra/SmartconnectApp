@@ -3,6 +3,13 @@
   "version": "0.0.0",
   "private": true,
   "type": "module",
+  "description": "A smart monitoring application for IoT devices",
+  "author": "nomanocra",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nomanocra/SmartconnectApp.git"
+  },
   "scripts": {
     "dev": "vite",
     "build": "vite build",
