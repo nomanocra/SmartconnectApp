@@ -1,11 +1,11 @@
 <template>
   <div class="tree-node">
-    <div class="tree-node-header" @click="handleClick">
+    <div class="tree-node-header" @click="handleHeaderClick">
       <i class="pi pi-chevron-right arrow-icon" style="font-size: 0.625rem" />
       <PhMapPin class="tree-node-icon" :size="16" />
       <span style="user-select: none">{{ label }}</span>
     </div>
-    <div class="tree-node-content" v-if="open">
+    <div class="tree-node-content">
       <div class="tree-node-line"></div>
       <div class="tree-node-slot">
         <slot></slot>
@@ -25,18 +25,30 @@ defineProps({
   },
   id: {
     type: String,
-    required: true,
+    required: false,
   },
 })
 
+// Définir les événements que le composant peut émettre
+const emit = defineEmits(['click'])
+
 const open = ref(false)
 
-const handleClick = () => {
+const handleHeaderClick = () => {
   open.value = !open.value
+  emit('click')
 }
 </script>
 
 <style scoped>
+.tree-node {
+  display: grid;
+  grid-template-rows: 36px v-bind('open ? "1fr" : "0fr"');
+  overflow: hidden;
+  transition: 0.2s ease-in-out;
+  align-content: top;
+}
+
 .tree-node-header {
   display: flex;
   align-items: center;
@@ -54,9 +66,9 @@ const handleClick = () => {
 .tree-node-content {
   display: flex;
   flex-direction: row;
-  align-self: stretch;
   gap: 0.75rem;
   padding-left: 1.1rem;
+  overflow: hidden;
 }
 
 .tree-node-line {
@@ -64,12 +76,14 @@ const handleClick = () => {
   align-self: stretch;
   background-color: var(--p-border-lvl2);
 }
+
 .tree-node-slot {
   align-self: stretch;
   flex-grow: 1;
   display: flex;
   flex-direction: column;
 }
+
 .tree-node-icon {
   color: var(--p-text-tertiary-color);
 }
@@ -81,6 +95,6 @@ const handleClick = () => {
   height: 1.5rem;
   width: 1.5rem;
   transform: v-bind('open ? "rotate(90deg)" : "rotate(0deg)"');
-  transition: transform var(--p-semantic-transition-duration);
+  transition: 0.1s ease-in-out;
 }
 </style>

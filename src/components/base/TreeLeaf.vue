@@ -1,5 +1,5 @@
 <template>
-  <div class="tree-leaf" @click="handleClick">
+  <div class="tree-leaf" @click="handleClick(id)">
     <PhHardDrive class="tree-leaf-icon" :size="16" />
     <span>{{ label }}</span>
   </div>
@@ -17,12 +17,17 @@ defineProps({
     type: String,
     required: true,
   },
+  selected: {
+    type: Boolean,
+    required: false,
+    default: false,
+  },
 })
 
 const emit = defineEmits(['click'])
 
-const handleClick = () => {
-  emit('click')
+const handleClick = (id) => {
+  emit('click', id)
 }
 </script>
 
@@ -34,6 +39,10 @@ const handleClick = () => {
   border-radius: var(--p-border-radius-sm);
   padding: 0.5rem;
   cursor: pointer;
+  border-left: 2px solid v-bind(selected ? 'var(--p-primary-color)': 'transparent');
+  background-color: v-bind(
+    selected ? 'var(--p-button-text-primary-active-background)': 'transparent'
+  );
   &:hover {
     background-color: var(--p-button-text-primary-hover-background);
   }
