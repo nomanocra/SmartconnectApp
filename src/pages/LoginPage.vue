@@ -25,6 +25,15 @@ import LabeledInput from '@/components/base/LabeledInput.vue'
 import CountrySelect from '@/components/base/CountrySelect.vue'
 import LoginForm from '@/components/features/LoginForm.vue'
 import ThemeSwitch from '@/components/base/ThemeSwitch.vue'
+import { ref, onMounted } from 'vue'
+
+const videoRef = ref(null)
+
+onMounted(() => {
+  if (videoRef.value) {
+    videoRef.value.playbackRate = 0.5
+  }
+})
 </script>
 
 <style scoped>
@@ -43,6 +52,7 @@ import ThemeSwitch from '@/components/base/ThemeSwitch.vue'
     ),
     var(--image-login-background);
   background-size: cover;
+
   background-position: center;
   background-repeat: no-repeat;
 }
@@ -68,7 +78,6 @@ import ThemeSwitch from '@/components/base/ThemeSwitch.vue'
   .logo {
     width: 200px;
     height: 140px;
-    /* Remove background-image property as we'll use an img tag instead */
     background-image: var(--image-login-logo);
     background-size: contain;
     background-repeat: no-repeat;
