@@ -18,7 +18,7 @@
       </div>
     </div>
     <div class="tree-menu">
-      <TreeMenu :data="treeData" :status="status" />
+      <TreeMenu :data="treeData" :status="status" @leaf-selected="handleLeafSelected" />
     </div>
   </div>
 </template>
@@ -27,7 +27,8 @@
 import Button from 'primevue/button'
 import TreeMenu from '@/components/features/TreeMenu.vue'
 import { ref, onMounted } from 'vue'
-import { fetchPostWithCache } from '@/apis/apiFunctions'
+import { fetchPostWithCache } from '@/utils/fetcherAPI'
+import { config } from '@/utils/config'
 
 const treeData = ref([])
 const status = ref('loading')
@@ -36,9 +37,11 @@ const abortController = ref(null)
 const STORAGE_KEY = 'monitoring-tree-data'
 const CACHE_DURATION = 120 * 60 * 1000 // 120 minutes in milliseconds
 
+const emit = defineEmits(['device-selected'])
+
 onMounted(() => {
   fetchPostWithCache(
-    'https://my-json-server.typicode.com/nomanocra/SmartConnectAPIFaker/monitoringList',
+    `${config.apiBaseUrl}/monitoringList`,
     treeData,
     status,
     abortController,
@@ -46,6 +49,10 @@ onMounted(() => {
     CACHE_DURATION,
   )
 })
+
+const handleLeafSelected = (deviceID, deviceName) => {
+  emit('device-selected', deviceID, deviceName)
+}
 </script>
 
 <style scoped>
