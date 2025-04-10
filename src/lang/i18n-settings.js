@@ -31,6 +31,10 @@ export default {
       english: 'Anglais',
       french: 'Français',
     },
+    errors: {
+      noData: 'Aucune donnée trouvée.',
+      error: 'Désolé, une erreur est survenue lors du chargement des données.',
+    },
   },
   en: {
     login: {
@@ -63,6 +67,10 @@ export default {
       light: 'Light',
       english: 'English',
       french: 'French',
+    },
+    errors: {
+      noData: 'No data found.',
+      error: 'Sorry, an error occurred while loading the data.',
     },
   },
 }

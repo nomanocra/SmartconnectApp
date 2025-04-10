@@ -16,4 +16,18 @@ export default defineConfig({
       '@': fileURLToPath(new URL('./src', import.meta.url)),
     },
   },
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          phosphor: ['@phosphor-icons/vue'],
+          vendor: ['vue', 'vue-router'],
+        },
+      },
+    },
+    chunkSizeWarningLimit: 1000,
+  },
+  optimizeDeps: {
+    include: ['@phosphor-icons/vue'],
+  },
 })
