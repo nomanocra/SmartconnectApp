@@ -2,7 +2,6 @@
   <div class="tree-node">
     <div class="tree-node-header" @click="handleHeaderClick">
       <i class="pi pi-chevron-right arrow-icon" style="font-size: 0.625rem" />
-      <PhMapPin class="tree-node-icon" :size="16" />
       <span style="user-select: none">{{ label }}</span>
     </div>
     <div class="tree-node-content">
@@ -15,7 +14,6 @@
 </template>
 
 <script setup>
-import { PhMapPin } from '@phosphor-icons/vue'
 import { ref } from 'vue'
 
 defineProps({
@@ -47,12 +45,13 @@ const handleHeaderClick = () => {
   overflow: hidden;
   transition: 0.2s ease-in-out;
   align-content: top;
+  font-size: 0.875rem;
 }
 
 .tree-node-header {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.25rem;
   border-radius: var(--p-border-radius-sm);
   padding: 0.375rem;
   &:hover {

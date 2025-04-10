@@ -1,5 +1,5 @@
 <template>
-  <div class="tree-leaf" @click="handleClick(id)">
+  <div class="tree-leaf" :class="{ selected: selected }" @click="handleClick(id, label)">
     <PhHardDrive class="tree-leaf-icon" :size="16" />
     <span>{{ label }}</span>
   </div>
@@ -26,8 +26,8 @@ defineProps({
 
 const emit = defineEmits(['click'])
 
-const handleClick = (id) => {
-  emit('click', id)
+const handleClick = (id, name) => {
+  emit('click', id, name)
 }
 </script>
 
@@ -39,17 +39,24 @@ const handleClick = (id) => {
   border-radius: var(--p-border-radius-sm);
   padding: 0.5rem;
   cursor: pointer;
-  border-left: 2px solid v-bind(selected ? 'var(--p-primary-color)': 'transparent');
-  background-color: v-bind(
-    selected ? 'var(--p-button-text-primary-active-background)': 'transparent'
-  );
-  &:hover {
-    background-color: var(--p-button-text-primary-hover-background);
-  }
-  &:active {
-    background-color: var(--p-button-text-primary-active-background);
-  }
+  border-left: 2px solid transparent;
+  background-color: transparent;
+  font-size: 0.875rem;
 }
+
+.tree-leaf:hover {
+  background-color: var(--p-button-text-primary-hover-background);
+}
+
+.tree-leaf:active {
+  background-color: var(--p-button-text-primary-active-background);
+}
+
+.tree-leaf.selected {
+  border-left: 2px solid var(--p-primary-color);
+  background-color: var(--p-button-text-primary-active-background);
+}
+
 .tree-leaf-icon {
   color: var(--p-text-tertiary-color);
 }
