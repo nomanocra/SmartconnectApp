@@ -634,13 +634,13 @@ const SmartTheme = {
             color: '{text.color}',
           },
           popover: {
-            background: '{surface.900}',
-            borderColor: '{surface.700}',
+            background: '{surface.950}',
+            borderColor: '{surface.900}',
             color: '{text.color}',
           },
           modal: {
-            background: '{surface.900}',
-            borderColor: '{surface.700}',
+            background: '{surface.950}',
+            borderColor: '{transparent}',
             color: '{text.color}',
           },
         },
@@ -1949,12 +1949,12 @@ const SmartTheme = {
         color: '{overlay.modal.color}',
         shadow: '{overlay.modal.shadow}',
       },
-      header: { padding: '{overlay.modal.padding}' },
+      header: { padding: '1rem' },
       title: { fontSize: '1.5rem', fontWeight: '600' },
       content: {
-        padding: '0 {overlay.modal.padding} {overlay.modal.padding} {overlay.modal.padding}',
+        padding: '0 1rem 1rem 1rem',
       },
-      footer: { padding: '{overlay.modal.padding}' },
+      footer: { padding: '1rem' },
     },
     editor: {
       toolbar: {
