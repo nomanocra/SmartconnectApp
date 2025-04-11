@@ -2,7 +2,7 @@
   <div class="sensor-card">
     <div class="sensor-card-header">
       <div class="header-left">
-        <PhThermometer :size="20" weight="regular" class="sensor-icon" />
+        <SensorIcon :icon="sensor.type" :size="20" class="sensor-icon" />
         <div class="header-texts">
           <span class="title">{{ sensor.name }}</span>
           <span class="last-update">{{
@@ -26,7 +26,7 @@
 </template>
 
 <script setup>
-import { PhThermometer } from '@phosphor-icons/vue'
+import SensorIcon from '@/components/base/SensorIcon.vue'
 defineProps({
   sensor: {
     type: Object,
