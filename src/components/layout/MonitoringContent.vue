@@ -46,10 +46,6 @@ const devicesData = ref([])
 const status = ref('loading')
 const abortController = ref(null)
 
-watch(devicesData, (newData) => {
-  console.log('New devicesData :', newData)
-})
-
 watch(
   () => props.deviceId,
   (newID) => {
