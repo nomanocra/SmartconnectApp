@@ -28,7 +28,7 @@ import SkeletonRectangle from '@/components/base/SkeletonRectangle.vue'
 import { ref, watch } from 'vue'
 import { fetchPost } from '@/utils/fetcherAPI'
 import { config } from '@/utils/config'
-import SensorCard from '@/components/features/Sensorcard.vue'
+import SensorCard from '@/components/features/SensorCard.vue'
 const props = defineProps({
   deviceId: {
     type: [String, Number, null],
