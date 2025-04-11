@@ -4,7 +4,9 @@
       <div class="header-left">
         <SensorIcon :icon="sensor.type" :size="20" class="sensor-icon" />
         <div class="header-texts">
-          <span class="title">{{ sensor.name }}</span>
+          <span class="title">{{
+            locale === 'en' ? sensor.name || sensor.nom : sensor.nom || sensor.name
+          }}</span>
           <span class="last-update">{{
             new Date(sensor.lastUpdate).toLocaleString('en-GB', {
               day: '2-digit',
@@ -33,6 +35,11 @@ defineProps({
     required: true,
   },
 })
+
+import { useI18n } from 'vue-i18n'
+
+// Get the current language
+const { locale } = useI18n()
 </script>
 
 <style scoped>
