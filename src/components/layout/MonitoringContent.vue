@@ -16,11 +16,7 @@
     </div>
     <div v-if="status === 'loaded'" class="monitoring-content-body">
       <div v-for="sensors in devicesData.sensors" :key="sensors.id">
-        <div class="sensor-card">
-          <div class="sensor-card-header">
-            <h2>{{ sensors }}</h2>
-          </div>
-        </div>
+        <SensorCard :sensor="sensors" />
       </div>
     </div>
   </div>
@@ -32,7 +28,7 @@ import SkeletonRectangle from '@/components/base/SkeletonRectangle.vue'
 import { ref, watch } from 'vue'
 import { fetchPost } from '@/utils/fetcherAPI'
 import { config } from '@/utils/config'
-
+import SensorCard from '@/components/features/Sensorcard.vue'
 const props = defineProps({
   deviceId: {
     type: [String, Number, null],
