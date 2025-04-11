@@ -17,4 +17,11 @@ import MainSidebar from '@/components/layout/MainSidebar.vue'
   height: 100vh;
   height: 100dvh; /* Us Fallback for browsers that don't support dvh */
 }
+
+/* Smartphones(portrait) */
+@media screen and (max-width: 576px) {
+  .dashboard-page {
+    flex-direction: column-reverse;
+  }
+}
 </style>
