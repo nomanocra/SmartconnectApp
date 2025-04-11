@@ -5,44 +5,98 @@
     </div>
     <nav class="sidebar-nav">
       <Button
+        v-if="!isMobile"
         icon="pi pi-gauge"
         aria-label="Monitoring"
         variant="text"
         v-tooltip="$t('sidebar.monitoring')"
         :class="currentRoute === 'monitoring' ? 'selected' : ''"
+        class="sidebar-button"
         @click="handleMonitoring"
       />
       <Button
+        v-else
+        icon="pi pi-gauge"
+        aria-label="Monitoring"
+        variant="text"
+        :class="currentRoute === 'monitoring' ? 'selected' : ''"
+        class="sidebar-button"
+        @click="handleMonitoring"
+      />
+      <Button
+        v-if="!isMobile"
         icon="pi pi-chart-bar"
         aria-label="Analytics"
         variant="text"
         v-tooltip="$t('sidebar.analytics')"
         :class="currentRoute === 'analytics' ? 'selected' : ''"
+        class="sidebar-button"
         @click="handleAnalytics"
       />
       <Button
+        v-else
+        icon="pi pi-chart-bar"
+        aria-label="Analytics"
+        variant="text"
+        :class="currentRoute === 'analytics' ? 'selected' : ''"
+        class="sidebar-button"
+        @click="handleAnalytics"
+      />
+      <Button
+        v-if="!isMobile"
         icon="pi pi-cog"
         aria-label="Settings"
         variant="text"
         v-tooltip="$t('sidebar.settings')"
         :class="currentRoute === 'settings' ? 'selected' : ''"
+        class="sidebar-button"
+        @click="handleSettings"
+      />
+      <Button
+        v-else
+        icon="pi pi-cog"
+        aria-label="Settings"
+        variant="text"
+        :class="currentRoute === 'settings' ? 'selected' : ''"
+        class="sidebar-button"
         @click="handleSettings"
       />
     </nav>
     <div class="sidebar-footer">
       <Button
+        v-if="!isMobile"
         icon="pi pi-sliders-h"
         aria-label="Sign Out"
         variant="text"
         v-tooltip="$t('sidebar.customizeUI')"
+        class="sidebar-button"
+        @click="toggleCustomizeUIMenu"
+      />
+      <Button
+        v-else
+        icon="pi pi-sliders-h"
+        aria-label="Sign Out"
+        variant="text"
+        class="sidebar-button"
         @click="toggleCustomizeUIMenu"
       />
       <CustomizeUIMenuContent ref="customizeUIMenu" />
 
       <Button
+        v-if="!isMobile"
         icon="pi pi-sign-out"
         aria-label="Sign Out"
         variant="text"
+        class="sidebar-button"
+        @click="handleSignOut"
+        v-tooltip="$t('login.signOut')"
+      />
+      <Button
+        v-else
+        icon="pi pi-sign-out"
+        aria-label="Sign Out"
+        variant="text"
+        class="sidebar-button"
         @click="handleSignOut"
         v-tooltip="$t('login.signOut')"
       />
@@ -55,6 +109,8 @@ import Button from 'primevue/button'
 import { useRouter } from 'vue-router'
 import { ref, computed } from 'vue'
 import CustomizeUIMenuContent from '@/components/features/CustomizeUIMenu.vue'
+import { isMobile } from '@/assets/styles/tokens/breakpoints'
+
 const router = useRouter()
 const customizeUIMenu = ref()
 
@@ -127,5 +183,31 @@ function toggleCustomizeUIMenu(event) {
 .selected {
   background-color: var(--p-button-text-primary-active-background);
   pointer-events: none;
+}
+
+/* Smartphones(portrait) */
+@media screen and (max-width: 576px) {
+  .main-sidebar {
+    flex-direction: row;
+  }
+  .sidebar-header {
+    display: none;
+  }
+  .sidebar-nav {
+    flex-direction: row;
+    justify-content: space-evenly;
+    order: 1;
+    flex: 3;
+  }
+  .sidebar-footer {
+    flex-direction: row;
+    justify-content: space-evenly;
+    flex: 2;
+    order: 3;
+    padding: 0.5rem;
+  }
+  .sidebar-button {
+    flex: 1;
+  }
 }
 </style>
