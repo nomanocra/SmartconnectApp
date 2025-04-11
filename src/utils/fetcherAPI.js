@@ -13,7 +13,15 @@ export function fetchPost(url, data, status, abortController) {
   }
   abortController.value = new AbortController()
   if (status) status.value = 'loading'
-  fetch(url, { signal: abortController.value.signal })
+  fetch(url, {
+    signal: abortController.value.signal,
+    mode: 'cors',
+    credentials: 'include',
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+    },
+  })
     .then((response) => {
       if (response.ok) {
         return response.json()
@@ -82,7 +90,15 @@ export const fetchPostWithCache = async (
   abortController.value = new AbortController()
 
   // Call the API
-  fetch(url, { signal: abortController.value.signal })
+  fetch(url, {
+    signal: abortController.value.signal,
+    mode: 'cors',
+    credentials: 'include',
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+    },
+  })
     .then((response) => {
       if (response.ok) {
         return response.json()
