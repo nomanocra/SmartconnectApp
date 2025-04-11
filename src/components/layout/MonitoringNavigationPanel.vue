@@ -60,9 +60,7 @@ const handleLeafSelected = (deviceID, deviceName) => {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
-
-  background-color: var(--p-background-lvl0);
-  width: 300px;
+  width: 280px;
   padding: var(--size-content-padding);
   color: var(--p-text-secondary-color);
 }
@@ -82,5 +80,11 @@ const handleLeafSelected = (deviceID, deviceName) => {
   height: 100%;
   display: flex;
   flex-direction: column;
+}
+
+@media (max-width: 904px) {
+  .monitoring-navigation {
+    padding: 0rem;
+  }
 }
 </style>

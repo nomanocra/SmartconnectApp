@@ -1,15 +1,24 @@
 <template>
   <div class="monitoring-content">
-    <div v-if="deviceId" class="monitoring-content-header">
-      <h1>{{ deviceName }}</h1>
-      <div class="device-id">
-        <PhHardDrive :size="16" />
-        <span>SmartBoitier {{ deviceId }}</span>
+    <div class="monitoring-content-header">
+      <Button
+        v-if="isTablet"
+        icon="pi pi-bars"
+        variant="text"
+        severity="secondary"
+        @click="openDrawer()"
+      />
+      <div v-if="deviceId" class="monitoring-content-header-title">
+        <h1>{{ deviceName }}</h1>
+        <div class="device-id">
+          <PhHardDrive :size="16" />
+          <span>SmartBoitier {{ deviceId }}</span>
+        </div>
       </div>
-    </div>
-    <div v-else class="monitoring-content-header">
-      <SkeletonRectangle class="h1-skeleton" />
-      <SkeletonRectangle class="device-id-skeleton" />
+      <div v-else class="monitoring-content-header-title">
+        <SkeletonRectangle class="h1-skeleton" />
+        <SkeletonRectangle class="device-id-skeleton" />
+      </div>
     </div>
     <div v-if="status === 'loading'" class="monitoring-content-body">
       <SkeletonRectangle class="skeleton-sensor-card" v-for="i in 12" :key="i" />
@@ -29,6 +38,9 @@ import { ref, watch } from 'vue'
 import { fetchPost } from '@/utils/fetcherAPI'
 import { config } from '@/utils/config'
 import SensorCard from '@/components/features/SensorCard.vue'
+import Button from 'primevue/button'
+import { isTablet } from '@/assets/styles/tokens/breakpoints'
+
 const props = defineProps({
   deviceId: {
     type: [String, Number, null],
@@ -42,9 +54,16 @@ const props = defineProps({
   },
 })
 
+const emit = defineEmits(['open-drawer'])
+
 const devicesData = ref([])
 const status = ref('loading')
 const abortController = ref(null)
+
+function openDrawer() {
+  console.log('openDrawer')
+  emit('open-drawer')
+}
 
 watch(
   () => props.deviceId,
@@ -75,6 +94,12 @@ watch(
 
 .monitoring-content-header {
   display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.monitoring-content-header-title {
+  display: flex;
   flex-direction: column;
   gap: 0.25rem;
 }
@@ -97,5 +122,12 @@ watch(
 
 .skeleton-sensor-card {
   height: 120px;
+}
+
+@media screen and (max-width: 576px) {
+  .monitoring-content {
+    padding: var(--size-content-padding);
+    gap: 1.25rem;
+  }
 }
 </style>
