@@ -98,7 +98,6 @@
         variant="text"
         class="sidebar-button"
         @click="handleSignOut"
-        v-tooltip="$t('login.signOut')"
       />
     </div>
   </header>
