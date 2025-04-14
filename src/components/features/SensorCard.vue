@@ -23,12 +23,15 @@
         <span class="unit">{{ sensor.unit }}</span>
       </div>
     </div>
-    <div class="sensor-card-body"></div>
+    <SparklineChart :data="chartData" class="sparkline" />
   </div>
 </template>
 
 <script setup>
 import SensorIcon from '@/components/base/SensorIcon.vue'
+import { useI18n } from 'vue-i18n'
+import SparklineChart from '@/components/base/SparklineChart.vue'
+import { ref } from 'vue'
 defineProps({
   sensor: {
     type: Object,
@@ -36,7 +39,19 @@ defineProps({
   },
 })
 
-import { useI18n } from 'vue-i18n'
+const chartData = ref({
+  labels: [
+    '1 Jan 2025, 12:30',
+    '2 Jan 2025, 12:35',
+    '3 Jan 2025, 12:40',
+    '4 Jan 2025, 12:45',
+    '5 Jan 2025, 12:50',
+    '6 Jan 2025, 12:55',
+    '7 Jan 2025, 13:00',
+  ],
+  values: [65, 59, 80, 81, 56, 55, 40],
+  unit: '°C',
+})
 
 // Get the current language
 const { locale } = useI18n()
@@ -50,7 +65,8 @@ const { locale } = useI18n()
   background-color: var(--p-background-lvl1);
   border: 1px solid var(--p-border-lvl2);
   padding: 1rem;
-  height: 7.5rem;
+  height: var(--size-sensor-card-height);
+  border-radius: var(--p-form-field-border-radius);
   cursor: pointer;
   &:hover {
     border: 1px solid var(--p-background-lvl4);
@@ -106,8 +122,9 @@ const { locale } = useI18n()
     line-height: 1.2;
   }
 }
-.sensor-card-body {
+.sparkline {
   /* background-color: var(--p-background-lvl3); */
   flex: 1;
+  align-self: stretch;
 }
 </style>
