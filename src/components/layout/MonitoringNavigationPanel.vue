@@ -77,9 +77,10 @@ const handleLeafSelected = (deviceID, deviceName) => {
 }
 
 .tree-menu {
-  height: 100%;
+  flex: 1;
   display: flex;
   flex-direction: column;
+  overflow-y: auto;
 }
 
 @media (max-width: 904px) {

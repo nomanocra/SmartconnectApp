@@ -52,7 +52,7 @@ const handleHeaderClick = () => {
   display: flex;
   align-items: center;
   gap: 0.25rem;
-  border-radius: var(--p-border-radius-sm);
+  border-radius: var(--p-form-field-border-radius);
   padding: 0.375rem;
   &:hover {
     background-color: var(--p-button-text-primary-hover-background);

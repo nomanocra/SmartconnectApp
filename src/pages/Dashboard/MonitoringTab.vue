@@ -19,7 +19,7 @@ import { ref } from 'vue'
 import { isTablet } from '@/assets/styles/tokens/breakpoints'
 const deviceID = ref(null)
 const deviceName = ref(null)
-const drawerOpen = ref(false)
+const drawerOpen = ref(true)
 
 const handleDeviceSelected = (id, name) => {
   deviceID.value = id

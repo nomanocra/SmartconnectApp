@@ -1,5 +1,5 @@
 <template>
-  <div v-if="status === 'loaded'" class="tree-menu">
+  <div v-if="status === 'loaded'" class="tree-menu-content">
     <template v-for="node in data" :key="node.id">
       <TreeLeaf
         v-if="!node.children"
@@ -56,7 +56,7 @@ const handleLeafSelected = (leafId, leafName) => {
 </script>
 
 <style scoped>
-.tree-menu {
+.tree-menu-content {
   display: flex;
   flex-direction: column;
 }

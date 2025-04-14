@@ -63,7 +63,7 @@ onMounted(() => {
   justify-content: center;
   gap: 3rem;
   padding: 4rem;
-  border-radius: 8px;
+  border-radius: var(--p-form-field-border-radius);
   width: 100%;
   max-width: 480px;
   min-height: 600px;

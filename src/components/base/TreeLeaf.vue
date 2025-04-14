@@ -36,7 +36,7 @@ const handleClick = (id, name) => {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  border-radius: var(--p-border-radius-sm);
+  border-radius: var(--p-form-field-border-radius);
   padding: 0.5rem;
   cursor: pointer;
   border-left: 2px solid transparent;
