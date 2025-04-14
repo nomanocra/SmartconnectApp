@@ -354,7 +354,7 @@ const SmartTheme = {
       paddingY: '0.5rem',
       sm: { fontSize: '0.875rem', paddingX: '0.625rem', paddingY: '0.375rem' },
       lg: { fontSize: '1.125rem', paddingX: '0.875rem', paddingY: '0.625rem' },
-      borderRadius: '{border.radius.sm}',
+      borderRadius: '{border.radius.none}',
       borderColor: '{surface.300}',
       hoverBorderColor: '{surface.400}',
       focusRing: {
@@ -388,11 +388,11 @@ const SmartTheme = {
     },
     overlay: {
       select: {
-        borderRadius: '{border.radius.md}',
+        borderRadius: '{border.radius.none}',
         shadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1)',
       },
       popover: {
-        borderRadius: '{border.radius.md}',
+        borderRadius: '{border.radius.none}',
         padding: '0.75rem',
         shadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1)',
       },

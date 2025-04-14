@@ -8,7 +8,7 @@
 .skeleton-rectangle {
   padding: 0.25rem;
   background-color: color-mix(in srgb, var(--p-background-lvl4) 50%, transparent);
-  border-radius: 4px;
+  border-radius: var(--p-form-field-border-radius);
   overflow: hidden;
   background-image: linear-gradient(
     90deg,
