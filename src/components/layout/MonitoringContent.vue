@@ -121,7 +121,7 @@ watch(
 }
 
 .skeleton-sensor-card {
-  height: 120px;
+  height: var(--size-sensor-card-height);
 }
 
 @media screen and (max-width: 576px) {
