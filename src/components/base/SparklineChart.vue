@@ -127,8 +127,11 @@ const setupCustomTooltip = () => {
       Object.assign(tooltipContent.style, {
         display: 'flex',
         flexDirection: 'row',
+        flexWrap: 'wrap',
         alignItems: 'center',
-        gap: '8px',
+        gap: '0.5rem',
+        rowGap: '0.125rem' /* Vertical gap when items wrap */,
+        columnGap: '0.5rem' /* Horizontal gap between items */,
       })
     }
 
