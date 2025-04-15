@@ -23,7 +23,11 @@
         <span class="unit">{{ sensor.unit }}</span>
       </div>
     </div>
-    <SparklineChart :data="chartData" class="sparkline" />
+    <SparklineChart v-if="status === 'loaded'" :data="chartData" class="sparkline" />
+    <SkeletonRectangle v-else-if="status === 'loading'" class="sparkline" />
+    <div v-else class="sparkline-error">
+      <p class="error-message">{{ $t('errors.noData') }}</p>
+    </div>
   </div>
 </template>
 
@@ -31,26 +35,72 @@
 import SensorIcon from '@/components/base/SensorIcon.vue'
 import { useI18n } from 'vue-i18n'
 import SparklineChart from '@/components/base/SparklineChart.vue'
-import { ref } from 'vue'
-defineProps({
+import { computed, ref, watch } from 'vue'
+import { fetchPost } from '@/utils/fetcherAPI'
+import { config } from '@/utils/config'
+import SkeletonRectangle from '@/components/base/SkeletonRectangle.vue'
+const props = defineProps({
   sensor: {
     type: Object,
     required: true,
   },
 })
 
-const chartData = ref({
-  labels: [
-    '1 Jan 2025, 12:30',
-    '2 Jan 2025, 12:35',
-    '3 Jan 2025, 12:40',
-    '4 Jan 2025, 12:45',
-    '5 Jan 2025, 12:50',
-    '6 Jan 2025, 12:55',
-    '7 Jan 2025, 13:00',
-  ],
-  values: [65, 59, 80, 81, 56, 55, 40],
-  unit: '°C',
+const dataHistory = ref({
+  history: [],
+})
+const abortController = ref(null)
+const status = ref('loading')
+
+watch(
+  () => props.sensor.lastUpdate,
+  () => {
+    fetchDataHistory()
+  },
+  { immediate: true },
+)
+
+async function fetchDataHistory() {
+  console.log('fetching data history')
+  // fetchPostWithCache(
+  //   `${config.apiBaseUrl}/sensorsHistory/${props.sensor.id}`,
+  //   dataHistory,
+  //   status,
+  //   abortController,
+  //   `sensor-history-${props.sensor.id}`,
+  // )
+  fetchPost(
+    `${config.apiBaseUrl}/sensorsHistory/${props.sensor.id}`,
+    dataHistory,
+    status,
+    abortController,
+  )
+}
+const chartData = computed(() => {
+  // Create a copy of the array before sorting to avoid side effects
+  const sortedHistory = [...dataHistory.value.history].sort(
+    (a, b) => new Date(a.timestamp) - new Date(b.timestamp),
+  )
+  if (sortedHistory.length > 0) {
+    return {
+      labels: sortedHistory.map((item) =>
+        new Date(item.timestamp).toLocaleString('en-GB', {
+          day: '2-digit',
+          month: 'short',
+          year: 'numeric',
+          hour: '2-digit',
+          minute: '2-digit',
+        }),
+      ),
+      values: sortedHistory.map((item) => item.value),
+      unit: props.sensor.unit,
+    }
+  }
+  return {
+    labels: [],
+    values: [],
+    unit: props.sensor.unit,
+  }
 })
 
 // Get the current language
@@ -67,7 +117,7 @@ const { locale } = useI18n()
   padding: 1rem;
   height: var(--size-sensor-card-height);
   border-radius: var(--p-form-field-border-radius);
-  cursor: pointer;
+  /* cursor: pointer; */
   &:hover {
     border: 1px solid var(--p-background-lvl4);
   }
@@ -126,5 +176,20 @@ const { locale } = useI18n()
   /* background-color: var(--p-background-lvl3); */
   flex: 1;
   align-self: stretch;
+}
+
+.sparkline-error {
+  display: flex;
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--p-background-lvl2);
+  border-radius: var(--p-form-field-border-radius);
+  .error-message {
+    color: var(--p-text-tertiary-color);
+    font-size: 0.75rem;
+    font-weight: 400;
+    line-height: 1.2;
+  }
 }
 </style>

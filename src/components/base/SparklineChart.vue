@@ -175,7 +175,7 @@ const setChartOptions = () => ({
       intersect: false,
       callbacks: {
         label: function (context) {
-          return context.label + '  ' + context.formattedValue + ' ' + props.data.unit
+          return context.label + '  ' + context.formattedValue + ' ' + (props.data.unit || '')
         },
       },
     },
@@ -196,6 +196,10 @@ const setChartOptions = () => ({
     },
     y: {
       display: false,
+      suggestedMin: Math.min(...props.data.values) * 0.9,
+      suggestedMax: Math.max(...props.data.values) * 1.1,
+      beginAtZero: false,
+      grace: '10%',
     },
   },
 })
