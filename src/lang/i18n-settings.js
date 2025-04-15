@@ -32,7 +32,7 @@ export default {
       french: 'Français',
     },
     errors: {
-      noData: 'Aucune donnée trouvée.',
+      noData: 'Désolé, Aucune donnée trouvée.',
       error: 'Désolé, une erreur est survenue lors du chargement des données.',
     },
   },
@@ -69,7 +69,7 @@ export default {
       french: 'French',
     },
     errors: {
-      noData: 'No data found.',
+      noData: 'Sorry, No data found.',
       error: 'Sorry, an error occurred while loading the data.',
     },
   },
