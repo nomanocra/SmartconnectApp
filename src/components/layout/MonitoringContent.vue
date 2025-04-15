@@ -34,25 +34,15 @@
 <script setup>
 import { PhHardDrive } from '@phosphor-icons/vue'
 import SkeletonRectangle from '@/components/base/SkeletonRectangle.vue'
-import { ref, watch } from 'vue'
+import { ref, watch, inject } from 'vue'
 import { fetchPost } from '@/utils/fetcherAPI'
 import { config } from '@/utils/config'
 import SensorCard from '@/components/features/SensorCard.vue'
 import Button from 'primevue/button'
 import { isTablet } from '@/assets/styles/tokens/breakpoints'
 
-const props = defineProps({
-  deviceId: {
-    type: [String, Number, null],
-    required: false,
-    default: null,
-  },
-  deviceName: {
-    type: [String, Number, null],
-    required: false,
-    default: null,
-  },
-})
+const deviceId = inject('SelectedDeviceID')
+const deviceName = inject('SelectedDeviceName')
 
 const emit = defineEmits(['open-drawer'])
 
@@ -66,10 +56,11 @@ function openDrawer() {
 }
 
 watch(
-  () => props.deviceId,
+  () => deviceId.value,
   (newID) => {
     fetchPost(`${config.apiBaseUrl}/deviceSensors/${newID}`, devicesData, status, abortController)
   },
+  { immediate: true },
 )
 </script>
 

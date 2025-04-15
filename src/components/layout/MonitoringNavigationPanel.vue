@@ -18,7 +18,12 @@
       </div>
     </div>
     <div class="tree-menu">
-      <TreeMenu :data="treeData" :status="status" @leaf-selected="handleLeafSelected" />
+      <TreeMenu
+        :selected-id="selectedId"
+        :tree-data="treeData || []"
+        :status="status"
+        @leaf-selected="handleLeafSelected"
+      />
     </div>
   </div>
 </template>
@@ -26,32 +31,18 @@
 <script setup>
 import Button from 'primevue/button'
 import TreeMenu from '@/components/features/TreeMenu.vue'
-import { ref, onMounted } from 'vue'
-import { fetchPostWithCache } from '@/utils/fetcherAPI'
-import { config } from '@/utils/config'
+import { inject, computed } from 'vue'
 
-const treeData = ref([])
-const status = ref('loading')
-const abortController = ref(null)
+const selectedId = inject('SelectedDeviceID')
+const selectedName = inject('SelectedDeviceName')
+const treeData = inject('navigationTreeData')
 
-const STORAGE_KEY = 'monitoring-tree-data'
-const CACHE_DURATION = 120 * 60 * 1000 // 120 minutes in milliseconds
-
-const emit = defineEmits(['device-selected'])
-
-onMounted(() => {
-  fetchPostWithCache(
-    `${config.apiBaseUrl}/monitoringList`,
-    treeData,
-    status,
-    abortController,
-    STORAGE_KEY,
-    CACHE_DURATION,
-  )
+const status = computed(() => {
+  return treeData.value ? 'loaded' : 'loading'
 })
-
-const handleLeafSelected = (deviceID, deviceName) => {
-  emit('device-selected', deviceID, deviceName)
+const handleLeafSelected = (leafId, leafName) => {
+  selectedId.value = leafId
+  selectedName.value = leafName
 }
 </script>
 
