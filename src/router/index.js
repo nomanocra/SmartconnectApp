@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import { useAuth } from '@/utils/authService'
 
 import DashboardPage from '../pages/DashboardPage.vue'
 import LoginPage from '../pages/LoginPage.vue'
@@ -10,7 +11,7 @@ const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
-      path: '/',
+      path: '/login',
       name: 'login',
       component: LoginPage,
       meta: {
@@ -20,11 +21,13 @@ const router = createRouter({
     {
       path: '/dashboard',
       component: DashboardPage,
+      meta: { requiresAuth: true },
       children: [
         {
           path: '',
           name: 'dashboard',
           redirect: '/dashboard/monitoring',
+          meta: { requiresAuth: true },
         },
         {
           path: 'monitoring',
@@ -32,6 +35,7 @@ const router = createRouter({
           component: MonitoringTab,
           meta: {
             titleKey: 'pages.dashboard.title',
+            requiresAuth: true,
           },
         },
         {
@@ -40,6 +44,7 @@ const router = createRouter({
           component: AnalyticsTab,
           meta: {
             titleKey: 'pages.dashboard.title',
+            requiresAuth: true,
           },
         },
         {
@@ -48,11 +53,28 @@ const router = createRouter({
           component: SettingsTab,
           meta: {
             titleKey: 'pages.dashboard.title',
+            requiresAuth: true,
           },
         },
       ],
     },
   ],
+})
+
+// Global navigation guard for authentication
+router.beforeEach((to, from, next) => {
+  const { isAuthenticated } = useAuth()
+  if (to.path === '/') {
+    if (!isAuthenticated()) {
+      next({ path: '/login' })
+    } else {
+      next({ path: '/dashboard' })
+    }
+  } else if (to.meta.requiresAuth && !isAuthenticated()) {
+    next({ path: '/login' })
+  } else {
+    next()
+  }
 })
 
 export default router
