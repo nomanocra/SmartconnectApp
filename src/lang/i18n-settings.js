@@ -7,6 +7,8 @@ export default {
       emailAdress: 'Adresse Email',
       loginSubtitle: 'Connectez-vous à votre compte',
       loginButton: 'Se connecter',
+      loginButtonLoading: 'Connexion...',
+      loginError: 'Adresse email ou mot de passe invalide',
       signOut: 'Se déconnecter',
     },
     pages: {
@@ -44,6 +46,8 @@ export default {
       title: 'SmartConnect App',
       loginSubtitle: 'Log in to your account',
       loginButton: 'Login',
+      loginButtonLoading: 'Logging in...',
+      loginError: 'Invalid email or password',
       signOut: 'Sign out',
     },
     pages: {

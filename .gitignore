@@ -50,3 +50,6 @@ coverage
 
 # Local files
 *.local
+
+# SSH keys and configs
+.ssh/

@@ -1,5 +1,5 @@
 <template>
-  <div class="monitoring-content">
+  <div class="page-container-scrollable">
     <div class="monitoring-content-header">
       <Button
         v-if="isTablet"
@@ -65,16 +65,6 @@ watch(
 </script>
 
 <style scoped>
-.monitoring-content {
-  align-self: stretch;
-  flex: 1;
-  padding: var(--size-content-padding-xl);
-  display: flex;
-  flex-direction: column;
-  gap: 2rem;
-  overflow-y: auto;
-}
-
 .device-id {
   display: flex;
   align-items: center;

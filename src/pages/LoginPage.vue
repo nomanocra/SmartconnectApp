@@ -26,7 +26,6 @@ import CountrySelect from '@/components/base/CountrySelect.vue'
 import LoginForm from '@/components/features/LoginForm.vue'
 import ThemeSwitch from '@/components/base/ThemeSwitch.vue'
 import { ref, onMounted } from 'vue'
-
 const videoRef = ref(null)
 
 onMounted(() => {

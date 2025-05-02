@@ -1,5 +1,5 @@
 <template>
-  <div class="monitoring-navigation">
+  <div class="monitoring-navigation panel-container">
     <div class="monitoring-navigation-header">
       <h4>Monitoring</h4>
       <div class="action-buttons">
@@ -48,11 +48,7 @@ const handleLeafSelected = (leafId, leafName) => {
 
 <style scoped>
 .monitoring-navigation {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
   width: 280px;
-  padding: var(--size-content-padding);
   color: var(--p-text-secondary-color);
 }
 

@@ -378,7 +378,7 @@ const SmartTheme = {
       option: { padding: '0.5rem 0.75rem', borderRadius: '{border.radius.sm}' },
       optionGroup: { padding: '0.5rem 0.75rem', fontWeight: '600' },
     },
-    content: { borderRadius: '{border.radius.md}' },
+    content: { borderRadius: '{border.radius.none}' },
     mask: { transitionDuration: '0.15s' },
     navigation: {
       list: { padding: '0.25rem 0.25rem', gap: '2px' },

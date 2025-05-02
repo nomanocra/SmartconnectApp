@@ -109,13 +109,15 @@ import { useRouter } from 'vue-router'
 import { ref, computed } from 'vue'
 import CustomizeUIMenuContent from '@/components/features/CustomizeUIMenu.vue'
 import { isMobile } from '@/assets/styles/tokens/breakpoints'
+import { useAuth } from '@/utils/authService'
 
 const router = useRouter()
 const customizeUIMenu = ref()
-
+const { logout } = useAuth()
 const currentRoute = computed(() => router.currentRoute.value.name)
 
 function handleSignOut() {
+  logout()
   router.push('/')
 }
 
@@ -144,7 +146,7 @@ function toggleCustomizeUIMenu(event) {
   justify-content: space-between;
   align-items: center;
   background-color: var(--p-background-lvl1);
-  /* border-right: 1px solid var(--p-border-lvl1); */
+  border-right: 1px solid var(--p-border-lvl1);
 }
 
 .sidebar-header {
@@ -188,6 +190,8 @@ function toggleCustomizeUIMenu(event) {
 @media screen and (max-width: 576px) {
   .main-sidebar {
     flex-direction: row;
+    border-right: none;
+    border-top: 1px solid var(--p-border-lvl2);
   }
   .sidebar-header {
     display: none;
