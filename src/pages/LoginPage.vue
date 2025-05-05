@@ -40,7 +40,7 @@ onMounted(() => {
     setTimeout(() => {
       toast.add({
         severity: 'secondary',
-        summary: 'You are using a demo version',
+        summary: 'You are using a demo version of SmartBoard',
         icon: 'pi pi-exclamation-circle',
         detail: 'email: demo@smartconnectiot.com \npassword: demo1234',
         group: 'br',

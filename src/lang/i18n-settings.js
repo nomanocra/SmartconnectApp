@@ -3,7 +3,7 @@ export default {
     login: {
       user: 'Utilisateur',
       password: 'Mot de passe',
-      title: 'SmartConnect App',
+      title: 'SmartBoard',
       emailAdress: 'Adresse Email',
       loginSubtitle: 'Connectez-vous à votre compte',
       loginButton: 'Se connecter',
@@ -43,7 +43,7 @@ export default {
       user: 'User',
       password: 'Password',
       emailAdress: 'Email address',
-      title: 'SmartConnect App',
+      title: 'SmartBoard',
       loginSubtitle: 'Log in to your account',
       loginButton: 'Login',
       loginButtonLoading: 'Logging in...',
