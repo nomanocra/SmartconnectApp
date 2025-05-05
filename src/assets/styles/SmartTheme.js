@@ -354,7 +354,7 @@ const SmartTheme = {
       paddingY: '0.5rem',
       sm: { fontSize: '0.875rem', paddingX: '0.625rem', paddingY: '0.375rem' },
       lg: { fontSize: '1.125rem', paddingX: '0.875rem', paddingY: '0.625rem' },
-      borderRadius: '{border.radius.none}',
+      borderRadius: '{border.radius.xs}',
       borderColor: '{surface.300}',
       hoverBorderColor: '{surface.400}',
       focusRing: {
@@ -378,7 +378,7 @@ const SmartTheme = {
       option: { padding: '0.5rem 0.75rem', borderRadius: '{border.radius.sm}' },
       optionGroup: { padding: '0.5rem 0.75rem', fontWeight: '600' },
     },
-    content: { borderRadius: '{border.radius.none}' },
+    content: { borderRadius: '{border.radius.xs}' },
     mask: { transitionDuration: '0.15s' },
     navigation: {
       list: { padding: '0.25rem 0.25rem', gap: '2px' },
@@ -388,11 +388,11 @@ const SmartTheme = {
     },
     overlay: {
       select: {
-        borderRadius: '{border.radius.none}',
+        borderRadius: '{border.radius.xs}',
         shadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1)',
       },
       popover: {
-        borderRadius: '{border.radius.none}',
+        borderRadius: '{border.radius.xs}',
         padding: '0.75rem',
         shadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1)',
       },
@@ -3716,27 +3716,27 @@ const SmartTheme = {
     },
     toast: {
       root: {
-        width: '25rem',
+        width: 'auto',
         borderRadius: '{content.border.radius}',
         borderWidth: '1px',
         transitionDuration: '{transition.duration}',
       },
-      icon: { size: '1.125rem' },
+      icon: { size: '1rem' },
       content: { padding: '{overlay.popover.padding}', gap: '0.5rem' },
-      text: { gap: '0.5rem' },
-      summary: { fontWeight: '500', fontSize: '1rem' },
-      detail: { fontWeight: '500', fontSize: '0.875rem' },
+      text: { gap: '0.125rem' },
+      summary: { fontWeight: '500', fontSize: '0.875rem' },
+      detail: { fontWeight: '500', fontSize: '0.75rem' },
       closeButton: {
-        width: '1.75rem',
-        height: '1.75rem',
-        borderRadius: '50%',
+        width: '1.25rem',
+        height: '1.25rem',
+        borderRadius: '{form.field.border.radius}',
         focusRing: {
           width: '{focus.ring.width}',
           style: '{focus.ring.style}',
           offset: '{focus.ring.offset}',
         },
       },
-      closeIcon: { size: '1rem' },
+      closeIcon: { size: '0.875rem' },
       colorScheme: {
         light: {
           blur: '1.5px',

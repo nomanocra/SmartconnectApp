@@ -11,6 +11,10 @@ const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
+      path: '/',
+      redirect: '/dashboard',
+    },
+    {
       path: '/login',
       name: 'login',
       component: LoginPage,
@@ -64,13 +68,7 @@ const router = createRouter({
 // Global navigation guard for authentication
 router.beforeEach((to, from, next) => {
   const { isAuthenticated } = useAuth()
-  if (to.path === '/') {
-    if (!isAuthenticated()) {
-      next({ path: '/login' })
-    } else {
-      next({ path: '/dashboard' })
-    }
-  } else if (to.meta.requiresAuth && !isAuthenticated()) {
+  if (to.meta.requiresAuth && !isAuthenticated()) {
     next({ path: '/login' })
   } else {
     next()

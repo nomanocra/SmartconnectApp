@@ -17,20 +17,51 @@
       </footer>
     </div>
   </div>
+  <CustomToast position="top-right" group="br"> </CustomToast>
 </template>
 
 <script setup>
-import 'primeicons/primeicons.css'
 import LabeledInput from '@/components/base/LabeledInput.vue'
 import CountrySelect from '@/components/base/CountrySelect.vue'
 import LoginForm from '@/components/features/LoginForm.vue'
 import ThemeSwitch from '@/components/base/ThemeSwitch.vue'
+import { useToast } from 'primevue/usetoast'
+import CustomToast from '@/components/base/CustomToast.vue'
+import { config } from '@/utils/config'
 import { ref, onMounted } from 'vue'
 const videoRef = ref(null)
+const toast = useToast()
 
 onMounted(() => {
   if (videoRef.value) {
     videoRef.value.playbackRate = 0.5
+  }
+  if (config.demoVersion) {
+    setTimeout(() => {
+      toast.add({
+        severity: 'secondary',
+        summary: 'You are using a demo version',
+        icon: 'pi pi-exclamation-circle',
+        detail: 'email: demo@smartconnectiot.com \npassword: demo1234',
+        group: 'br',
+        closable: true,
+        // actions: [
+        //   {
+        //     label: 'Secondary',
+        //     variant: 'text',
+        //     onClick: () => {
+        //       console.log('secondary')
+        //     },
+        //   },
+        //   {
+        //     label: 'Primary',
+        //     onClick: () => {
+        //       console.log('primary')
+        //     },
+        //   },
+        // ],
+      })
+    }, 500)
   }
 })
 </script>
@@ -103,5 +134,29 @@ onMounted(() => {
   .login-container {
     justify-content: flex-start;
   }
+}
+
+:deep(.custom-toast) {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  padding: 1rem;
+}
+
+:deep(.toast-content) {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+:deep(.toast-title) {
+  font-weight: 600;
+  color: var(--p-text-primary-color);
+}
+
+:deep(.toast-detail) {
+  color: var(--p-text-secondary-color);
+  white-space: pre-line;
 }
 </style>

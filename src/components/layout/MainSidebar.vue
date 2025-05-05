@@ -118,7 +118,7 @@ const currentRoute = computed(() => router.currentRoute.value.name)
 
 function handleSignOut() {
   logout()
-  router.push('/')
+  router.push('/login')
 }
 
 function handleMonitoring() {

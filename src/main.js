@@ -12,6 +12,7 @@ import { SmartTheme } from './assets/styles/SmartTheme'
 import { createI18n } from 'vue-i18n'
 import i18nSettings from './lang/i18n-settings'
 import Tooltip from 'primevue/tooltip'
+import ToastService from 'primevue/toastservice'
 
 const app = createApp(App)
 
@@ -47,6 +48,6 @@ const i18n = createI18n({
 // app.use(PrimeVue, { unstyled: true })
 app.use(i18n)
 app.use(router)
+app.use(ToastService)
 app.directive('tooltip', Tooltip)
-
 app.mount('#app')
