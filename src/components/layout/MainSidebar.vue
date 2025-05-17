@@ -146,7 +146,7 @@ function toggleCustomizeUIMenu(event) {
   justify-content: space-between;
   align-items: center;
   background-color: var(--p-background-lvl1);
-  border-right: 1px solid var(--p-border-lvl1);
+  box-shadow: inset -1px 0 0 var(--p-border-lvl1);
 }
 
 .sidebar-header {

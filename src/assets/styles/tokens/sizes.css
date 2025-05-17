@@ -7,4 +7,11 @@
   --size-content-padding-xl: 2.5rem;
 
   --size-sensor-card-height: 7.5rem;
+
+  --size-content-gap-xs: 0.5rem;
+  --size-content-gap-sm: 0.75rem;
+  --size-content-gap: 1rem;
+  --size-content-gap-md: 1.5rem;
+  --size-content-gap-lg: 2rem;
+  --size-content-gap-xl: 2.5rem;
 }
