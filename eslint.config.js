@@ -22,6 +22,15 @@ export default [
     },
   },
 
+  {
+    rules: {
+      'no-unused-vars': 'error',
+      'vue/no-unused-components': 'error',
+      'vue/no-unused-vars': 'error',
+      'no-undef': 'error',
+    },
+  },
+
   js.configs.recommended,
   ...pluginVue.configs['flat/essential'],
   skipFormatting,
