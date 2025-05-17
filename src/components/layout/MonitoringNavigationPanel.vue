@@ -20,7 +20,7 @@
     <div class="tree-menu">
       <TreeMenu
         :selected-id="selectedId"
-        :tree-data="treeData || []"
+        :tree-data="treeData"
         :status="status"
         @leaf-selected="handleLeafSelected"
       />
