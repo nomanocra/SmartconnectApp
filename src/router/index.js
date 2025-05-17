@@ -66,10 +66,15 @@ const router = createRouter({
 })
 
 // Global navigation guard for authentication
-router.beforeEach((to, from, next) => {
+router.beforeEach(async (to, from, next) => {
   const { isAuthenticated } = useAuth()
-  if (to.meta.requiresAuth && !isAuthenticated()) {
-    next({ path: '/login' })
+  if (to.meta.requiresAuth) {
+    const isAuth = await isAuthenticated()
+    if (!isAuth) {
+      next({ path: '/login' })
+    } else {
+      next()
+    }
   } else {
     next()
   }
