@@ -49,10 +49,6 @@ defineProps({
 </script>
 
 <style scoped>
-.custom-toast {
-  width: 200px;
-}
-
 .main {
   display: flex;
   align-items: center;

@@ -21,10 +21,6 @@ defineProps({
     type: String,
     required: true,
   },
-  id: {
-    type: String,
-    required: false,
-  },
 })
 
 // Définir les événements que le composant peut émettre

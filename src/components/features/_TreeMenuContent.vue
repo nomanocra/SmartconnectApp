@@ -4,11 +4,11 @@
       <TreeLeaf
         v-if="!node.children"
         :label="node.name"
-        :id="node.id"
-        :selected="selectedId === node.id"
-        @click="handleLeafSelected(node.id, node.name)"
+        :id="node.deviceSerial"
+        :selected="selectedId === node.deviceSerial"
+        @click="handleLeafSelected(node.deviceSerial, node.name)"
       />
-      <TreeNode v-else :label="node.name" :id="node.id">
+      <TreeNode v-else :label="node.name">
         <TreeMenuContent
           :data="node.children"
           :selected-id="selectedId"

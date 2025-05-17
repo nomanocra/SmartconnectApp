@@ -23,8 +23,13 @@
         <span class="unit">{{ sensor.unit }}</span>
       </div>
     </div>
-    <SparklineChart v-if="status === 'loaded'" :data="chartData" class="sparkline" />
-    <SkeletonRectangle v-else-if="status === 'loading'" class="sparkline" />
+    <SkeletonRectangle v-if="status === 'loading'" class="sparkline" />
+
+    <SparklineChart
+      v-else-if="status === 'loaded' && sortedData.values.length"
+      :data="sortedData"
+      class="sparkline"
+    />
     <div v-else class="sparkline-error">
       <p class="error-message">{{ $t('errors.noData') }}</p>
     </div>
@@ -35,50 +40,27 @@
 import SensorIcon from '@/components/base/SensorIcon.vue'
 import { useI18n } from 'vue-i18n'
 import SparklineChart from '@/components/base/SparklineChart.vue'
-import { computed, ref, watch } from 'vue'
-import { fetchPost } from '@/utils/fetcherAPI'
-import { config } from '@/utils/config'
+import { computed } from 'vue'
+
 import SkeletonRectangle from '@/components/base/SkeletonRectangle.vue'
 const props = defineProps({
   sensor: {
     type: Object,
     required: true,
   },
-})
-
-const dataHistory = ref({
-  history: [],
-})
-const abortController = ref(null)
-const status = ref('loading')
-
-watch(
-  () => props.sensor.lastUpdate,
-  () => {
-    fetchDataHistory()
+  dataHistory: {
+    type: Array,
+    default: () => [],
   },
-  { immediate: true },
-)
+  status: {
+    type: String,
+    default: 'loading',
+  },
+})
 
-async function fetchDataHistory() {
-  console.log('fetching data history')
-  // fetchPostWithCache(
-  //   `${config.apiBaseUrl}/sensorsHistory/${props.sensor.id}`,
-  //   dataHistory,
-  //   status,
-  //   abortController,
-  //   `sensor-history-${props.sensor.id}`,
-  // )
-  fetchPost(
-    `${config.apiBaseUrl}/sensorsHistory/${props.sensor.id}`,
-    dataHistory,
-    status,
-    abortController,
-  )
-}
-const chartData = computed(() => {
+const sortedData = computed(() => {
   // Create a copy of the array before sorting to avoid side effects
-  const sortedHistory = [...dataHistory.value.history].sort(
+  const sortedHistory = [...props.dataHistory].sort(
     (a, b) => new Date(a.timestamp) - new Date(b.timestamp),
   )
   if (sortedHistory.length > 0) {
@@ -181,8 +163,10 @@ const { locale } = useI18n()
 .sparkline-error {
   display: flex;
   flex: 1;
+  padding: 0rem 0.75rem;
   justify-content: center;
   align-items: center;
+  text-align: center;
   background-color: var(--p-background-lvl2);
   border-radius: var(--p-form-field-border-radius);
   .error-message {
