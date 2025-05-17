@@ -135,28 +135,4 @@ onMounted(() => {
     justify-content: flex-start;
   }
 }
-
-:deep(.custom-toast) {
-  display: flex;
-  align-items: flex-start;
-  gap: 1rem;
-  padding: 1rem;
-}
-
-:deep(.toast-content) {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-}
-
-:deep(.toast-title) {
-  font-weight: 600;
-  color: var(--p-text-primary-color);
-}
-
-:deep(.toast-detail) {
-  color: var(--p-text-secondary-color);
-  white-space: pre-line;
-}
 </style>
