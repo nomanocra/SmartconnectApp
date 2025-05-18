@@ -60,6 +60,7 @@ const handleHeaderClick = () => {
 
 .tree-node-content {
   display: flex;
+
   flex-direction: row;
   gap: 0.75rem;
   padding-left: 1.1rem;
@@ -77,6 +78,7 @@ const handleHeaderClick = () => {
   flex-grow: 1;
   display: flex;
   flex-direction: column;
+  overflow: hidden;
 }
 
 .tree-node-icon {

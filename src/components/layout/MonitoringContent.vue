@@ -107,17 +107,21 @@ function findCurrentDeviceInTreeData(nodes = navigationTreeData.value) {
 
 <style scoped>
 .monitoring-content {
+  flex: 1;
+  height: 100%;
   display: flex;
   flex-direction: column;
   padding: var(--size-content-padding-lg);
   gap: var(--size-content-gap-lg);
-  height: 100%;
+
   overflow-y: auto;
 }
 
 @media screen and (max-width: 576px) {
   .monitoring-content {
     padding: var(--size-content-padding-sm);
+    padding-top: var(--size-content-padding-md);
+    padding-bottom: var(--size-content-padding-md);
     gap: var(--size-content-gap);
   }
 }
