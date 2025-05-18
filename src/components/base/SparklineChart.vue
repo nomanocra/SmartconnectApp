@@ -198,7 +198,7 @@ const setChartOptions = () => ({
       display: false,
       suggestedMin: Math.min(...props.data.values) * 0.9,
       suggestedMax: Math.max(...props.data.values) * 1.1,
-      beginAtZero: false,
+      beginAtZero: true,
       grace: '10%',
     },
   },
