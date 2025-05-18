@@ -1,7 +1,7 @@
 <template>
   <div class="tree-leaf" :class="{ selected: selected }" @click="handleClick(id, label)">
     <PhHardDrive class="tree-leaf-icon" :size="16" />
-    <span>{{ label }}</span>
+    <span class="tree-leaf-label" :title="label">{{ label }}</span>
   </div>
 </template>
 
@@ -42,6 +42,7 @@ const handleClick = (id, name) => {
   border-left: 2px solid transparent;
   background-color: transparent;
   font-size: 0.875rem;
+  max-width: 100%;
 }
 
 .tree-leaf:hover {
@@ -67,5 +68,13 @@ const handleClick = (id, name) => {
   justify-content: center;
   height: 1.5rem;
   width: 1.5rem;
+}
+
+.tree-leaf-label {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  position: relative;
 }
 </style>
