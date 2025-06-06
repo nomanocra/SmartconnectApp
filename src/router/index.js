@@ -70,6 +70,7 @@ router.beforeEach(async (to, from, next) => {
   const { isAuthenticated } = useAuth()
   if (to.meta.requiresAuth) {
     const isAuth = await isAuthenticated()
+    console.log('isAuth', isAuth)
     if (!isAuth) {
       next({ path: '/login' })
     } else {
