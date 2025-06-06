@@ -17,7 +17,7 @@
       </footer>
     </div>
   </div>
-  <CustomToast position="top-right" group="br"> </CustomToast>
+  <CustomToast position="top-right" group="tr"> </CustomToast>
 </template>
 
 <script setup>
@@ -43,7 +43,7 @@ onMounted(() => {
         summary: 'You are using a demo version of SmartBoard',
         icon: 'pi pi-exclamation-circle',
         detail: 'email: demo@smartconnectiot.com \npassword: demo1234',
-        group: 'br',
+        group: 'tr',
         closable: true,
         // actions: [
         //   {

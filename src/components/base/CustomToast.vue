@@ -72,7 +72,7 @@ defineProps({
 .detail {
   color: var(--p-text-secondary-color);
   white-space: pre-line;
-  font-size: 0.75rem;
+  font-size: 0.875rem;
 }
 
 .actions {
