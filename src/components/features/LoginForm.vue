@@ -5,7 +5,7 @@
       <span class="login-subtitle">{{ $t('login.loginSubtitle') }}</span>
     </div>
     <InputGroup>
-      <InputGroupAddon :class="{ 'inputgroupaddon-error': connectionHasFailed }">
+      <InputGroupAddon :class="{ 'inputgroupaddon-error': authHasFailed }">
         <i class="pi pi-user"></i>
       </InputGroupAddon>
       <FloatLabel variant="on">
@@ -17,14 +17,14 @@
           size="large"
           v-model="email"
           class="login-input"
-          :invalid="connectionHasFailed"
+          :invalid="authHasFailed"
         />
         <label for="username">{{ $t('login.emailAdress') }}</label>
       </FloatLabel>
     </InputGroup>
 
     <InputGroup>
-      <InputGroupAddon :class="{ 'inputgroupaddon-error': connectionHasFailed }">
+      <InputGroupAddon :class="{ 'inputgroupaddon-error': authHasFailed }">
         <i class="pi pi-key"></i>
       </InputGroupAddon>
       <FloatLabel variant="on">
@@ -36,7 +36,7 @@
           size="large"
           v-model="password"
           class="login-input"
-          :invalid="connectionHasFailed"
+          :invalid="authHasFailed"
         />
         <label for="password">{{ $t('login.password') }}</label>
       </FloatLabel>
@@ -49,9 +49,10 @@
       fluid
       :disabled="password.length === 0 || email.length === 0"
     />
-    <Message v-if="connectionHasFailed" severity="error">
-      {{ $t('login.loginError') }}
+    <Message v-if="authHasFailed" severity="error">
+      {{ errorType === 'server' ? $t('login.serverError') : $t('login.loginError') }}
     </Message>
+    <CustomToast position="bottom-right" group="br"> </CustomToast>
   </Form>
 </template>
 
@@ -64,18 +65,22 @@ import Button from 'primevue/button'
 import InputText from 'primevue/inputtext'
 import InputGroup from 'primevue/inputgroup'
 import InputGroupAddon from 'primevue/inputgroupaddon'
+
 import FloatLabel from 'primevue/floatlabel'
 import Message from 'primevue/message'
-
+import { useToast } from 'primevue/usetoast'
+import CustomToast from '@/components/base/CustomToast.vue'
 const email = ref('')
 const password = ref('')
 
 const router = useRouter()
 const { login } = useAuth()
 
+const toast = useToast()
+
 const loginResponse = ref(null)
 const connectionIsLoading = computed(() => loginResponse.value === 'loading')
-const connectionHasFailed = computed(() => loginResponse.value === 'error')
+const authHasFailed = computed(() => loginResponse.value === 'errorAuth')
 
 const handleLogin = async () => {
   loginResponse.value = 'loading'
@@ -84,8 +89,20 @@ const handleLogin = async () => {
     loginResponse.value = 'success'
     router.push('/dashboard')
   } else {
-    loginResponse.value = 'error'
-    console.error(response.error)
+    loginResponse.value = 'errorAuth'
+    if (response.errorType === 'server') {
+      loginResponse.value = 'errorServer'
+      toast.add({
+        severity: 'error',
+        summary: 'Server error',
+        detail: 'Sorry, an error occurred while connecting to the server. Please try again later.',
+        group: 'br',
+        closable: true,
+        icon: 'pi pi-exclamation-circle',
+        life: 5000,
+      })
+    }
+    console.log(response.error)
   }
 }
 </script>
