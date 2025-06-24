@@ -49,7 +49,6 @@ watch(
   navigationTreestatus,
   (newStatus) => {
     if (newStatus === 'loaded' && navigationTreeData.value) {
-      console.log('navigationTreeData', navigationTreeData.value)
       const { id, name } = findFirstLeafId(navigationTreeData.value)
       if (id && name) {
         SelectedDeviceID.value = id

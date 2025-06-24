@@ -32,6 +32,7 @@ export default {
       light: 'Clair',
       english: 'Anglais',
       french: 'Français',
+      userInfo: 'Profil utilisateur',
     },
     errors: {
       noData: 'Désolé, aucune donnée historique trouvée.',
@@ -71,6 +72,7 @@ export default {
       light: 'Light',
       english: 'English',
       french: 'French',
+      userInfo: 'User profile',
     },
     errors: {
       noData: 'Sorry, no historical data found.',

@@ -2,6 +2,14 @@
 This file is used to manage the PrimeVue Components sizes overrides that are not managed by the theme
 */
 
+/* Avatars */
+.p-avatar-image {
+  img {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+  }
+}
 /* Buttons */
 Button:not(.p-button-vertical) {
   height: 2.5rem;
