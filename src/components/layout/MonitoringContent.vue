@@ -54,8 +54,10 @@ const navigationTreeData = inject('navigationTreeData')
 
 const chartStatus = ref('loading')
 const currentDeviceHistories = ref([])
-const historyStartDate = ref('2025-01-01T12:00:00')
-const historyEndDate = ref('2025-01-01T18:00:00')
+const now = new Date()
+const oneHourAgo = new Date(now.getTime() - 60 * 60 * 1000)
+const historyStartDate = ref(oneHourAgo.toISOString())
+const historyEndDate = ref(now.toISOString())
 const abortController = ref(null)
 
 const emit = defineEmits(['open-drawer'])
@@ -64,7 +66,6 @@ const currentDevicesData = ref([])
 
 watch(deviceId, () => {
   currentDevicesData.value = findCurrentDeviceInTreeData() || {}
-  console.log('currentDevicesData', currentDevicesData.value)
   if (!currentDevicesData.value?.sensors?.length) return
 
   const options = {
@@ -86,17 +87,11 @@ function openDrawer() {
 
 // Fonction pour extraire tous les leaf nodes du tree data
 function findCurrentDeviceInTreeData(nodes = navigationTreeData.value) {
-  console.log('nodes', nodes)
   if (!nodes || !Array.isArray(nodes)) return null
-  let index = 0
   for (const node of nodes) {
-    index++
-    console.log('node', node, index)
     if (!node.children && node.deviceSerial === deviceId.value) {
-      console.log('return node', node, index)
       return node
     } else if (node.children) {
-      console.log(' iterate node.children', node.children, index)
       const result = findCurrentDeviceInTreeData(node.children)
       if (result) return result
     }
