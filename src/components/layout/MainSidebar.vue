@@ -5,58 +5,28 @@
     </div>
     <nav class="sidebar-nav">
       <Button
-        v-if="!isMobile"
         icon="pi pi-gauge"
         aria-label="Monitoring"
         variant="text"
-        v-tooltip="$t('sidebar.monitoring')"
+        v-tooltip="!isMobile ? $t('sidebar.monitoring') : undefined"
         :class="currentRoute === 'monitoring' ? 'selected' : ''"
         class="sidebar-button"
         @click="handleMonitoring"
       />
       <Button
-        v-else
-        icon="pi pi-gauge"
-        aria-label="Monitoring"
-        variant="text"
-        :class="currentRoute === 'monitoring' ? 'selected' : ''"
-        class="sidebar-button"
-        @click="handleMonitoring"
-      />
-      <Button
-        v-if="!isMobile"
         icon="pi pi-chart-bar"
         aria-label="Analytics"
         variant="text"
-        v-tooltip="$t('sidebar.analytics')"
+        v-tooltip="!isMobile ? $t('sidebar.analytics') : undefined"
         :class="currentRoute === 'analytics' ? 'selected' : ''"
         class="sidebar-button"
         @click="handleAnalytics"
       />
       <Button
-        v-else
-        icon="pi pi-chart-bar"
-        aria-label="Analytics"
-        variant="text"
-        :class="currentRoute === 'analytics' ? 'selected' : ''"
-        class="sidebar-button"
-        @click="handleAnalytics"
-      />
-      <Button
-        v-if="!isMobile"
         icon="pi pi-cog"
         aria-label="Settings"
         variant="text"
-        v-tooltip="$t('sidebar.settings')"
-        :class="currentRoute === 'settings' ? 'selected' : ''"
-        class="sidebar-button"
-        @click="handleSettings"
-      />
-      <Button
-        v-else
-        icon="pi pi-cog"
-        aria-label="Settings"
-        variant="text"
+        v-tooltip="!isMobile ? $t('sidebar.settings') : undefined"
         :class="currentRoute === 'settings' ? 'selected' : ''"
         class="sidebar-button"
         @click="handleSettings"
@@ -64,39 +34,36 @@
     </nav>
     <div class="sidebar-footer">
       <Button
-        v-if="!isMobile"
         icon="pi pi-sliders-h"
         aria-label="Sign Out"
         variant="text"
-        v-tooltip="$t('sidebar.customizeUI')"
-        class="sidebar-button"
-        @click="toggleCustomizeUIMenu"
-      />
-      <Button
-        v-else
-        icon="pi pi-sliders-h"
-        aria-label="Sign Out"
-        variant="text"
+        v-tooltip="!isMobile ? $t('sidebar.customizeUI') : undefined"
         class="sidebar-button"
         @click="toggleCustomizeUIMenu"
       />
       <CustomizeUIMenuContent ref="customizeUIMenu" />
 
-      <Button
-        v-if="!isMobile"
-        icon="pi pi-sign-out"
-        aria-label="Sign Out"
-        variant="text"
-        class="sidebar-button"
-        @click="handleSignOut"
-        v-tooltip="$t('login.signOut')"
+      <Avatar
+        label="D"
+        size="large"
+        @click="handleUserInfo"
+        class="sidebar-button button-avatar"
+        v-tooltip="!isMobile ? $t('sidebar.userInfo') : undefined"
       />
+      <Dialog
+        v-model:visible="profileVisible"
+        modal
+        :header="$t('sidebar.userInfo')"
+        :style="{ width: '25rem' }"
+      >
+        <UserProfile />
+      </Dialog>
       <Button
-        v-else
         icon="pi pi-sign-out"
         aria-label="Sign Out"
         variant="text"
         class="sidebar-button"
+        v-tooltip="!isMobile ? $t('login.signOut') : undefined"
         @click="handleSignOut"
       />
     </div>
@@ -105,16 +72,21 @@
 
 <script setup>
 import Button from 'primevue/button'
+import UserProfile from '@/components/features/UserProfile.vue'
+import Avatar from 'primevue/avatar'
+import Dialog from 'primevue/dialog'
+import CustomizeUIMenuContent from '@/components/features/CustomizeUIMenu.vue'
 import { useRouter } from 'vue-router'
 import { ref, computed } from 'vue'
-import CustomizeUIMenuContent from '@/components/features/CustomizeUIMenu.vue'
-import { isMobile } from '@/assets/styles/tokens/breakpoints'
 import { useAuth } from '@/utils/authService'
+import { isMobile } from '@/assets/styles/tokens/breakpoints'
 
 const router = useRouter()
 const customizeUIMenu = ref()
 const { logout } = useAuth()
 const currentRoute = computed(() => router.currentRoute.value.name)
+
+const profileVisible = ref(false)
 
 function handleSignOut() {
   logout()
@@ -131,6 +103,10 @@ function handleAnalytics() {
 
 function handleSettings() {
   router.push('/dashboard/settings')
+}
+
+function handleUserInfo() {
+  profileVisible.value = true
 }
 
 function toggleCustomizeUIMenu(event) {
@@ -177,13 +153,20 @@ function toggleCustomizeUIMenu(event) {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 1rem;
+  gap: 0.5rem;
   padding: 0.5rem 0.5rem 1rem 0.5rem;
 }
 
 .selected {
   background-color: var(--p-button-text-primary-active-background);
   pointer-events: none;
+}
+
+.button-avatar {
+  cursor: pointer;
+  &:hover {
+    background-color: var(--p-primary-300);
+  }
 }
 
 /* Smartphones(portrait) */
@@ -200,12 +183,12 @@ function toggleCustomizeUIMenu(event) {
     flex-direction: row;
     justify-content: space-evenly;
     order: 1;
-    flex: 3;
+    flex: 1;
   }
   .sidebar-footer {
     flex-direction: row;
     justify-content: space-evenly;
-    flex: 2;
+    flex: 1;
     order: 3;
     padding: 0.5rem;
   }

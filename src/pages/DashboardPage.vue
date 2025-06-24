@@ -7,6 +7,17 @@
 
 <script setup>
 import MainSidebar from '@/components/layout/MainSidebar.vue'
+import { ref, onMounted, provide } from 'vue'
+import { useAuth } from '@/utils/authService'
+
+const userInfos = ref(null)
+provide('userInfos', userInfos)
+
+onMounted(async () => {
+  const { getUserInfo } = useAuth()
+  const userInfo = await getUserInfo()
+  userInfos.value = userInfo.user
+})
 </script>
 
 <style scoped>
