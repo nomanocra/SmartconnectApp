@@ -1,5 +1,6 @@
 import { ref } from 'vue'
 import { config } from '@/utils/config'
+import { t } from '@/utils/i18n'
 // On crée des références réactives pour stocker le token et les infos utilisateur
 const authToken = ref(localStorage.getItem('authToken') || null)
 const user = ref(null)
@@ -19,31 +20,31 @@ export const useAuth = () => {
       if (!response.ok) {
         if (response.status === 401 || response.status === 403) {
           // Identifiants invalides
-          return { success: false, errorType: 'auth', error: 'Invalid credentials' }
+          return { success: false, errorType: 'auth', error: t('login.loginAuthError') }
         } else {
           // Autre erreur serveur
+          const errorRes = await response.json()
           return {
             success: false,
             errorType: 'other',
-            error: `Unknown server error: ${response.status}`,
+            error: `${errorRes.title}: ${errorRes.detail} (${errorRes.status})`,
           }
         }
       }
 
-      const data = await response.json()
+      const res = await response.json()
       // Stockage du token et des données utilisateur
-      authToken.value = data.token
-      user.value = data.user
-      localStorage.setItem('authToken', data.token)
-
+      authToken.value = res.data.token
+      user.value = res.data.user
+      localStorage.setItem('authToken', res.data.token)
       return { success: true }
     } catch (error) {
-      console.log('error', error)
+      console.error(error)
       // Erreur réseau ou CORS
       return {
         success: false,
         errorType: 'server',
-        error: 'Unable to connect to the server:' + error,
+        error: t('login.loginServerError'),
       }
     }
   }
@@ -61,7 +62,12 @@ export const useAuth = () => {
 
       if (!response.ok) {
         // Erreur serveur
-        return { success: false, errorType: 'other', error: `Erreur serveur: ${response.status}` }
+        const errorRes = await response.json()
+        return {
+          success: false,
+          errorType: 'other',
+          error: `${errorRes.title}: ${errorRes.detail} (${errorRes.status})`,
+        }
       }
       // Succès
       return { success: true }
@@ -94,12 +100,17 @@ export const useAuth = () => {
         if (response.status === 401 || response.status === 403) {
           return { success: false, errorType: 'auth', error: 'Token invalide ou expiré' }
         }
-        return { success: false, errorType: 'other', error: `Erreur serveur: ${response.status}` }
+        const errorData = await response.json()
+        return {
+          success: false,
+          errorType: 'other',
+          error: `${errorData.title}: ${errorData.detail} (${errorData.status})`,
+        }
       }
 
-      const data = await response.json()
-      user.value = data.user // Mise à jour des données utilisateur
-      return { success: true, user: data.user }
+      const res = await response.json()
+      user.value = res.data.user // Mise à jour des données utilisateur
+      return { success: true, user: res.data.user }
     } catch (error) {
       await logout()
       return { success: false, errorType: 'server', error: error.message }
@@ -119,8 +130,8 @@ export const useAuth = () => {
         Authorization: `Bearer ${authToken.value}`,
       },
     })
-    const data = await response.json()
-    return data
+    const res = await response.json()
+    return res.data
   }
 
   return {

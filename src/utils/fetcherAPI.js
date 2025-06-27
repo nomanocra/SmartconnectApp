@@ -60,6 +60,7 @@ export default function fetchData(url, options = {}) {
     Accept: 'application/json',
   }
 
+  // Add the auth token to the headers if the request requires authentication
   if (requiresAuth) {
     const authToken = localStorage.getItem('authToken')
     if (!authToken) {
@@ -82,10 +83,10 @@ export default function fetchData(url, options = {}) {
       }
       throw new Error('Cannot load data from the server')
     })
-    .then((d) => {
-      data.value = d
+    .then((res) => {
+      data.value = res.data
       if (cacheKey) {
-        localStorage.setItem(cacheKey, JSON.stringify({ data: d, timestamp: Date.now() }))
+        localStorage.setItem(cacheKey, JSON.stringify({ data: res.data, timestamp: Date.now() }))
       }
       if (status.value) status.value = 'loaded'
     })
