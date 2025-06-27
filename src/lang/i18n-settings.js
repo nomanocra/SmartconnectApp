@@ -10,6 +10,9 @@ export default {
       loginButtonLoading: 'Connexion...',
       loginError: 'Adresse email ou mot de passe invalide',
       signOut: 'Se déconnecter',
+      loginServerError:
+        'Désolé, une erreur est survenue lors de la connexion au serveur. Veuillez réessayer plus tard.',
+      loginAuthError: 'Adresse email ou mot de passe invalide',
     },
     pages: {
       login: {
@@ -19,12 +22,13 @@ export default {
         title: 'SmartConnect - Tableau de bord',
         addDevice: 'Ajouter un appareil',
         addGroup: 'Ajouter un groupe',
+        manageTree: 'Organiser les devices',
       },
     },
     sidebar: {
       settings: 'Paramètres',
       analytics: 'Analyse',
-      monitoring: 'Monitoring',
+      monitoring: 'Surveillance',
       customizeUI: "Personnaliser \n l'interface",
       language: 'Langue',
       theme: 'Thème',
@@ -50,6 +54,9 @@ export default {
       loginButtonLoading: 'Logging in...',
       loginError: 'Invalid email or password',
       signOut: 'Sign out',
+      loginServerError:
+        'Sorry, an error occurred while connecting to the server. Please try again later.',
+      loginAuthError: 'Invalid email or password',
     },
     pages: {
       login: {
@@ -59,6 +66,7 @@ export default {
         title: 'SmartConnect - Dashboard',
         addDevice: 'Add device',
         addGroup: 'Add group',
+        manageTree: 'Manage the devices tree',
       },
     },
     sidebar: {
