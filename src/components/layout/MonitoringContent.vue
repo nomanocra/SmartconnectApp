@@ -41,7 +41,7 @@
 <script setup>
 import { PhHardDrive } from '@phosphor-icons/vue'
 import SkeletonRectangle from '@/components/base/SkeletonRectangle.vue'
-import { inject, ref, watch } from 'vue'
+import { inject, ref, watch, computed } from 'vue'
 import SensorCard from '@/components/features/SensorCard.vue'
 import Button from 'primevue/button'
 import { isTablet } from '@/assets/styles/tokens/breakpoints'
@@ -54,7 +54,10 @@ const deviceName = inject('SelectedDeviceName')
 const navigationTreeData = inject('navigationTreeData')
 
 const chartStatus = ref('loading')
-const currentDeviceHistories = ref([])
+const deviceHistoryResponse = ref([])
+const currentDeviceHistories = computed(() => {
+  return deviceHistoryResponse.value.data || []
+})
 const now = new Date()
 const oneHourAgo = new Date(now.getTime() - 60 * 60 * 1000)
 const historyStartDate = ref(oneHourAgo.toISOString())
@@ -70,7 +73,7 @@ watch(deviceId, () => {
   if (!currentDevicesData.value?.sensors?.length) return
 
   const options = {
-    data: currentDeviceHistories,
+    fetchedResponse: deviceHistoryResponse,
     status: chartStatus,
     method: 'GET',
     requiresAuth: true,

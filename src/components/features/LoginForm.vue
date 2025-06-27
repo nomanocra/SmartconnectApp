@@ -87,7 +87,6 @@ const handleLogin = async () => {
   try {
     const response = await login({ email: email.value, password: password.value })
     if (response.success) {
-      console.log('success', response)
       loginResponse.value = 'success'
       router.push('/dashboard')
     } else {
@@ -102,7 +101,6 @@ const handleLogin = async () => {
           group: 'br',
           closable: true,
           icon: 'pi pi-exclamation-circle',
-          life: 20000,
         })
       }
       if (response.errorType === 'auth') {

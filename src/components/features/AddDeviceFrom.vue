@@ -79,6 +79,33 @@
       :loading="isButtonLoading"
       :disabled="!deviceName || !deviceAddress || !deviceLogin || !devicePassword"
     />
+
+    <!-- Error display -->
+    <div v-if="hasError" class="error-container">
+      <div class="error-header">
+        <PhWarning :size="16" color="var(--p-error-color)" />
+        <span class="error-title">{{ errorTitle }}</span>
+      </div>
+      <p class="error-detail">{{ errorDetail }}</p>
+      <div v-if="errorDeviceId" class="error-info">
+        <span>Device ID: {{ errorDeviceId }}</span>
+      </div>
+    </div>
+
+    <!-- Success display -->
+    <div v-else-if="isSuccess" class="success-container">
+      <div class="success-header">
+        <PhCheckCircle :size="16" color="var(--p-success-color)" />
+        <span class="success-title">Device added successfully</span>
+      </div>
+      <p v-if="addDeviceResponse">Device ID: {{ addDeviceResponse.deviceId || 'N/A' }}</p>
+    </div>
+
+    <!-- Debug info (can be removed in production) -->
+    <div v-if="isDevelopment" class="debug-info">
+      <span>Status: {{ addDeviceStatus }}</span>
+      <pre>{{ JSON.stringify(addDeviceResponse, null, 2) }}</pre>
+    </div>
   </Form>
 </template>
 
@@ -99,6 +126,8 @@ import {
   PhLock,
   PhGlobeSimple,
   PhHardDrive,
+  PhWarning,
+  PhCheckCircle,
 } from '@phosphor-icons/vue'
 import fetchData from '@/utils/fetcherAPI'
 import { config } from '@/utils/config'
@@ -200,11 +229,43 @@ const handleSubmit = () => {
       startSec,
     },
     status: addDeviceStatus,
-    data: addDeviceResponse,
+    fetchedResponse: addDeviceResponse,
     requiresAuth: true,
   })
   console.log('submit')
 }
+
+const hasError = computed(() => {
+  return addDeviceStatus.value === 'error' && addDeviceResponse.value
+})
+
+const errorTitle = computed(() => {
+  if (addDeviceResponse.value?.title) {
+    return addDeviceResponse.value.title
+  }
+  return 'Error'
+})
+
+const errorDetail = computed(() => {
+  if (addDeviceResponse.value?.detail) {
+    return addDeviceResponse.value.detail
+  }
+  return 'An error occurred while adding the device. Please try again later.'
+})
+
+const errorDeviceId = computed(() => {
+  return addDeviceResponse.value?.deviceId
+})
+
+const isSuccess = computed(() => {
+  return (
+    addDeviceStatus.value === 'loaded' && addDeviceResponse.value && !addDeviceResponse.value.type
+  )
+})
+
+const isDevelopment = computed(() => {
+  return import.meta.env.DEV
+})
 </script>
 <style scoped>
 i {
@@ -238,6 +299,86 @@ i {
     > * {
       flex: 1;
     }
+  }
+}
+
+/* To be removed in production */
+.error-container {
+  margin-top: 1rem;
+  padding: 1rem;
+  border: 1px solid var(--p-error-color);
+  border-radius: var(--p-border-radius-xs);
+  background-color: var(--p-background-lvl1);
+
+  .error-header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+
+    .error-title {
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: var(--p-error-color);
+    }
+  }
+
+  .error-detail {
+    font-size: 0.875rem;
+    color: var(--p-error-color);
+  }
+
+  .error-info {
+    margin-top: 0.5rem;
+    font-size: 0.875rem;
+    color: var(--p-error-color);
+  }
+}
+
+.success-container {
+  margin-top: 1rem;
+  padding: 1rem;
+  border: 1px solid var(--p-success-color);
+  border-radius: var(--p-border-radius-xs);
+  background-color: var(--p-background-lvl1);
+
+  .success-header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+
+    .success-title {
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: var(--p-success-color);
+    }
+  }
+
+  .success-detail {
+    font-size: 0.875rem;
+    color: var(--p-success-color);
+  }
+}
+
+.debug-info {
+  margin-top: 1rem;
+  padding: 1rem;
+  border: 1px solid var(--p-background-lvl3);
+  border-radius: var(--p-border-radius-xs);
+  background-color: var(--p-background-lvl1);
+
+  span {
+    font-size: 0.875rem;
+    color: var(--p-text-secondary-color);
+  }
+
+  pre {
+    margin-top: 0.5rem;
+    font-size: 0.875rem;
+    color: var(--p-text-secondary-color);
   }
 }
 </style>

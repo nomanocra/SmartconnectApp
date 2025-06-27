@@ -1,6 +1,6 @@
 <template>
   <MonitoringNavigationPanel v-if="!isTablet" class="navigation" />
-  <Drawer v-model:visible="drawerOpen" :modal="true">
+  <Drawer v-else v-model:visible="drawerOpen" :modal="true">
     <MonitoringNavigationPanel />
   </Drawer>
   <MonitoringContent @open-drawer="openDrawer()" />

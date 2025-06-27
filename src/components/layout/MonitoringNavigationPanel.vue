@@ -39,7 +39,7 @@
       <TreeMenu
         :selected-id="selectedId"
         :tree-data="treeData"
-        :status="status"
+        :status="treeDataStatus"
         @leaf-selected="handleLeafSelected"
       />
     </div>
@@ -51,17 +51,15 @@ import Button from 'primevue/button'
 import Dialog from 'primevue/dialog'
 import TreeMenu from '@/components/features/TreeMenu.vue'
 import AddDeviceForm from '@/components/features/AddDeviceFrom.vue'
-import { inject, computed, ref } from 'vue'
+import { inject, ref } from 'vue'
 
 const selectedId = inject('SelectedDeviceID')
 const selectedName = inject('SelectedDeviceName')
 const treeData = inject('navigationTreeData')
+const treeDataStatus = inject('navigationTreeStatus')
 
 const addDeviceDialogVisible = ref(false)
 
-const status = computed(() => {
-  return treeData.value ? 'loaded' : 'loading'
-})
 const handleLeafSelected = (leafId, leafName) => {
   selectedId.value = leafId
   selectedName.value = leafName

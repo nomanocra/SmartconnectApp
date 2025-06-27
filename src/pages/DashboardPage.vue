@@ -2,13 +2,16 @@
   <div class="dashboard-page">
     <MainSidebar />
     <RouterView />
+    <CustomToast position="bottom-right" group="br" />
   </div>
 </template>
 
 <script setup>
 import MainSidebar from '@/components/layout/MainSidebar.vue'
-import { ref, onMounted, provide, watch } from 'vue'
+import CustomToast from '@/components/base/CustomToast.vue'
+import { ref, onMounted, provide, watch, computed } from 'vue'
 import { useAuth } from '@/utils/authService'
+import { useToast } from 'primevue/usetoast'
 import fetchData from '@/utils/fetcherAPI'
 import { config } from '@/utils/config'
 import { findFirstLeafId } from '@/utils/treeMenuUtils'
@@ -16,18 +19,26 @@ import { findFirstLeafId } from '@/utils/treeMenuUtils'
 const userInfos = ref(null)
 provide('userInfos', userInfos)
 
+const toast = useToast()
+
 /* Gestion de la récupération des données pour le Dashbaord Monitoring*/
 const MONITORING_STORAGE_KEY = 'monitoring-tree-data'
 const CACHE_DURATION = 30 * 60 * 1000 // 120 minutes in milliseconds
 
 const SelectedDeviceID = ref(null)
 const SelectedDeviceName = ref(null)
-const navigationTreeData = ref([])
+const deviceMappingResponse = ref([])
 const navigationTreestatus = ref('loading')
+
+const navigationTreeData = computed(() => {
+  return deviceMappingResponse.value.data || []
+})
 
 provide('SelectedDeviceID', SelectedDeviceID)
 provide('SelectedDeviceName', SelectedDeviceName)
 provide('navigationTreeData', navigationTreeData)
+provide('navigationTreeStatus', navigationTreestatus)
+
 const abortController = ref(null)
 
 onMounted(async () => {
@@ -36,7 +47,7 @@ onMounted(async () => {
   userInfos.value = userInfo.user
 
   fetchData(`${config.apiBaseUrl}/users/device-mapping`, {
-    data: navigationTreeData,
+    fetchedResponse: deviceMappingResponse,
     status: navigationTreestatus,
     abortController,
     cacheKey: MONITORING_STORAGE_KEY,
@@ -55,6 +66,33 @@ watch(
         SelectedDeviceID.value = id
         SelectedDeviceName.value = name
       }
+    } else if (newStatus === 'error') {
+      SelectedDeviceID.value = null
+      SelectedDeviceName.value = null
+    }
+  },
+  { immediate: true },
+)
+
+// Watch for errors and display them in toast
+watch(
+  [navigationTreestatus],
+  ([newStatus]) => {
+    if (newStatus === 'error') {
+      // Extract error details from the error object
+      const errorTitle = deviceMappingResponse.value.title || 'Error'
+      const errorDetail =
+        deviceMappingResponse.value.detail || 'An error occurred while loading devices'
+      const errorStatus = deviceMappingResponse.value.status || 'Unknown'
+
+      toast.add({
+        severity: 'error',
+        summary: errorTitle,
+        detail: `${errorDetail} (Status: ${errorStatus})`,
+        group: 'br',
+        closable: true,
+        icon: 'pi pi-exclamation-circle',
+      })
     }
   },
   { immediate: true },

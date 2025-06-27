@@ -3,7 +3,7 @@
  *
  * @param {string} url - The URL to fetch data from
  * @param {Object} options - Optional parameters
- * @param {import('vue').Ref<Array>} options.data - Ref object to store the fetched data (required)
+ * @param {import('vue').Ref<Array>} options.response - Ref object to store the fetched response (required)
  * @param {string} [options.cacheKey] - The key to use for localStorage caching
  * @param {number} [options.cacheDuration] - The duration in milliseconds after which data is considered stale
  * @param {boolean} [options.requiresAuth] - Whether to include the authToken in the request headers
@@ -12,10 +12,22 @@
  * @param {string} [options.method] - HTTP method ('GET', 'POST', etc.)
  * @param {Object} [options.body] - Body to send for POST/PUT requests
  * @returns {void}
+ *
+ * Note: In case of error, the data ref will contain the error response object with the following structure:
+ * {
+ *   type: "/problems/conflict-error",
+ *   title: "Resource Conflict",
+ *   status: 409,
+ *   detail: "This device is already associated with your account",
+ *   instance: "/device/pull-data",
+ *   timestamp: "2025-06-27T08:43:43.518Z",
+ *   resourceType: "SmartDevice",
+ *   deviceId: 18
+ * }
  */
 export default function fetchData(url, options = {}) {
   const {
-    data,
+    fetchedResponse,
     cacheKey,
     cacheDuration = 120 * 60 * 1000,
     requiresAuth = false,
@@ -25,20 +37,20 @@ export default function fetchData(url, options = {}) {
     body,
   } = options
 
-  if (!data) {
+  if (!fetchedResponse) {
     throw new Error('The "data" ref is required in options.')
   }
 
   // Try to get cached data first if cacheKey is provided
   if (cacheKey) {
-    const cachedData = localStorage.getItem(cacheKey)
-    if (cachedData) {
+    const cachedRes = localStorage.getItem(cacheKey)
+    if (cachedRes) {
       try {
-        const { data: cachedValue, timestamp } = JSON.parse(cachedData)
+        const { data: cachedResponse, timestamp } = JSON.parse(cachedRes)
         const isDataFresh = Date.now() - timestamp < cacheDuration
 
         if (isDataFresh) {
-          data.value = cachedValue
+          fetchedResponse.value = cachedResponse
           if (status.value) status.value = 'loaded'
         }
       } catch (error) {
@@ -64,7 +76,7 @@ export default function fetchData(url, options = {}) {
   if (requiresAuth) {
     const authToken = localStorage.getItem('authToken')
     if (!authToken) {
-      throw new Error('Le token d’authentification est requis mais non trouvé.')
+      throw new Error("Le token d'authentification est requis mais non trouvé.")
     }
     headers['Authorization'] = `Bearer ${authToken}`
   }
@@ -77,22 +89,42 @@ export default function fetchData(url, options = {}) {
     headers,
     ...(body ? { body: JSON.stringify(body) } : {}),
   })
-    .then((response) => {
-      if (response.ok) {
-        return response.json()
+    .then(async (res) => {
+      // Try to parse the response as JSON regardless of status
+      let responseData = await res.json()
+
+      if (res.ok) {
+        // Success case - store the data
+        fetchedResponse.value = responseData
+        if (cacheKey) {
+          localStorage.setItem(
+            cacheKey,
+            JSON.stringify({
+              data: responseData,
+              timestamp: Date.now(),
+            }),
+          )
+        }
+        if (status.value) status.value = 'loaded'
+      } else {
+        // Error case - store the error response
+        fetchedResponse.value = responseData
+        if (status.value) status.value = 'error'
+        console.error('API Error:', responseData)
       }
-      throw new Error('Cannot load data from the server')
-    })
-    .then((res) => {
-      data.value = res.data
-      if (cacheKey) {
-        localStorage.setItem(cacheKey, JSON.stringify({ data: res.data, timestamp: Date.now() }))
-      }
-      if (status.value) status.value = 'loaded'
     })
     .catch((error) => {
       if (error.name !== 'AbortError') {
-        console.error(error)
+        console.error('Network or parsing error:', error)
+        // Create a generic error object for network errors
+        fetchedResponse.value = {
+          type: '/problems/network-error',
+          title: 'Network Error',
+          status: 0,
+          detail: error.message || 'Network request failed',
+          instance: url,
+          timestamp: new Date().toISOString(),
+        }
         if (status.value) status.value = 'error'
       }
     })
