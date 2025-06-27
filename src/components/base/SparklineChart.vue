@@ -116,7 +116,7 @@ const setupCustomTooltip = () => {
       border: `1px solid ${borderColor}`,
       fontSize: '0.75rem',
       boxShadow: '2px 2px 5px rgba(0, 0, 0, 0.1)',
-      zIndex: '10000',
+      zIndex: '2',
     })
 
     // Apply styles to tooltip elements

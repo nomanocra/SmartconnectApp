@@ -1,19 +1,37 @@
+<!--
+  MonitoringNavigationPanel.vue
+
+  This component provides the main navigation interface for the monitoring dashboard.
+  It displays a hierarchical tree structure of devices and groups and main actions to
+  add new devices and set the tree structure.
+-->
+
 <template>
   <div class="monitoring-navigation panel-container">
     <div class="monitoring-navigation-header">
-      <h4>Monitoring</h4>
+      <h4>{{ $t('sidebar.monitoring') }}</h4>
       <div class="action-buttons">
         <Button
           icon="pi pi-plus"
           text
           size="small"
           v-tooltip.bottom="$t('pages.dashboard.addDevice')"
+          @click="handleAddDevice"
         />
+        <Dialog
+          v-model:visible="addDeviceDialogVisible"
+          modal
+          :header="$t('pages.dashboard.addDevice')"
+          :style="{ width: '40rem' }"
+          :draggable="false"
+        >
+          <AddDeviceForm />
+        </Dialog>
         <Button
-          icon="pi pi-folder-plus"
+          icon="pi pi-sitemap"
           text
           size="small"
-          v-tooltip.bottom="$t('pages.dashboard.addGroup')"
+          v-tooltip.bottom="$t('pages.dashboard.manageTree')"
         />
       </div>
     </div>
@@ -30,12 +48,16 @@
 
 <script setup>
 import Button from 'primevue/button'
+import Dialog from 'primevue/dialog'
 import TreeMenu from '@/components/features/TreeMenu.vue'
-import { inject, computed } from 'vue'
+import AddDeviceForm from '@/components/features/AddDeviceFrom.vue'
+import { inject, computed, ref } from 'vue'
 
 const selectedId = inject('SelectedDeviceID')
 const selectedName = inject('SelectedDeviceName')
 const treeData = inject('navigationTreeData')
+
+const addDeviceDialogVisible = ref(false)
 
 const status = computed(() => {
   return treeData.value ? 'loaded' : 'loading'
@@ -43,6 +65,10 @@ const status = computed(() => {
 const handleLeafSelected = (leafId, leafName) => {
   selectedId.value = leafId
   selectedName.value = leafName
+}
+
+const handleAddDevice = () => {
+  addDeviceDialogVisible.value = true
 }
 </script>
 

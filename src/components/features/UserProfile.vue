@@ -8,9 +8,10 @@
     <Button
       icon="pi pi-sign-out"
       iconPos="right"
-      label="Sign out"
+      :label="$t('login.signOut')"
       class="button-primary"
       variant="text"
+      @click="handleLogout"
     ></Button>
   </div>
 </template>
@@ -21,6 +22,12 @@ import Avatar from 'primevue/avatar'
 import ProfileEditableInfos from '@/components/base/ProfileEditableInfos.vue'
 import Button from 'primevue/button'
 const userInfos = inject('userInfos')
+
+const emit = defineEmits(['logout'])
+
+const handleLogout = () => {
+  emit('logout')
+}
 </script>
 
 <style scoped>

@@ -60,6 +60,10 @@ const handleLanguageChange = (value) => {
   border: 0px;
   background-color: var(--p-background-lvl3);
   width: 4rem;
+  .p-select-label {
+    display: flex;
+    align-items: center;
+  }
 }
 
 /* Correction de la classe pour le dropdown */

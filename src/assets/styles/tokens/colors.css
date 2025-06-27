@@ -34,4 +34,18 @@
   --color-neutral-950: #191920;
   --color-neutral-975: #101015;
   --color-neutral-1000: #040405;
+
+  --background-gradient-light: linear-gradient(
+    -45deg,
+    var(--color-neutral-50) 0%,
+    var(--color-neutral-100) 50%,
+    var(--color-neutral-50) 100%
+  );
+
+  --background-gradient-dark: linear-gradient(
+    -45deg,
+    var(--color-neutral-975) 0%,
+    var(--color-neutral-950) 50%,
+    var(--color-neutral-975) 100%
+  );
 }

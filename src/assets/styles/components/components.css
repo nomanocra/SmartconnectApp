@@ -10,6 +10,7 @@ This file is used to manage the PrimeVue Components sizes overrides that are not
     object-fit: cover !important;
   }
 }
+
 /* Buttons */
 Button:not(.p-button-vertical) {
   height: 2.5rem;
@@ -24,6 +25,16 @@ Button.p-button-lg:not(.p-button-vertical) {
 Button.p-button-sm:not(.p-button-vertical) {
   height: 2rem;
   max-height: 2rem;
+}
+
+/* Dialogs */
+
+.p-dialog-header {
+  /* padding-top: 0.5rem !important; */
+  /* padding-right: 0.5rem !important; */
+  .p-button-text {
+    border-radius: 0.2rem !important;
+  }
 }
 
 /* Inputs */
@@ -49,7 +60,6 @@ Input.p-inputtext-sm {
   .p-select-label {
     display: flex;
     align-items: center;
-    justify-content: center;
   }
 }
 
@@ -73,4 +83,9 @@ Input.p-inputtext-sm {
   font-size: 0.875rem;
   --p-icon-size: 0.875rem;
   --p-tree-node-toggle-button-size: 0.875rem;
+}
+
+/* Tooltips */
+.p-tooltip-text {
+  text-align: center !important;
 }

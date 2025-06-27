@@ -12,7 +12,7 @@
         <h1>{{ deviceName }}</h1>
         <div class="device-id">
           <PhHardDrive :size="16" />
-          <span>SmartBoitier {{ deviceId }}</span>
+          <span>{{ deviceId }}</span>
         </div>
       </div>
       <div v-else class="monitoring-content-header-title">
@@ -47,6 +47,7 @@ import Button from 'primevue/button'
 import { isTablet } from '@/assets/styles/tokens/breakpoints'
 import fetchData from '@/utils/fetcherAPI'
 import { config } from '@/utils/config'
+import { findDeviceInTree } from '@/utils/treeMenuUtils'
 
 const deviceId = inject('SelectedDeviceID')
 const deviceName = inject('SelectedDeviceName')
@@ -65,7 +66,7 @@ const emit = defineEmits(['open-drawer'])
 const currentDevicesData = ref([])
 
 watch(deviceId, () => {
-  currentDevicesData.value = findCurrentDeviceInTreeData() || {}
+  currentDevicesData.value = findDeviceInTree(navigationTreeData.value, deviceId.value) || {}
   if (!currentDevicesData.value?.sensors?.length) return
 
   const options = {
@@ -83,20 +84,6 @@ watch(deviceId, () => {
 
 function openDrawer() {
   emit('open-drawer')
-}
-
-// Fonction pour extraire tous les leaf nodes du tree data
-function findCurrentDeviceInTreeData(nodes = navigationTreeData.value) {
-  if (!nodes || !Array.isArray(nodes)) return null
-  for (const node of nodes) {
-    if (!node.children && node.deviceSerial === deviceId.value) {
-      return node
-    } else if (node.children) {
-      const result = findCurrentDeviceInTreeData(node.children)
-      if (result) return result
-    }
-  }
-  return null
 }
 </script>
 

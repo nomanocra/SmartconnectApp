@@ -45,21 +45,6 @@ onMounted(() => {
         detail: 'email: demo@smartconnectiot.com \npassword: demo1234',
         group: 'tr',
         closable: true,
-        // actions: [
-        //   {
-        //     label: 'Secondary',
-        //     variant: 'text',
-        //     onClick: () => {
-        //       console.log('secondary')
-        //     },
-        //   },
-        //   {
-        //     label: 'Primary',
-        //     onClick: () => {
-        //       console.log('primary')
-        //     },
-        //   },
-        // ],
       })
     }, 500)
   }

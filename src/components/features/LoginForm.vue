@@ -84,37 +84,46 @@ const authHasFailed = computed(() => loginResponse.value === 'errorAuth')
 
 const handleLogin = async () => {
   loginResponse.value = 'loading'
-  const response = await login({ email: email.value, password: password.value })
-  if (response.success) {
-    loginResponse.value = 'success'
-    router.push('/dashboard')
-  } else {
-    loginResponse.value = 'errorAuth'
-    if (response.errorType === 'server') {
-      loginResponse.value = 'errorServer'
-      toast.add({
-        severity: 'error',
-        summary: 'Server error',
-        detail: 'Sorry, an error occurred while connecting to the server. Please try again later.',
-        group: 'br',
-        closable: true,
-        icon: 'pi pi-exclamation-circle',
-        life: 5000,
-      })
+  try {
+    const response = await login({ email: email.value, password: password.value })
+    if (response.success) {
+      console.log('success', response)
+      loginResponse.value = 'success'
+      router.push('/dashboard')
+    } else {
+      loginResponse.value = 'errorAuth'
+      if (response.errorType === 'server') {
+        loginResponse.value = 'errorServer'
+        toast.add({
+          severity: 'error',
+          summary: 'Server error',
+          detail:
+            'Sorry, an error occurred while connecting to the server. Please try again later.',
+          group: 'br',
+          closable: true,
+          icon: 'pi pi-exclamation-circle',
+          life: 20000,
+        })
+      }
+      if (response.errorType === 'auth') {
+        loginResponse.value = 'errorAuth'
+      } else {
+        toast.add({
+          severity: 'error',
+          summary: 'Unkonwn error',
+          detail: response.error,
+          group: 'br',
+        })
+      }
+      console.error(response.error)
     }
-    console.log(response.error)
+  } catch (error) {
+    console.error(error)
   }
 }
 </script>
 
 <style scoped>
-.form-group {
-  display: flex;
-  flex-direction: column;
-  align-self: stretch;
-  gap: 1.25rem;
-}
-
 .login-title {
   font-size: 1.1rem;
   font-weight: 600;

@@ -55,17 +55,10 @@
         modal
         :header="$t('sidebar.userInfo')"
         :style="{ width: '25rem' }"
+        :draggable="false"
       >
-        <UserProfile />
+        <UserProfile @logout="handleSignOut" />
       </Dialog>
-      <Button
-        icon="pi pi-sign-out"
-        aria-label="Sign Out"
-        variant="text"
-        class="sidebar-button"
-        v-tooltip="!isMobile ? $t('login.signOut') : undefined"
-        @click="handleSignOut"
-      />
     </div>
   </header>
 </template>
@@ -154,7 +147,7 @@ function toggleCustomizeUIMenu(event) {
   flex-direction: column;
   align-items: center;
   gap: 0.5rem;
-  padding: 0.5rem 0.5rem 1rem 0.5rem;
+  padding: 0.5rem 0.5rem 0.5rem 0.5rem;
 }
 
 .selected {
@@ -183,12 +176,12 @@ function toggleCustomizeUIMenu(event) {
     flex-direction: row;
     justify-content: space-evenly;
     order: 1;
-    flex: 1;
+    flex: 3;
   }
   .sidebar-footer {
     flex-direction: row;
     justify-content: space-evenly;
-    flex: 1;
+    flex: 2;
     order: 3;
     padding: 0.5rem;
   }

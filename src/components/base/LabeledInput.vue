@@ -1,6 +1,9 @@
 <template>
   <div class="labeled-input">
-    <label :for="id" class="labeled-input__label">{{ label }}</label>
+    <div class="label-container">
+      <slot name="icon" class="icon" />
+      <label :for="id">{{ label }}</label>
+    </div>
     <slot />
   </div>
 </template>
@@ -17,11 +20,16 @@ defineProps({
   display: flex;
   flex-direction: column;
   gap: 0.375rem;
-}
-
-.labeled-input__label {
-  font-size: 0.8rem;
-  font-weight: 600;
-  color: var(--p-text-secondary-color);
+  .label-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  label {
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: var(--p-text-secondary-color);
+  }
 }
 </style>

@@ -323,6 +323,10 @@ const SmartTheme = {
       975: 'var(--color-neutral-975)',
       1000: 'var(--color-neutral-1000)',
     },
+    smartGradient: {
+      white: 'var(--background-gradient-light)',
+      black: 'var(--background-gradient-dark)',
+    },
   },
   semantic: {
     transitionDuration: '0.2s',
@@ -397,7 +401,7 @@ const SmartTheme = {
         shadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1)',
       },
       modal: {
-        borderRadius: '{border.radius.xl}',
+        borderRadius: '{border.radius.xs}',
         padding: '1.25rem',
         shadow: '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1)',
       },
@@ -430,6 +434,7 @@ const SmartTheme = {
           lvl2: '{surface.50}',
           lvl3: '{surface.100}',
           lvl4: '{surface.200}',
+          gradient: '{smartGradient.white}',
         },
         border: {
           lvl0: '{surface.100}',
@@ -456,7 +461,7 @@ const SmartTheme = {
           color: '{primary.700}',
           focusColor: '{primary.800}',
         },
-        mask: { background: 'rgba(0,0,0,0.4)', color: '{surface.200}' },
+        mask: { background: 'rgba(0,0,0,0.6)', color: '{surface.200}' },
         formField: {
           background: '{surface.0}',
           disabledBackground: '{surface.200}',
@@ -504,7 +509,11 @@ const SmartTheme = {
             borderColor: '{surface.200}',
             color: '{text.color}',
           },
-          modal: { background: '{surface.0}', borderColor: '{surface.200}', color: '{text.color}' },
+          modal: {
+            background: '{background.lvl1}',
+            borderColor: '{surface.200}',
+            color: '{text.color}',
+          },
         },
         list: {
           option: {
@@ -564,6 +573,7 @@ const SmartTheme = {
           lvl2: '{surface.950}',
           lvl3: '{surface.925}',
           lvl4: '{surface.900}',
+          gradient: '{smartGradient.black}',
         },
         border: {
           lvl0: '{surface.975}',
@@ -590,7 +600,7 @@ const SmartTheme = {
           color: 'rgba(255,255,255,.87)',
           focusColor: 'rgba(255,255,255,.87)',
         },
-        mask: { background: 'rgba(0,0,0,0.6)', color: '{surface.200}' },
+        mask: { background: 'rgba(0,0,0,0.9)', color: '{surface.200}' },
         formField: {
           background: '{surface.950}',
           disabledBackground: '{surface.700}',
@@ -639,7 +649,7 @@ const SmartTheme = {
             color: '{text.color}',
           },
           modal: {
-            background: '{surface.950}',
+            background: '{background.lvl1}',
             borderColor: '{transparent}',
             color: '{text.color}',
           },
@@ -1920,7 +1930,7 @@ const SmartTheme = {
         borderRadius: '{overlay.modal.border.radius}',
         shadow: '{overlay.modal.shadow}',
       },
-      header: { padding: '{overlay.modal.padding}', gap: '0.5rem' },
+      header: { padding: '{overlay.modal.padding}', gap: '0.5rem', alignItems: 'top' },
       title: { fontSize: '1.25rem', fontWeight: '600' },
       content: {
         padding: '0 {overlay.modal.padding} {overlay.modal.padding} {overlay.modal.padding}',
@@ -3927,11 +3937,9 @@ const SmartTheme = {
             background: '{surface.100}',
             checkedBackground: '{surface.100}',
             hoverBackground: '{surface.100}',
-            borderColor: '{surface.100}',
             color: '{surface.500}',
             hoverColor: '{surface.700}',
             checkedColor: '{surface.900}',
-            checkedBorderColor: '{surface.100}',
           },
           content: { checkedBackground: '{surface.0}' },
           icon: {
@@ -3945,11 +3953,9 @@ const SmartTheme = {
             background: '{surface.950}',
             checkedBackground: '{surface.950}',
             hoverBackground: '{surface.950}',
-            borderColor: '{surface.950}',
             color: '{surface.400}',
             hoverColor: '{surface.300}',
             checkedColor: '{surface.0}',
-            checkedBorderColor: '{surface.960}',
           },
           content: { checkedBackground: '{surface.800}' },
           icon: {

@@ -51,3 +51,22 @@ body {
   gap: 0.5rem;
   padding: var(--size-content-padding);
 }
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  align-self: stretch;
+  gap: 1.25rem;
+}
+
+.checkbox-input {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0.5rem;
+  label {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--p-text-primary-color);
+  }
+}
