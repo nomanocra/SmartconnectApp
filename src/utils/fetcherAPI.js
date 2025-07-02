@@ -105,7 +105,9 @@ export default function fetchData(url, options = {}) {
             }),
           )
         }
-        if (status.value) status.value = 'loaded'
+        if (status.value) {
+          status.value = 'loaded'
+        }
       } else {
         // Error case - store the error response
         fetchedResponse.value = responseData
