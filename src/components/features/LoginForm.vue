@@ -52,7 +52,6 @@
     <Message v-if="authHasFailed" severity="error">
       {{ errorType === 'server' ? $t('login.serverError') : $t('login.loginError') }}
     </Message>
-    <CustomToast position="bottom-right" group="br"> </CustomToast>
   </Form>
 </template>
 
@@ -69,7 +68,6 @@ import InputGroupAddon from 'primevue/inputgroupaddon'
 import FloatLabel from 'primevue/floatlabel'
 import Message from 'primevue/message'
 import { useToast } from 'primevue/usetoast'
-import CustomToast from '@/components/base/CustomToast.vue'
 const email = ref('')
 const password = ref('')
 
