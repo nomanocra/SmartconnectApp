@@ -1,5 +1,5 @@
 <template>
-  <Form @submit="handleSubmit" class="form-group">
+  <Form @submit="handleAddDevice" class="form-group">
     <div class="section-container">
       <div class="section-container-header">
         <PhInfo :size="16" color="var(--p-primary-color)" />
@@ -80,42 +80,27 @@
       :disabled="!deviceName || !deviceAddress || !deviceLogin || !devicePassword"
     />
 
-    <!-- Error display -->
-    <div v-if="hasError" class="error-container">
-      <div class="error-header">
-        <PhWarning :size="16" color="var(--p-error-color)" />
-        <span class="error-title">{{ errorTitle }}</span>
-      </div>
-      <p class="error-detail">{{ errorDetail }}</p>
-      <div v-if="errorDeviceId" class="error-info">
-        <span>Device ID: {{ errorDeviceId }}</span>
-      </div>
-    </div>
+    <!-- TO BE REMOVED LATER -->
 
     <!-- Success display -->
-    <div v-else-if="isSuccess" class="success-container">
+    <div v-if="isSuccess" class="success-container">
       <div class="success-header">
         <PhCheckCircle :size="16" color="var(--p-success-color)" />
         <span class="success-title">Device added successfully</span>
       </div>
       <p v-if="addDeviceResponse">Device ID: {{ addDeviceResponse.deviceId || 'N/A' }}</p>
     </div>
-
-    <!-- Debug info (can be removed in production) -->
-    <div v-if="isDevelopment" class="debug-info">
-      <span>Status: {{ addDeviceStatus }}</span>
-      <pre>{{ JSON.stringify(addDeviceResponse, null, 2) }}</pre>
-    </div>
   </Form>
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, watch } from 'vue'
 import InputText from 'primevue/inputtext'
 import { Form } from '@primevue/forms'
 import Button from 'primevue/button'
 import SelectButton from 'primevue/selectbutton'
 import LabeledInput from '@/components/base/LabeledInput.vue'
+
 import {
   PhUpload,
   PhShieldCheck,
@@ -126,11 +111,11 @@ import {
   PhLock,
   PhGlobeSimple,
   PhHardDrive,
-  PhWarning,
   PhCheckCircle,
 } from '@phosphor-icons/vue'
 import fetchData from '@/utils/fetcherAPI'
 import { config } from '@/utils/config'
+import { useToast } from 'primevue/usetoast'
 
 const deviceName = ref('')
 const deviceAddress = ref('')
@@ -139,9 +124,13 @@ const devicePassword = ref('')
 const addDeviceStatus = ref(null)
 const addDeviceResponse = ref(null)
 
+const emit = defineEmits(['device-added'])
+
 const isButtonLoading = computed(() => {
   return addDeviceStatus.value === 'loading'
 })
+
+const toast = useToast()
 
 const deviceRefreshIntervalOptions = ref([
   { label: '5min', value: 5 },
@@ -160,7 +149,7 @@ const deviceInitialHistoryOptions = ref([
 
 const deviceInitialHistory = ref(1)
 
-const handleSubmit = () => {
+const handleAddDevice = () => {
   addDeviceStatus.value = 'loading'
   const now = new Date()
 
@@ -232,12 +221,7 @@ const handleSubmit = () => {
     fetchedResponse: addDeviceResponse,
     requiresAuth: true,
   })
-  console.log('submit')
 }
-
-const hasError = computed(() => {
-  return addDeviceStatus.value === 'error' && addDeviceResponse.value
-})
 
 const errorTitle = computed(() => {
   if (addDeviceResponse.value?.title) {
@@ -253,19 +237,46 @@ const errorDetail = computed(() => {
   return 'An error occurred while adding the device. Please try again later.'
 })
 
-const errorDeviceId = computed(() => {
-  return addDeviceResponse.value?.deviceId
-})
+// Watch for error status and display toast
+watch(
+  () => addDeviceStatus.value,
+  (newStatus) => {
+    toast.removeGroup('br')
+
+    if (newStatus === 'error') {
+      toast.add({
+        severity: 'error',
+        summary: errorTitle.value,
+        detail: errorDetail.value,
+        group: 'br',
+        closable: true,
+        icon: 'pi pi-exclamation-circle',
+      })
+    }
+
+    if (newStatus === 'loaded') {
+      toast.add({
+        severity: 'success',
+        summary: 'Device added successfully',
+        detail: `Device Name: ${addDeviceResponse.value.data.deviceInfo.name}`,
+        group: 'br',
+        life: 4000,
+      })
+    }
+  },
+)
+
+// TO BE REMOVED FROM HERE...
 
 const isSuccess = computed(() => {
-  return (
-    addDeviceStatus.value === 'loaded' && addDeviceResponse.value && !addDeviceResponse.value.type
-  )
+  if (addDeviceStatus.value === 'loaded') {
+    emit('device-added', addDeviceResponse.value.data.device_id)
+    return true
+  }
+  return false
 })
 
-const isDevelopment = computed(() => {
-  return import.meta.env.DEV
-})
+//... TO HERE
 </script>
 <style scoped>
 i {
@@ -302,6 +313,7 @@ i {
   }
 }
 
+/* --------------------------- */
 /* To be removed in production */
 .error-container {
   margin-top: 1rem;
