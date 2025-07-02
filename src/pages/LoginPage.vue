@@ -17,7 +17,6 @@
       </footer>
     </div>
   </div>
-  <CustomToast position="top-right" group="tr"> </CustomToast>
 </template>
 
 <script setup>
@@ -26,9 +25,9 @@ import CountrySelect from '@/components/base/CountrySelect.vue'
 import LoginForm from '@/components/features/LoginForm.vue'
 import ThemeSwitch from '@/components/base/ThemeSwitch.vue'
 import { useToast } from 'primevue/usetoast'
-import CustomToast from '@/components/base/CustomToast.vue'
 import { config } from '@/utils/config'
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, onBeforeUnmount } from 'vue'
+
 const videoRef = ref(null)
 const toast = useToast()
 
@@ -48,6 +47,11 @@ onMounted(() => {
       })
     }, 500)
   }
+})
+
+onBeforeUnmount(() => {
+  // Supprimer tous les toasts du groupe 'tr' (top-right)
+  toast.removeAllGroups()
 })
 </script>
 

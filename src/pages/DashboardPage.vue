@@ -2,13 +2,11 @@
   <div class="dashboard-page">
     <MainSidebar />
     <RouterView />
-    <CustomToast position="bottom-right" group="br" />
   </div>
 </template>
 
 <script setup>
 import MainSidebar from '@/components/layout/MainSidebar.vue'
-import CustomToast from '@/components/base/CustomToast.vue'
 import { ref, onMounted, provide, watch, computed } from 'vue'
 import { useAuth } from '@/utils/authService'
 import { useToast } from 'primevue/usetoast'

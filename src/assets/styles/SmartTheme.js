@@ -4265,5 +4265,3 @@ const SmartTheme = {
 export { SmartTheme }
 
 // const element = $dt('primitive.smartGrey')
-
-// console.log(element)

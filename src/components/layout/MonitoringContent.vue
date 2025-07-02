@@ -41,7 +41,7 @@
 <script setup>
 import { PhHardDrive } from '@phosphor-icons/vue'
 import SkeletonRectangle from '@/components/base/SkeletonRectangle.vue'
-import { inject, ref, watch, computed } from 'vue'
+import { inject, ref, watch, computed, onMounted } from 'vue'
 import SensorCard from '@/components/features/SensorCard.vue'
 import Button from 'primevue/button'
 import { isTablet } from '@/assets/styles/tokens/breakpoints'
@@ -69,6 +69,14 @@ const emit = defineEmits(['open-drawer'])
 const currentDevicesData = ref([])
 
 watch(deviceId, () => {
+  refreshDeviceContent()
+})
+
+onMounted(() => {
+  refreshDeviceContent()
+})
+
+function refreshDeviceContent() {
   currentDevicesData.value = findDeviceInTree(navigationTreeData.value, deviceId.value) || {}
   if (!currentDevicesData.value?.sensors?.length) return
 
@@ -83,7 +91,7 @@ watch(deviceId, () => {
     `${config.apiBaseUrl}/sensor-history?sensor_ids[]=${currentDevicesData.value.sensors.map((sensor) => sensor.id).join('&sensor_ids[]=')}&start_date=${historyStartDate.value}&end_date=${historyEndDate.value}`,
     options,
   )
-})
+}
 
 function openDrawer() {
   emit('open-drawer')

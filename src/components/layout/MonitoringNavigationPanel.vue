@@ -25,7 +25,7 @@
           :style="{ width: '40rem' }"
           :draggable="false"
         >
-          <AddDeviceForm />
+          <AddDeviceForm @device-added="handleDeviceAdded" />
         </Dialog>
         <Button
           icon="pi pi-sitemap"
@@ -67,6 +67,11 @@ const handleLeafSelected = (leafId, leafName) => {
 
 const handleAddDevice = () => {
   addDeviceDialogVisible.value = true
+}
+
+const handleDeviceAdded = (deviceId) => {
+  addDeviceDialogVisible.value = false
+  selectedId.value = deviceId
 }
 </script>
 
