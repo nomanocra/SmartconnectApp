@@ -8,11 +8,11 @@
         severity="secondary"
         @click="openDrawer()"
       />
-      <div v-if="deviceId && deviceName" class="monitoring-content-header-title">
+      <div v-if="deviceSerial && deviceName" class="monitoring-content-header-title">
         <h1>{{ deviceName }}</h1>
         <div class="device-id">
           <PhHardDrive :size="16" />
-          <span>{{ deviceId }}</span>
+          <span>{{ deviceSerial }}</span>
         </div>
       </div>
       <div v-else class="monitoring-content-header-title">
@@ -21,7 +21,7 @@
       </div>
     </div>
 
-    <div v-if="deviceId && deviceName" class="monitoring-content-body">
+    <div v-if="deviceSerial && deviceName" class="monitoring-content-body">
       <div v-for="sensor in currentDevicesData.sensors" :key="sensor.id">
         <SensorCard
           :sensor="sensor"
@@ -49,8 +49,8 @@ import fetchData from '@/utils/fetcherAPI'
 import { config } from '@/utils/config'
 import { findDeviceInTree } from '@/utils/treeMenuUtils'
 
-const deviceId = inject('SelectedDeviceID')
-const deviceName = inject('SelectedDeviceName')
+const deviceSerial = inject('selectedDeviceSerial')
+const deviceName = inject('selectedDeviceName')
 const navigationTreeData = inject('navigationTreeData')
 
 const chartStatus = ref('loading')
@@ -68,7 +68,7 @@ const emit = defineEmits(['open-drawer'])
 
 const currentDevicesData = ref([])
 
-watch(deviceId, () => {
+watch([deviceSerial, navigationTreeData], () => {
   refreshDeviceContent()
 })
 
@@ -77,7 +77,7 @@ onMounted(() => {
 })
 
 function refreshDeviceContent() {
-  currentDevicesData.value = findDeviceInTree(navigationTreeData.value, deviceId.value) || {}
+  currentDevicesData.value = findDeviceInTree(navigationTreeData.value, deviceSerial.value) || {}
   if (!currentDevicesData.value?.sensors?.length) return
 
   const options = {
