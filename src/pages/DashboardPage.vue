@@ -23,8 +23,8 @@ const toast = useToast()
 const MONITORING_STORAGE_KEY = 'monitoring-tree-data'
 const CACHE_DURATION = 30 * 60 * 1000 // 120 minutes in milliseconds
 
-const SelectedDeviceID = ref(null)
-const SelectedDeviceName = ref(null)
+const selectedDeviceSerial = ref(null)
+const selectedDeviceName = ref(null)
 const deviceMappingResponse = ref([])
 const navigationTreestatus = ref('loading')
 
@@ -32,8 +32,8 @@ const navigationTreeData = computed(() => {
   return deviceMappingResponse.value.data || []
 })
 
-provide('SelectedDeviceID', SelectedDeviceID)
-provide('SelectedDeviceName', SelectedDeviceName)
+provide('selectedDeviceSerial', selectedDeviceSerial)
+provide('selectedDeviceName', selectedDeviceName)
 provide('navigationTreeData', navigationTreeData)
 provide('navigationTreeStatus', navigationTreestatus)
 
@@ -43,41 +43,29 @@ onMounted(async () => {
   const { getUserInfo } = useAuth()
   const userInfo = await getUserInfo()
   userInfos.value = userInfo.user
-
-  fetchData(`${config.apiBaseUrl}/users/device-mapping`, {
-    fetchedResponse: deviceMappingResponse,
-    status: navigationTreestatus,
-    abortController,
-    cacheKey: MONITORING_STORAGE_KEY,
-    cacheDuration: CACHE_DURATION,
-    method: 'GET',
-    requiresAuth: true,
-  })
+  refreshDeviceMapping()
 })
 
 watch(
   navigationTreestatus,
   (newStatus) => {
-    if (newStatus === 'loaded' && navigationTreeData.value) {
+    if (
+      newStatus === 'loaded' &&
+      navigationTreeData.value &&
+      selectedDeviceSerial.value === null &&
+      selectedDeviceName.value === null
+    ) {
       const { id, name } = findFirstLeafId(navigationTreeData.value)
       if (id && name) {
-        SelectedDeviceID.value = id
-        SelectedDeviceName.value = name
+        selectedDeviceSerial.value = id
+        selectedDeviceName.value = name
       }
     } else if (newStatus === 'error') {
-      SelectedDeviceID.value = null
-      SelectedDeviceName.value = null
-    }
-  },
-  { immediate: true },
-)
+      // Reset device selection
+      selectedDeviceSerial.value = null
+      selectedDeviceName.value = null
 
-// Watch for errors and display them in toast
-watch(
-  [navigationTreestatus],
-  ([newStatus]) => {
-    if (newStatus === 'error') {
-      // Extract error details from the error object
+      // Display error toast
       const errorTitle = deviceMappingResponse.value.title || 'Error'
       const errorDetail =
         deviceMappingResponse.value.detail || 'An error occurred while loading devices'
@@ -91,10 +79,24 @@ watch(
         closable: true,
         icon: 'pi pi-exclamation-circle',
       })
+    } else if (newStatus === 'reloading') {
+      refreshDeviceMapping()
     }
   },
   { immediate: true },
 )
+
+function refreshDeviceMapping() {
+  fetchData(`${config.apiBaseUrl}/users/device-mapping`, {
+    fetchedResponse: deviceMappingResponse,
+    status: navigationTreestatus,
+    abortController,
+    cacheKey: MONITORING_STORAGE_KEY,
+    cacheDuration: CACHE_DURATION,
+    method: 'GET',
+    requiresAuth: true,
+  })
+}
 </script>
 
 <style scoped>
