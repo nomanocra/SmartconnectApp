@@ -110,7 +110,6 @@ const handleLogin = async () => {
       }
       if (response.errorType === 'auth') {
         loginResponse.value = 'errorAuth'
-        showErrorToast('Authentication error', 'Invalid email or password')
       } else {
         showErrorToast('Unknown error', response.error)
       }
