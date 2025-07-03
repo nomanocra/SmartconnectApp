@@ -17,11 +17,11 @@ import { isTablet } from '@/assets/styles/tokens/breakpoints'
 //Used for mobile layout
 const drawerOpen = ref(false)
 
-const SelectedDeviceID = inject('SelectedDeviceID')
+const selectedDeviceSerial = inject('selectedDeviceSerial')
 
 // Close the drawer when the selected device is changed (for mobile layout)
 watch(
-  () => SelectedDeviceID.value,
+  () => selectedDeviceSerial.value,
   () => {
     drawerOpen.value = false
   },

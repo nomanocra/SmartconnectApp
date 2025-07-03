@@ -37,7 +37,7 @@
     </div>
     <div class="tree-menu">
       <TreeMenu
-        :selected-id="selectedId"
+        :selected-id="selectedSerial"
         :tree-data="treeData"
         :status="treeDataStatus"
         @leaf-selected="handleLeafSelected"
@@ -53,15 +53,15 @@ import TreeMenu from '@/components/features/TreeMenu.vue'
 import AddDeviceForm from '@/components/features/AddDeviceFrom.vue'
 import { inject, ref } from 'vue'
 
-const selectedId = inject('SelectedDeviceID')
-const selectedName = inject('SelectedDeviceName')
+const selectedSerial = inject('selectedDeviceSerial')
+const selectedName = inject('selectedDeviceName')
 const treeData = inject('navigationTreeData')
 const treeDataStatus = inject('navigationTreeStatus')
 
 const addDeviceDialogVisible = ref(false)
 
 const handleLeafSelected = (leafId, leafName) => {
-  selectedId.value = leafId
+  selectedSerial.value = leafId
   selectedName.value = leafName
 }
 
@@ -69,9 +69,11 @@ const handleAddDevice = () => {
   addDeviceDialogVisible.value = true
 }
 
-const handleDeviceAdded = (deviceId) => {
+const handleDeviceAdded = (deviceId, deviceName) => {
   addDeviceDialogVisible.value = false
-  selectedId.value = deviceId
+  treeDataStatus.value = 'reloading'
+  selectedSerial.value = deviceId
+  selectedName.value = deviceName
 }
 </script>
 
