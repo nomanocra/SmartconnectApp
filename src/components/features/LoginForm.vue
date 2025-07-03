@@ -32,6 +32,7 @@
           id="password"
           name="password"
           type="password"
+          autocomplete="current-password"
           fluid
           size="large"
           v-model="password"
