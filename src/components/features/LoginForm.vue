@@ -81,6 +81,17 @@ const loginResponse = ref(null)
 const connectionIsLoading = computed(() => loginResponse.value === 'loading')
 const authHasFailed = computed(() => loginResponse.value === 'errorAuth')
 
+const showErrorToast = (summary, detail) => {
+  toast.add({
+    severity: 'error',
+    summary,
+    detail,
+    group: 'br',
+    closable: true,
+    icon: 'pi pi-exclamation-circle',
+  })
+}
+
 const handleLogin = async () => {
   loginResponse.value = 'loading'
   try {
@@ -92,25 +103,16 @@ const handleLogin = async () => {
       loginResponse.value = 'errorAuth'
       if (response.errorType === 'server') {
         loginResponse.value = 'errorServer'
-        toast.add({
-          severity: 'error',
-          summary: 'Server error',
-          detail:
-            'Sorry, an error occurred while connecting to the server. Please try again later.',
-          group: 'br',
-          closable: true,
-          icon: 'pi pi-exclamation-circle',
-        })
+        showErrorToast(
+          'Server error',
+          'Sorry, an error occurred while connecting to the server. Please try again later.',
+        )
       }
       if (response.errorType === 'auth') {
         loginResponse.value = 'errorAuth'
+        showErrorToast('Authentication error', 'Invalid email or password')
       } else {
-        toast.add({
-          severity: 'error',
-          summary: 'Unkonwn error',
-          detail: response.error,
-          group: 'br',
-        })
+        showErrorToast('Unknown error', response.error)
       }
       console.error(response.error)
     }
