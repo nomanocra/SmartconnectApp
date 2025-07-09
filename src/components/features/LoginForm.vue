@@ -17,6 +17,7 @@
           size="large"
           v-model="email"
           class="login-input"
+          autocomplete="username"
           :invalid="authHasFailed"
         />
         <label for="username">{{ $t('login.emailAdress') }}</label>

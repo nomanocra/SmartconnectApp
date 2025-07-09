@@ -3,16 +3,16 @@
     <div class="section-container">
       <div class="section-container-header">
         <PhInfo :size="16" color="var(--p-primary-color)" />
-        <label>Device information</label>
+        <label>{{ $t('addDevice.deviceInfo') }}</label>
       </div>
       <div class="section-container-body">
-        <LabeledInput label="Name" id="deviceName">
+        <LabeledInput :label="$t('addDevice.deviceName')" id="deviceName">
           <template #icon>
             <PhHardDrive :size="14" color="var(--p-primary-color)" />
           </template>
           <InputText v-model="deviceName" type="text" placeholder="Building Floor1" />
         </LabeledInput>
-        <LabeledInput label="Address" id="deviceAddress">
+        <LabeledInput :label="$t('addDevice.deviceAddress')" id="deviceAddress">
           <template #icon>
             <PhGlobeSimple :size="14" color="var(--p-primary-color)" />
           </template>
@@ -23,10 +23,10 @@
     <div class="section-container">
       <div class="section-container-header">
         <PhShieldCheck :size="16" color="var(--p-primary-color)" />
-        <label>Device authentication</label>
+        <label>{{ $t('addDevice.deviceAuth') }}</label>
       </div>
       <div class="section-container-body">
-        <LabeledInput label="Login" id="deviceLogin">
+        <LabeledInput :label="$t('addDevice.deviceLogin')" id="deviceLogin">
           <template #icon>
             <PhUser :size="14" color="var(--p-primary-color)" />
           </template>
@@ -37,7 +37,7 @@
             autocomplete="username"
           />
         </LabeledInput>
-        <LabeledInput label="Password" id="devicePassword">
+        <LabeledInput :label="$t('addDevice.devicePassword')" id="devicePassword">
           <template #icon>
             <PhLock :size="14" color="var(--p-primary-color)" />
           </template>
@@ -53,10 +53,10 @@
     <div class="section-container">
       <div class="section-container-header">
         <PhUpload :size="16" color="var(--p-primary-color)" />
-        <label>Data Loading Settings</label>
+        <label>{{ $t('addDevice.deviceDataLoadingSettings') }}</label>
       </div>
       <div class="section-container-body">
-        <LabeledInput label="Initial Data History" id="deviceInitialHistory">
+        <LabeledInput :label="$t('addDevice.deviceInitialHistory')" id="deviceInitialHistory">
           <template #icon>
             <PhClockCounterClockwise :size="14" color="var(--p-primary-color)" />
           </template>
@@ -68,7 +68,7 @@
             size="small"
           />
         </LabeledInput>
-        <LabeledInput label="Refresh interval" id="devicePullInterval">
+        <LabeledInput :label="$t('addDevice.deviceRefreshInterval')" id="devicePullInterval">
           <template #icon>
             <PhArrowsCounterClockwise :size="14" color="var(--p-primary-color)" />
           </template>
@@ -84,7 +84,9 @@
     </div>
     <Button
       type="submit"
-      label="Add device"
+      :label="
+        isButtonLoading ? $t('addDevice.deviceAddButtonLoading') : $t('addDevice.deviceAddButton')
+      "
       icon="pi pi-plus"
       :loading="isButtonLoading"
       :disabled="!deviceName || !deviceAddress || !deviceLogin || !devicePassword"
@@ -114,6 +116,7 @@ import {
 import fetchData from '@/utils/fetcherAPI'
 import { config } from '@/utils/config'
 import { useToast } from 'primevue/usetoast'
+import { useI18n } from 'vue-i18n'
 
 const deviceName = ref('')
 const deviceAddress = ref('')
@@ -129,20 +132,21 @@ const isButtonLoading = computed(() => {
 })
 
 const toast = useToast()
+const { t } = useI18n()
 
 const deviceRefreshIntervalOptions = ref([
-  { label: '5min', value: 5 },
-  { label: '10min', value: 10 },
-  { label: '20min', value: 20 },
-  { label: '1h', value: 60 },
+  { label: t('addDevice.fiveMinutes'), value: 5 },
+  { label: t('addDevice.tenMinutes'), value: 10 },
+  { label: t('addDevice.twentyMinutes'), value: 20 },
+  { label: t('addDevice.oneHour'), value: 60 },
 ])
 const deviceRefreshInterval = ref(10)
 
 const deviceInitialHistoryOptions = ref([
-  { label: 'None', value: 0 },
-  { label: '1h', value: 1 },
-  { label: '4h', value: 2 },
-  { label: 'Today', value: 3 },
+  { label: t('addDevice.none'), value: 0 },
+  { label: t('addDevice.oneHour'), value: 1 },
+  { label: t('addDevice.fourHours'), value: 2 },
+  { label: t('addDevice.today'), value: 3 },
 ])
 
 const deviceInitialHistory = ref(1)
