@@ -5,8 +5,10 @@
 </template>
 
 <script setup>
-import { ref, onMounted, nextTick } from 'vue'
+import { ref, onMounted, nextTick, watch, computed } from 'vue'
 import Chart from 'primevue/chart'
+import { useTheme } from '@/utils/useTheme'
+
 const props = defineProps({
   data: {
     type: Object,
@@ -14,34 +16,62 @@ const props = defineProps({
   },
 })
 
+const { theme } = useTheme()
 const chartRef = ref(null)
 const chartData = ref()
 const chartOptions = ref()
 
-// Get theme colors from CSS variables
-const primaryColor = getComputedStyle(document.documentElement)
-  .getPropertyValue('--p-primary-color')
-  .trim()
+// Computed properties to get theme colors dynamically
+const primaryColor = computed(() => {
+  return getComputedStyle(document.documentElement).getPropertyValue('--p-primary-color').trim()
+})
 
-const backgroundColor = getComputedStyle(document.documentElement)
-  .getPropertyValue('--p-background-lvl3')
-  .trim()
+const backgroundColor = computed(() => {
+  return getComputedStyle(document.documentElement).getPropertyValue('--p-background-lvl3').trim()
+})
 
-const borderColor = getComputedStyle(document.documentElement)
-  .getPropertyValue('--p-border-lvl2')
-  .trim()
+const borderColor = computed(() => {
+  return getComputedStyle(document.documentElement).getPropertyValue('--p-border-lvl2').trim()
+})
 
-const textColor = getComputedStyle(document.documentElement)
-  .getPropertyValue('--p-text-secondary-color')
-  .trim()
+const textColor = computed(() => {
+  return getComputedStyle(document.documentElement)
+    .getPropertyValue('--p-text-secondary-color')
+    .trim()
+})
 
-const borderRadius = getComputedStyle(document.documentElement)
-  .getPropertyValue('--p-tooltip-border-radius')
-  .trim()
+const borderRadius = computed(() => {
+  return getComputedStyle(document.documentElement)
+    .getPropertyValue('--p-tooltip-border-radius')
+    .trim()
+})
 
-onMounted(async () => {
+// Function to update chart data and options
+const updateChart = () => {
   chartData.value = setChartData()
   chartOptions.value = setChartOptions()
+
+  // Update the chart if it exists
+  if (chartRef.value?.chart) {
+    chartRef.value.chart.data = chartData.value
+    chartRef.value.chart.options = chartOptions.value
+    chartRef.value.chart.update()
+
+    // Re-setup custom tooltip with new colors
+    setupCustomTooltip()
+  }
+}
+
+// Watch for theme changes
+watch(theme, () => {
+  // Use nextTick to ensure DOM is updated with new CSS variables
+  nextTick(() => {
+    updateChart()
+  })
+})
+
+onMounted(async () => {
+  updateChart()
 
   // Wait for chart to be fully rendered before setting up tooltip
   await nextTick()
@@ -109,11 +139,11 @@ const setupCustomTooltip = () => {
       top: position.top + tooltipModel.caretY + 'px',
       pointerEvents: 'none',
       transform: 'translate(-50%, -150%)',
-      backgroundColor,
-      color: textColor,
-      borderRadius: borderRadius,
+      backgroundColor: backgroundColor.value,
+      color: textColor.value,
+      borderRadius: borderRadius.value,
       padding: '0.25rem 0.5rem',
-      border: `1px solid ${borderColor}`,
+      border: `1px solid ${borderColor.value}`,
       fontSize: '0.75rem',
       boxShadow: '2px 2px 5px rgba(0, 0, 0, 0.1)',
       zIndex: '2',
@@ -136,7 +166,7 @@ const setupCustomTooltip = () => {
     }
 
     if (tooltipValue) {
-      tooltipValue.style.color = primaryColor
+      tooltipValue.style.color = primaryColor.value
       tooltipValue.style.fontWeight = 'bold'
     }
   }
@@ -151,10 +181,10 @@ const setChartData = () => ({
   datasets: [
     {
       data: props.data.values,
-      borderColor: [primaryColor],
+      borderColor: [primaryColor.value],
       borderWidth: 1,
       fill: true,
-      backgroundColor: [primaryColor + '1A'],
+      backgroundColor: [primaryColor.value + '1A'],
     },
   ],
 })
@@ -185,7 +215,7 @@ const setChartOptions = () => ({
       radius: 0,
       hoverRadius: 6,
       hoverBorderWidth: 2,
-      hoverBackgroundColor: backgroundColor,
+      hoverBackgroundColor: backgroundColor.value,
     },
   },
   responsive: true,
