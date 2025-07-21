@@ -58,7 +58,7 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { Form } from '@primevue/forms'
 import { useAuth } from '@/utils/authService'
@@ -66,7 +66,7 @@ import Button from 'primevue/button'
 import InputText from 'primevue/inputtext'
 import InputGroup from 'primevue/inputgroup'
 import InputGroupAddon from 'primevue/inputgroupaddon'
-
+import { config } from '@/utils/config'
 import FloatLabel from 'primevue/floatlabel'
 import Message from 'primevue/message'
 import { useToast } from 'primevue/usetoast'
@@ -81,6 +81,13 @@ const toast = useToast()
 const loginResponse = ref(null)
 const connectionIsLoading = computed(() => loginResponse.value === 'loading')
 const authHasFailed = computed(() => loginResponse.value === 'errorAuth')
+
+onMounted(() => {
+  if (config.demoVersion) {
+    email.value = 'demo@smartconnectiot.com'
+    password.value = 'demo1234'
+  }
+})
 
 const showErrorToast = (summary, detail) => {
   toast.add({

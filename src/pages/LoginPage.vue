@@ -25,7 +25,6 @@ import CountrySelect from '@/components/base/CountrySelect.vue'
 import LoginForm from '@/components/features/LoginForm.vue'
 import ThemeSwitch from '@/components/base/ThemeSwitch.vue'
 import { useToast } from 'primevue/usetoast'
-import { config } from '@/utils/config'
 import { ref, onMounted, onBeforeUnmount } from 'vue'
 
 const videoRef = ref(null)
@@ -34,18 +33,6 @@ const toast = useToast()
 onMounted(() => {
   if (videoRef.value) {
     videoRef.value.playbackRate = 0.5
-  }
-  if (config.demoVersion) {
-    setTimeout(() => {
-      toast.add({
-        severity: 'secondary',
-        summary: 'You are using a demo version of SmartBoard',
-        icon: 'pi pi-exclamation-circle',
-        detail: 'email: demo@smartconnectiot.com \npassword: demo1234',
-        group: 'tr',
-        closable: true,
-      })
-    }, 500)
   }
 })
 
