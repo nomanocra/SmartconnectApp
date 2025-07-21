@@ -23,6 +23,7 @@ export default {
         addDevice: 'Ajouter un appareil',
         addGroup: 'Ajouter un groupe',
         manageTree: 'Organiser les devices',
+        editDevice: 'Modifier',
       },
     },
     sidebar: {
@@ -88,6 +89,7 @@ export default {
         addDevice: 'Add device',
         addGroup: 'Add group',
         manageTree: 'Manage the devices tree',
+        editDevice: 'Edit',
       },
     },
     sidebar: {

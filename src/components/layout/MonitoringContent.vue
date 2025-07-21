@@ -9,7 +9,26 @@
         @click="openDrawer()"
       />
       <div v-if="deviceSerial && deviceName" class="monitoring-content-header-title">
-        <h1>{{ deviceName }}</h1>
+        <div class="monitoring-content-header-title-name">
+          <h1>{{ deviceName }}</h1>
+          <Button
+            class="monitoring-content-header-title-name-edit-button"
+            icon="pi pi-pencil"
+            variant="text"
+            severity="primary"
+            size="small"
+            :label="$t('pages.dashboard.editDevice')"
+            v-if="!isTablet"
+          />
+          <Button
+            icon="pi pi-pencil"
+            variant="text"
+            severity="primary"
+            size="small"
+            v-else
+            v-tooltip.bottom="$t('pages.dashboard.editDevice')"
+          />
+        </div>
         <div class="device-id">
           <PhHardDrive :size="16" />
           <span>{{ deviceSerial }}</span>
@@ -136,7 +155,24 @@ function openDrawer() {
 .monitoring-content-header-title {
   display: flex;
   flex-direction: column;
+  flex: 1;
+  gap: 0.5rem;
+}
+
+.monitoring-content-header-title-name {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   gap: 0.25rem;
+}
+
+.monitoring-content-header-title-name-edit-button {
+  opacity: 0;
+  transition: opacity 0.1s ease-in-out;
+}
+
+.monitoring-content-header-title-name:hover .monitoring-content-header-title-name-edit-button {
+  opacity: 1;
 }
 
 .monitoring-content-body {
