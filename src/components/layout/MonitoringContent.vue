@@ -1,13 +1,16 @@
 <template>
-  <div class="monitoring-content">
+  <div
+    v-if="navigationDataStatus == 'loaded' && navigationTreeData.length === 0"
+    class="empty-state-content"
+  >
+    <EmptyStateIcon class="empty-state-icon" />
+    <h3>{{ $t('pages.dashboard.noDevice') }}</h3>
+    <p>{{ $t('pages.dashboard.noDeviceDescription') }}</p>
+    <Button :label="$t('pages.dashboard.addDevice')" icon="pi pi-plus" @click="handleAddDevice()" />
+  </div>
+  <div class="monitoring-content" v-else>
     <div class="monitoring-content-header">
-      <Button
-        v-if="isTablet"
-        icon="pi pi-bars"
-        variant="text"
-        severity="secondary"
-        @click="openDrawer()"
-      />
+      <Button v-if="isTablet" icon="pi pi-plus" @click="handleOpenDrawer()" />
       <div v-if="deviceSerial && deviceName" class="monitoring-content-header-title">
         <h1>{{ deviceName }}</h1>
         <div class="device-id">
@@ -32,7 +35,7 @@
         />
       </div>
     </div>
-    <div v-else class="monitoring-content-body">
+    <div v-else-if="!dataLoaded" class="monitoring-content-body">
       <SkeletonRectangle class="skeleton-sensor-card" v-for="i in 12" :key="i" />
     </div>
   </div>
@@ -41,6 +44,7 @@
 <script setup>
 import { PhHardDrive } from '@phosphor-icons/vue'
 import SkeletonRectangle from '@/components/base/SkeletonRectangle.vue'
+import EmptyStateIcon from '@/components/base/EmptyStateIcon.vue'
 import { inject, ref, watch, computed, onMounted } from 'vue'
 import SensorCard from '@/components/features/SensorCard.vue'
 import Button from 'primevue/button'
@@ -52,8 +56,12 @@ import { findDeviceInTree } from '@/utils/treeMenuUtils'
 const deviceSerial = inject('selectedDeviceSerial')
 const deviceName = inject('selectedDeviceName')
 const navigationTreeData = inject('navigationTreeData')
+const navigationDataStatus = inject('navigationTreeStatus')
 
 const chartStatus = ref('loading')
+const dataLoaded = computed(() => {
+  return chartStatus.value === 'loaded'
+})
 const deviceHistoryResponse = ref([])
 const currentDeviceHistories = computed(() => {
   return deviceHistoryResponse.value.data || []
@@ -64,7 +72,7 @@ const historyStartDate = ref(oneHourAgo.toISOString())
 const historyEndDate = ref(now.toISOString())
 const abortController = ref(null)
 
-const emit = defineEmits(['open-drawer'])
+const emit = defineEmits(['openDrawer', 'openAddDeviceDialog'])
 
 const currentDevicesData = ref([])
 
@@ -93,8 +101,12 @@ function refreshDeviceContent() {
   )
 }
 
-function openDrawer() {
+function handleOpenDrawer() {
   emit('open-drawer')
+}
+
+function handleAddDevice() {
+  emit('openAddDeviceDialog')
 }
 </script>
 
@@ -157,5 +169,30 @@ function openDrawer() {
 
 .skeleton-sensor-card {
   height: var(--size-sensor-card-height);
+}
+.empty-state-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  background-color: var(--p-background-lvl1);
+  margin: 1rem;
+  border-radius: var(--p-border-radius-xs);
+  text-align: center;
+  h1 {
+    color: var(--p-text-secondary-color);
+  }
+  p {
+    max-width: 32rem;
+    font-size: 0.875rem;
+    line-height: 1.4;
+    color: var(--p-text-tertiary-color);
+  }
+}
+
+.empty-state-icon {
+  width: 14rem;
 }
 </style>

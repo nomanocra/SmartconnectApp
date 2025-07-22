@@ -18,15 +18,7 @@
           v-tooltip.bottom="$t('pages.dashboard.addDevice')"
           @click="handleAddDevice"
         />
-        <Dialog
-          v-model:visible="addDeviceDialogVisible"
-          modal
-          :header="$t('pages.dashboard.addDevice')"
-          :style="{ width: '40rem' }"
-          :draggable="false"
-        >
-          <AddDeviceForm @device-added="handleDeviceAdded" />
-        </Dialog>
+
         <Button
           icon="pi pi-sitemap"
           text
@@ -35,7 +27,11 @@
         />
       </div>
     </div>
-    <div class="tree-menu">
+    <div class="empty-state-content" v-if="treeDataStatus == 'loaded' && treeData.length === 0">
+      <EmptyStateIcon class="empty-state-icon" style="width: 8rem" />
+      <span>{{ $t('pages.dashboard.noDevice') }}</span>
+    </div>
+    <div v-else class="tree-menu">
       <TreeMenu
         :selected-id="selectedSerial"
         :tree-data="treeData"
@@ -48,32 +44,23 @@
 
 <script setup>
 import Button from 'primevue/button'
-import Dialog from 'primevue/dialog'
+import EmptyStateIcon from '@/components/base/EmptyStateIcon.vue'
 import TreeMenu from '@/components/features/TreeMenu.vue'
-import AddDeviceForm from '@/components/features/AddDeviceFrom.vue'
-import { inject, ref } from 'vue'
+import { inject } from 'vue'
+
+const emit = defineEmits(['openAddDeviceDialog'])
 
 const selectedSerial = inject('selectedDeviceSerial')
 const selectedName = inject('selectedDeviceName')
 const treeData = inject('navigationTreeData')
 const treeDataStatus = inject('navigationTreeStatus')
 
-const addDeviceDialogVisible = ref(false)
-
+const handleAddDevice = () => {
+  emit('openAddDeviceDialog')
+}
 const handleLeafSelected = (leafId, leafName) => {
   selectedSerial.value = leafId
   selectedName.value = leafName
-}
-
-const handleAddDevice = () => {
-  addDeviceDialogVisible.value = true
-}
-
-const handleDeviceAdded = (deviceId, deviceName) => {
-  addDeviceDialogVisible.value = false
-  treeDataStatus.value = 'reloading'
-  selectedSerial.value = deviceId
-  selectedName.value = deviceName
 }
 </script>
 
@@ -99,6 +86,18 @@ const handleDeviceAdded = (deviceId, deviceName) => {
   display: flex;
   flex-direction: column;
   overflow-y: auto;
+}
+
+.empty-state-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  span {
+    margin-top: -0.5rem;
+    font-size: 0.875rem;
+    color: var(--p-text-tertiary-color);
+  }
 }
 
 @media (max-width: 904px) {
