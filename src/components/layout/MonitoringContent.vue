@@ -10,7 +10,16 @@
   </div>
   <div class="monitoring-content" v-else>
     <div class="monitoring-content-header">
-      <Button v-if="isTablet" icon="pi pi-plus" @click="handleOpenDrawer()" />
+      <Button
+        v-if="isTablet"
+        variant="text"
+        aria-label="Open navigation drawer"
+        icon="pi pi-bars"
+        @click="handleOpenDrawer()"
+        tabindex="0"
+        @keydown.enter="handleOpenDrawer()"
+        @keydown.space.prevent="handleOpenDrawer()"
+      />
       <div v-if="deviceSerial && deviceName" class="monitoring-content-header-title">
         <div class="monitoring-content-header-title-name">
           <h1>{{ deviceName }}</h1>
