@@ -23,6 +23,9 @@ export default {
         addDevice: 'Ajouter un appareil',
         addGroup: 'Ajouter un groupe',
         manageTree: 'Organiser les devices',
+        noDevice: 'Aucun appareil trouvé',
+        noDeviceDescription:
+          "Veuillez ajouter un appareil depuis le menu de gauche ou cliquer sur le bouton 'Ajouter un appareil'",
         editDevice: 'Modifier',
       },
     },
@@ -89,6 +92,8 @@ export default {
         addDevice: 'Add device',
         addGroup: 'Add group',
         manageTree: 'Manage the devices tree',
+        noDevice: 'No device found',
+        noDeviceDescription: 'Please add a device from the left menu or click on the "Add Device"',
         editDevice: 'Edit',
       },
     },
