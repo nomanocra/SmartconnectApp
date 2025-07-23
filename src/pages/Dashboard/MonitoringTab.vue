@@ -2,23 +2,38 @@
   <MonitoringNavigationPanel
     v-if="!isTablet"
     class="navigation"
-    @openAddDeviceDialog="handleOpenAddDeviceDialog()"
+    @open-add-device-dialog="handleOpenAddDeviceDialog()"
   />
   <Drawer v-else v-model:visible="drawerOpen" :modal="true">
-    <MonitoringNavigationPanel @openAddDeviceDialog="handleOpenAddDeviceDialog()" />
+    <MonitoringNavigationPanel @open-add-device-dialog="handleOpenAddDeviceDialog()" />
   </Drawer>
   <MonitoringContent
-    @openDrawer="openDrawer()"
-    @openAddDeviceDialog="handleOpenAddDeviceDialog()"
+    @open-drawer="openDrawer()"
+    @open-add-device-dialog="handleOpenAddDeviceDialog()"
+    @open-edit-device-dialog="handleOpenEditDeviceDialog()"
   />
   <Dialog
     v-model:visible="addDeviceDialogVisible"
     modal
     :header="$t('pages.dashboard.addDevice')"
+    :style="{ width: '41rem' }"
+    :draggable="false"
+  >
+    <AddDeviceForm @device-added="handleCloseAddDeviceDialog()" />
+  </Dialog>
+  <Dialog
+    v-model:visible="editDeviceDialogVisible"
+    modal
+    :header="$t('pages.dashboard.editDeviceTitle')"
     :style="{ width: '40rem' }"
     :draggable="false"
   >
-    <AddDeviceForm @device-added="handleDeviceAdded" />
+    <EditDeviceForm
+      :deviceName="selectedName"
+      :deviceAddress="selectedSerial"
+      @device-edited="handleCloseEditDeviceDialog()"
+      @cancel="handleCloseEditDeviceDialog()"
+    />
   </Dialog>
 </template>
 
@@ -28,6 +43,7 @@ import MonitoringContent from '@/components/layout/MonitoringContent.vue'
 import Drawer from 'primevue/drawer'
 import Dialog from 'primevue/dialog'
 import AddDeviceForm from '@/components/features/AddDeviceFrom.vue'
+import EditDeviceForm from '@/components/features/EditDeviceFrom.vue'
 
 import { ref, watch, inject } from 'vue'
 import { isTablet } from '@/assets/styles/tokens/breakpoints'
@@ -37,6 +53,7 @@ const drawerOpen = ref(false)
 
 const selectedDeviceSerial = inject('selectedDeviceSerial')
 const addDeviceDialogVisible = ref(false)
+const editDeviceDialogVisible = ref(false)
 const treeDataStatus = inject('navigationTreeStatus')
 const selectedSerial = inject('selectedDeviceSerial')
 const selectedName = inject('selectedDeviceName')
@@ -45,14 +62,22 @@ const handleOpenAddDeviceDialog = () => {
   addDeviceDialogVisible.value = true
 }
 
-const handleDeviceAdded = (deviceId, deviceName) => {
+const handleCloseAddDeviceDialog = (deviceId, deviceName) => {
   addDeviceDialogVisible.value = false
   treeDataStatus.value = 'reloading'
   selectedSerial.value = deviceId
   selectedName.value = deviceName
 }
 
-// Close the drawer when the selected device is changed (for mobile layout)
+const handleOpenEditDeviceDialog = () => {
+  editDeviceDialogVisible.value = true
+}
+
+const handleCloseEditDeviceDialog = () => {
+  editDeviceDialogVisible.value = false
+  treeDataStatus.value = 'reloading'
+}
+
 watch(
   () => selectedDeviceSerial.value,
   () => {
@@ -64,8 +89,6 @@ function openDrawer() {
   drawerOpen.value = true
 }
 </script>
-
-const handleAddDevice = () => { addDeviceDialogVisible.value = true }
 
 <style scoped>
 .p-drawer-header {

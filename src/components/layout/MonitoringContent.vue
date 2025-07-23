@@ -6,7 +6,11 @@
     <EmptyStateIcon class="empty-state-icon" />
     <h3>{{ $t('pages.dashboard.noDevice') }}</h3>
     <p>{{ $t('pages.dashboard.noDeviceDescription') }}</p>
-    <Button :label="$t('pages.dashboard.addDevice')" icon="pi pi-plus" @click="handleAddDevice()" />
+    <Button
+      :label="$t('pages.dashboard.addDevice')"
+      icon="pi pi-plus"
+      @click="handleOpenAddDeviceModal()"
+    />
   </div>
   <div class="monitoring-content" v-else>
     <div class="monitoring-content-header">
@@ -23,6 +27,16 @@
       <div v-if="deviceSerial && deviceName" class="monitoring-content-header-title">
         <div class="monitoring-content-header-title-name">
           <h1>{{ deviceName }}</h1>
+
+          <Button
+            icon="pi pi-pencil"
+            variant="text"
+            severity="primary"
+            size="small"
+            v-if="isTablet && !hasHover"
+            v-tooltip.bottom="$t('pages.dashboard.editDevice')"
+            @click="handleOpenEditDeviceModal()"
+          />
           <Button
             class="monitoring-content-header-title-name-edit-button"
             icon="pi pi-pencil"
@@ -30,15 +44,8 @@
             severity="primary"
             size="small"
             :label="$t('pages.dashboard.editDevice')"
-            v-if="!isTablet"
-          />
-          <Button
-            icon="pi pi-pencil"
-            variant="text"
-            severity="primary"
-            size="small"
             v-else
-            v-tooltip.bottom="$t('pages.dashboard.editDevice')"
+            @click="handleOpenEditDeviceModal()"
           />
         </div>
         <div class="device-id">
@@ -76,7 +83,7 @@ import EmptyStateIcon from '@/components/base/EmptyStateIcon.vue'
 import { inject, ref, watch, computed, onMounted } from 'vue'
 import SensorCard from '@/components/features/SensorCard.vue'
 import Button from 'primevue/button'
-import { isTablet } from '@/assets/styles/tokens/breakpoints'
+import { isTablet, hasHover } from '@/assets/styles/tokens/breakpoints'
 import fetchData from '@/utils/fetcherAPI'
 import { config } from '@/utils/config'
 import { findDeviceInTree } from '@/utils/treeMenuUtils'
@@ -100,7 +107,7 @@ const historyStartDate = ref(oneHourAgo.toISOString())
 const historyEndDate = ref(now.toISOString())
 const abortController = ref(null)
 
-const emit = defineEmits(['openDrawer', 'openAddDeviceDialog'])
+const emit = defineEmits(['open-drawer', 'open-add-device-dialog', 'open-edit-device-dialog'])
 
 const currentDevicesData = ref([])
 
@@ -133,8 +140,12 @@ function handleOpenDrawer() {
   emit('open-drawer')
 }
 
-function handleAddDevice() {
-  emit('openAddDeviceDialog')
+function handleOpenAddDeviceModal() {
+  emit('open-add-device-dialog')
+}
+
+function handleOpenEditDeviceModal() {
+  emit('open-edit-device-dialog')
 }
 </script>
 
