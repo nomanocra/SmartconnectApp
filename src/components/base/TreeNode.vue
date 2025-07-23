@@ -24,13 +24,13 @@ defineProps({
 })
 
 // Définir les événements que le composant peut émettre
-const emit = defineEmits(['click'])
+const emit = defineEmits(['node-clicked'])
 
 const open = ref(false)
 
 const handleHeaderClick = () => {
   open.value = !open.value
-  emit('click')
+  emit('node-clicked')
 }
 </script>
 

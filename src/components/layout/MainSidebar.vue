@@ -8,7 +8,7 @@
         icon="pi pi-gauge"
         aria-label="Monitoring"
         variant="text"
-        v-tooltip="!isMobile ? $t('sidebar.monitoring') : undefined"
+        v-tooltip="!isMobile && hasHover ? $t('sidebar.monitoring') : undefined"
         :class="currentRoute === 'monitoring' ? 'selected' : ''"
         class="sidebar-button"
         @click="handleMonitoring"
@@ -17,7 +17,7 @@
         icon="pi pi-chart-bar"
         aria-label="Analytics"
         variant="text"
-        v-tooltip="!isMobile ? $t('sidebar.analytics') : undefined"
+        v-tooltip="!isMobile && hasHover ? $t('sidebar.analytics') : undefined"
         :class="currentRoute === 'analytics' ? 'selected' : ''"
         class="sidebar-button"
         @click="handleAnalytics"
@@ -26,7 +26,7 @@
         icon="pi pi-cog"
         aria-label="Settings"
         variant="text"
-        v-tooltip="!isMobile ? $t('sidebar.settings') : undefined"
+        v-tooltip="!isMobile && hasHover ? $t('sidebar.settings') : undefined"
         :class="currentRoute === 'settings' ? 'selected' : ''"
         class="sidebar-button"
         @click="handleSettings"
@@ -37,18 +37,17 @@
         icon="pi pi-sliders-h"
         aria-label="Sign Out"
         variant="text"
-        v-tooltip="!isMobile ? $t('sidebar.customizeUI') : undefined"
+        v-tooltip="!isMobile && hasHover ? $t('sidebar.customizeUI') : undefined"
         class="sidebar-button"
         @click="toggleCustomizeUIMenu"
       />
       <CustomizeUIMenuContent ref="customizeUIMenu" />
-
       <Avatar
         label="D"
         size="large"
         @click="handleUserInfo"
         class="sidebar-button button-avatar"
-        v-tooltip="!isMobile ? $t('sidebar.userInfo') : undefined"
+        v-tooltip="!isMobile && hasHover ? $t('sidebar.userInfo') : undefined"
       />
       <Dialog
         v-model:visible="profileVisible"
@@ -72,7 +71,7 @@ import CustomizeUIMenuContent from '@/components/features/CustomizeUIMenu.vue'
 import { useRouter } from 'vue-router'
 import { ref, computed } from 'vue'
 import { useAuth } from '@/utils/authService'
-import { isMobile } from '@/assets/styles/tokens/breakpoints'
+import { isMobile, hasHover } from '@/assets/styles/tokens/breakpoints'
 
 const router = useRouter()
 const customizeUIMenu = ref()

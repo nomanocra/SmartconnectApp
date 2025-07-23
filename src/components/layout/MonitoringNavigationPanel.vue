@@ -48,7 +48,7 @@ import EmptyStateIcon from '@/components/base/EmptyStateIcon.vue'
 import TreeMenu from '@/components/features/TreeMenu.vue'
 import { inject } from 'vue'
 
-const emit = defineEmits(['openAddDeviceDialog'])
+const emit = defineEmits(['open-add-device-dialog'])
 
 const selectedSerial = inject('selectedDeviceSerial')
 const selectedName = inject('selectedDeviceName')
@@ -56,7 +56,7 @@ const treeData = inject('navigationTreeData')
 const treeDataStatus = inject('navigationTreeStatus')
 
 const handleAddDevice = () => {
-  emit('openAddDeviceDialog')
+  emit('open-add-device-dialog')
 }
 const handleLeafSelected = (leafId, leafName) => {
   selectedSerial.value = leafId

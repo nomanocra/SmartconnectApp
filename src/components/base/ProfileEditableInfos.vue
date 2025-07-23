@@ -25,9 +25,9 @@ const props = defineProps({
   },
 })
 
-const emit = defineEmits(['handleEdit'])
+const emit = defineEmits(['handle-edit'])
 const handleEdit = () => {
-  emit('handleEdit')
+  emit('handle-edit')
 }
 </script>
 

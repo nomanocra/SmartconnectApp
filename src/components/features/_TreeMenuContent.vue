@@ -6,9 +6,13 @@
         :label="node.name"
         :id="node.deviceSerial"
         :selected="selectedId === node.deviceSerial"
-        @click="handleLeafSelected(node.deviceSerial, node.name)"
+        @leaf-clicked="handleLeafSelected(node.deviceSerial, node.name)"
       />
-      <TreeNode v-else :label="node.name">
+      <TreeNode
+        v-else
+        :label="node.name"
+        @node-clicked="handleNodeClicked(node.deviceSerial, node.name)"
+      >
         <TreeMenuContent
           :data="node.children"
           :selected-id="selectedId"
@@ -48,10 +52,14 @@ defineProps({
   },
 })
 
-const emit = defineEmits(['leaf-selected'])
+const emit = defineEmits(['leaf-selected', 'node-clicked'])
 
 const handleLeafSelected = (leafId, leafName) => {
   emit('leaf-selected', leafId, leafName)
+}
+
+const handleNodeClicked = (nodeId, nodeName) => {
+  emit('node-clicked', nodeId, nodeName)
 }
 </script>
 

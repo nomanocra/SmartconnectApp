@@ -24,10 +24,10 @@ defineProps({
   },
 })
 
-const emit = defineEmits(['click'])
+const emit = defineEmits(['leaf-clicked'])
 
 const handleClick = (id, name) => {
-  emit('click', id, name)
+  emit('leaf-clicked', id, name)
 }
 </script>
 
