@@ -287,8 +287,8 @@ i {
 .section-container {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
-  padding: 1rem;
+  gap: 1.25rem;
+  padding: 1.25rem;
   border: 1px solid var(--p-background-lvl3);
   border-radius: var(--p-border-radius-xs);
   .section-container-header {

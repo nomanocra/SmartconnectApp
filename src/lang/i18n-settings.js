@@ -27,6 +27,7 @@ export default {
         noDeviceDescription:
           "Veuillez ajouter un appareil depuis le menu de gauche ou cliquer sur le bouton 'Ajouter un appareil'",
         editDevice: 'Modifier',
+        editDeviceTitle: "Modifier l'appareil",
       },
     },
     sidebar: {
@@ -67,6 +68,9 @@ export default {
       noData: 'Désolé, aucune donnée historique trouvée.',
       error: 'Désolé, une erreur est survenue lors du chargement des données.',
     },
+    common: {
+      cancel: 'Annuler',
+    },
   },
   en: {
     login: {
@@ -95,6 +99,7 @@ export default {
         noDevice: 'No device found',
         noDeviceDescription: 'Please add a device from the left menu or click on the "Add Device"',
         editDevice: 'Edit',
+        editDeviceTitle: 'Edit device',
       },
     },
     sidebar: {
@@ -134,6 +139,9 @@ export default {
     errors: {
       noData: 'Sorry, no historical data found.',
       error: 'Sorry, an error occurred while loading the data.',
+    },
+    common: {
+      cancel: 'Cancel',
     },
   },
 }
