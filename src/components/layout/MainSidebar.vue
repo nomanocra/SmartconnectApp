@@ -54,7 +54,7 @@
         v-model:visible="profileVisible"
         modal
         :header="$t('sidebar.userInfo')"
-        :style="{ width: '25rem' }"
+        :style="{ width: '32rem' }"
         :draggable="false"
       >
         <UserProfile @logout="handleSignOut" />
