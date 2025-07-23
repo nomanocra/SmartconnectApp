@@ -41,25 +41,38 @@
       </div>
     </div>
     <div class="form-actions">
-      <Button
-        type="button"
-        :label="$t('common.cancel')"
-        text
-        severity="secondary"
-        @click="handleCancel"
-        :disabled="isButtonLoading"
-      />
-      <Button
-        type="submit"
-        :label="
-          isButtonLoading
-            ? $t('pages.dashboard.editDevice') + '...'
-            : $t('pages.dashboard.editDevice')
-        "
-        icon="pi pi-pencil"
-        :loading="isButtonLoading"
-        :disabled="!deviceName || !deviceAddress"
-      />
+      <div class="form-actions-left">
+        <Button
+          type="button"
+          :label="$t('common.delete')"
+          icon="pi pi-trash"
+          severity="danger"
+          outlined
+          @click="handleDeleteDevice"
+          :disabled="isButtonLoading"
+        />
+      </div>
+      <div class="form-actions-right">
+        <Button
+          type="button"
+          :label="$t('common.cancel')"
+          text
+          severity="secondary"
+          @click="handleCancel"
+          :disabled="isButtonLoading"
+        />
+        <Button
+          type="submit"
+          :label="
+            isButtonLoading
+              ? $t('pages.dashboard.editDevice') + '...'
+              : $t('pages.dashboard.editDevice')
+          "
+          icon="pi pi-pencil"
+          :loading="isButtonLoading"
+          :disabled="!hasChanges"
+        />
+      </div>
     </div>
   </Form>
 </template>
@@ -102,10 +115,17 @@ const newDeviceAddress = ref(props.deviceAddress)
 const editDeviceStatus = ref(null)
 const editDeviceResponse = ref(null)
 
-const emit = defineEmits(['device-edited', 'cancel'])
+const emit = defineEmits(['device-edited', 'close-edit-device'])
 
 const isButtonLoading = computed(() => {
   return editDeviceStatus.value === 'loading'
+})
+
+// Computed property to check if any changes have been made
+const hasChanges = computed(() => {
+  const nameChanged = newDeviceName.value !== props.deviceName
+  const refreshIntervalChanged = deviceRefreshInterval.value !== null
+  return nameChanged || refreshIntervalChanged
 })
 
 const toast = useToast()
@@ -119,8 +139,12 @@ const deviceRefreshIntervalOptions = ref([
 ])
 const deviceRefreshInterval = ref(null)
 
+const handleDeleteDevice = () => {
+  console.log('delete device')
+}
+
 const handleCancel = () => {
-  emit('cancel')
+  emit('close-edit-device')
 }
 
 const handleEditDevice = () => {
@@ -129,14 +153,13 @@ const handleEditDevice = () => {
   const requestBody = {
     deviceName: newDeviceName.value,
     deviceAddress: newDeviceAddress.value,
-    requiresAuth: true,
   }
 
   if (deviceRefreshInterval.value !== null) {
     requestBody.updateStamp = deviceRefreshInterval.value
   }
 
-  fetchData(`${config.apiBaseUrl}/device/update`, {
+  fetchData(`${config.apiBaseUrl}/devices/update`, {
     method: 'PUT',
     body: requestBody,
     status: editDeviceStatus,
@@ -163,9 +186,8 @@ const errorDetail = computed(() => {
 watch(
   () => editDeviceStatus.value,
   (newStatus) => {
-    toast.removeGroup('br')
-
     if (newStatus === 'error') {
+      toast.removeGroup('br')
       toast.add({
         severity: 'error',
         summary: errorTitle.value,
@@ -177,10 +199,11 @@ watch(
     }
 
     if (newStatus === 'loaded') {
+      const deviceName = editDeviceResponse.value?.data?.deviceInfo?.name || newDeviceName.value
       toast.add({
         severity: 'success',
         summary: 'Device updated successfully',
-        detail: `Device Name: ${editDeviceResponse.value.data.deviceInfo.name}`,
+        detail: `Device Name: ${deviceName}`,
         group: 'br',
         life: 4000,
       })
@@ -190,11 +213,7 @@ watch(
 
 watch(editDeviceStatus, (newStatus) => {
   if (newStatus === 'loaded') {
-    emit(
-      'device-edited',
-      editDeviceResponse.value.data.deviceInfo.deviceSerial,
-      editDeviceResponse.value.data.deviceInfo.name,
-    )
+    emit('device-edited', newDeviceName.value)
   }
 })
 </script>
@@ -236,8 +255,21 @@ i {
 
 .form-actions {
   display: flex;
-  gap: 1rem;
-  justify-content: flex-end;
+  flex: 1;
+  gap: 0.5rem;
+  justify-content: space-between;
   margin-top: 1rem;
+}
+
+.form-actions-left {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: flex-start;
+}
+
+.form-actions-right {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: flex-end;
 }
 </style>
