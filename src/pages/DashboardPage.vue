@@ -28,6 +28,10 @@ const selectedDeviceName = ref(null)
 const deviceMappingResponse = ref([])
 const navigationTreestatus = ref('loading')
 
+// Navigation panel size management
+const DEFAULT_NAVIGATION_SIZE = 300
+const navigationSize = ref(DEFAULT_NAVIGATION_SIZE)
+
 const navigationTreeData = computed(() => {
   return deviceMappingResponse.value.data || []
 })
@@ -36,6 +40,7 @@ provide('selectedDeviceSerial', selectedDeviceSerial)
 provide('selectedDeviceName', selectedDeviceName)
 provide('navigationTreeData', navigationTreeData)
 provide('navigationTreeStatus', navigationTreestatus)
+provide('navigationSize', navigationSize)
 
 const abortController = ref(null)
 

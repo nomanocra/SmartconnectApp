@@ -1,9 +1,18 @@
 <template>
-  <MonitoringNavigationPanel
+  <ResizableSection
     v-if="!isTablet"
-    class="navigation"
-    @open-add-device-dialog="handleOpenAddDeviceDialog()"
-  />
+    grab-position="right"
+    :min-size="200"
+    :max-size="500"
+    :default-size="navigationSize || 300"
+    @size-updated="handleNavigationSizeUpdated"
+  >
+    <MonitoringNavigationPanel
+      class="navigation"
+      @open-add-device-dialog="handleOpenAddDeviceDialog()"
+    />
+  </ResizableSection>
+
   <Drawer v-else v-model:visible="drawerOpen" :modal="true">
     <MonitoringNavigationPanel @open-add-device-dialog="handleOpenAddDeviceDialog()" />
   </Drawer>
@@ -44,7 +53,7 @@ import Drawer from 'primevue/drawer'
 import Dialog from 'primevue/dialog'
 import AddDeviceForm from '@/components/features/AddDeviceFrom.vue'
 import EditDeviceForm from '@/components/features/EditDeviceFrom.vue'
-
+import ResizableSection from '@/components/base/ResizableSection.vue'
 import { ref, watch, inject } from 'vue'
 import { isTablet } from '@/assets/styles/tokens/breakpoints'
 
@@ -56,6 +65,7 @@ const editDeviceDialogVisible = ref(false)
 const selectedDeviceSerial = inject('selectedDeviceSerial')
 const selectedDeviceName = inject('selectedDeviceName')
 const treeDataStatus = inject('navigationTreeStatus')
+const navigationSize = inject('navigationSize')
 
 const handleOpenAddDeviceDialog = () => {
   addDeviceDialogVisible.value = true
@@ -87,10 +97,19 @@ watch(
 function openDrawer() {
   drawerOpen.value = true
 }
+
+function handleNavigationSizeUpdated(size) {
+  navigationSize.value = size
+}
 </script>
 
 <style scoped>
 .p-drawer-header {
   justify-content: flex-end;
+}
+
+.navigation {
+  width: 100%;
+  height: 100%;
 }
 </style>
