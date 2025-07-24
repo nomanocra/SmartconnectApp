@@ -1075,31 +1075,31 @@ const SmartTheme = {
             success: {
               hoverBackground: '{green.50}',
               activeBackground: '{green.100}',
-              borderColor: '{green.200}',
+              borderColor: '{green.500}',
               color: '{green.500}',
             },
             info: {
               hoverBackground: '{sky.50}',
               activeBackground: '{sky.100}',
-              borderColor: '{sky.200}',
+              borderColor: '{sky.500}',
               color: '{sky.500}',
             },
             warn: {
               hoverBackground: '{orange.50}',
               activeBackground: '{orange.100}',
-              borderColor: '{orange.200}',
+              borderColor: '{orange.500}',
               color: '{orange.500}',
             },
             help: {
               hoverBackground: '{purple.50}',
               activeBackground: '{purple.100}',
-              borderColor: '{purple.200}',
+              borderColor: '{purple.500}',
               color: '{purple.500}',
             },
             danger: {
               hoverBackground: '{red.50}',
               activeBackground: '{red.100}',
-              borderColor: '{red.200}',
+              borderColor: '{red.500}',
               color: '{red.500}',
             },
             contrast: {
@@ -1283,31 +1283,31 @@ const SmartTheme = {
             success: {
               hoverBackground: 'color-mix(in srgb, {green.400}, transparent 96%)',
               activeBackground: 'color-mix(in srgb, {green.400}, transparent 84%)',
-              borderColor: '{green.700}',
+              borderColor: '{green.400}',
               color: '{green.400}',
             },
             info: {
               hoverBackground: 'color-mix(in srgb, {sky.400}, transparent 96%)',
               activeBackground: 'color-mix(in srgb, {sky.400}, transparent 84%)',
-              borderColor: '{sky.700}',
+              borderColor: '{sky.400}',
               color: '{sky.400}',
             },
             warn: {
               hoverBackground: 'color-mix(in srgb, {orange.400}, transparent 96%)',
               activeBackground: 'color-mix(in srgb, {orange.400}, transparent 84%)',
-              borderColor: '{orange.700}',
+              borderColor: '{orange.400}',
               color: '{orange.400}',
             },
             help: {
               hoverBackground: 'color-mix(in srgb, {purple.400}, transparent 96%)',
               activeBackground: 'color-mix(in srgb, {purple.400}, transparent 84%)',
-              borderColor: '{purple.700}',
+              borderColor: '{purple.400}',
               color: '{purple.400}',
             },
             danger: {
               hoverBackground: 'color-mix(in srgb, {red.400}, transparent 96%)',
               activeBackground: 'color-mix(in srgb, {red.400}, transparent 84%)',
-              borderColor: '{red.700}',
+              borderColor: '{red.400}',
               color: '{red.400}',
             },
             contrast: {

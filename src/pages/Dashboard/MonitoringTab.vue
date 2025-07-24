@@ -29,10 +29,10 @@
     :draggable="false"
   >
     <EditDeviceForm
-      :deviceName="selectedName"
-      :deviceAddress="selectedSerial"
-      @device-edited="handleCloseEditDeviceDialog()"
-      @cancel="handleCloseEditDeviceDialog()"
+      :deviceName="selectedDeviceName"
+      :deviceAddress="selectedDeviceSerial"
+      @device-edited="handleCloseEditDeviceDialog"
+      @close-edit-device="() => handleCloseEditDeviceDialog()"
     />
   </Dialog>
 </template>
@@ -51,12 +51,11 @@ import { isTablet } from '@/assets/styles/tokens/breakpoints'
 //Used for mobile layout
 const drawerOpen = ref(false)
 
-const selectedDeviceSerial = inject('selectedDeviceSerial')
 const addDeviceDialogVisible = ref(false)
 const editDeviceDialogVisible = ref(false)
+const selectedDeviceSerial = inject('selectedDeviceSerial')
+const selectedDeviceName = inject('selectedDeviceName')
 const treeDataStatus = inject('navigationTreeStatus')
-const selectedSerial = inject('selectedDeviceSerial')
-const selectedName = inject('selectedDeviceName')
 
 const handleOpenAddDeviceDialog = () => {
   addDeviceDialogVisible.value = true
@@ -64,17 +63,17 @@ const handleOpenAddDeviceDialog = () => {
 
 const handleCloseAddDeviceDialog = (deviceId, deviceName) => {
   addDeviceDialogVisible.value = false
-  treeDataStatus.value = 'reloading'
-  selectedSerial.value = deviceId
-  selectedName.value = deviceName
+  selectedDeviceSerial.value = deviceId
+  selectedDeviceName.value = deviceName
 }
 
 const handleOpenEditDeviceDialog = () => {
   editDeviceDialogVisible.value = true
 }
 
-const handleCloseEditDeviceDialog = () => {
+const handleCloseEditDeviceDialog = (deviceName) => {
   editDeviceDialogVisible.value = false
+  selectedDeviceName.value = deviceName
   treeDataStatus.value = 'reloading'
 }
 

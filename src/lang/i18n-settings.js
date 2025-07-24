@@ -54,6 +54,7 @@ export default {
       deviceDataLoadingSettings: 'Configuration du chargement des données',
       deviceInitialHistory: 'Historique initial',
       deviceRefreshInterval: 'Intervalle de rafraîchissement',
+      autoPull: 'Mise à jour automatique',
       deviceAddButton: 'Ajouter un appareil',
       deviceAddButtonLoading: "Ajout de l'appareil...",
       none: 'Aucun',
@@ -70,6 +71,9 @@ export default {
     },
     common: {
       cancel: 'Annuler',
+      enabled: 'Activé',
+      disabled: 'Désactivé',
+      delete: 'Supprimer',
     },
   },
   en: {
@@ -126,6 +130,7 @@ export default {
       deviceDataLoadingSettings: 'Data loading settings',
       deviceInitialHistory: 'Initial history',
       deviceRefreshInterval: 'Refresh interval',
+      autoPull: 'Auto update',
       deviceAddButton: 'Add device',
       deviceAddButtonLoading: 'Adding device...',
       none: 'None',
@@ -142,6 +147,9 @@ export default {
     },
     common: {
       cancel: 'Cancel',
+      enabled: 'Enabled',
+      disabled: 'Disabled',
+      delete: 'Delete',
     },
   },
 }

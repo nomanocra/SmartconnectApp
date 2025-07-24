@@ -111,7 +111,7 @@ const emit = defineEmits(['open-drawer', 'open-add-device-dialog', 'open-edit-de
 
 const currentDevicesData = ref([])
 
-watch([deviceSerial, navigationTreeData], () => {
+watch([deviceSerial, deviceName, navigationTreeData], () => {
   refreshDeviceContent()
 })
 
