@@ -7,15 +7,7 @@
           <span class="title">{{
             locale === 'en' ? sensor.name || sensor.nom : sensor.nom || sensor.name
           }}</span>
-          <span class="last-update">{{
-            new Date(sensor.lastUpdate).toLocaleString('en-GB', {
-              day: '2-digit',
-              month: 'short',
-              year: 'numeric',
-              hour: '2-digit',
-              minute: '2-digit',
-            })
-          }}</span>
+          <span class="last-update">{{ timeagoValue }}</span>
         </div>
       </div>
       <div class="header-right">
@@ -40,9 +32,10 @@
 import SensorIcon from '@/components/base/SensorIcon.vue'
 import { useI18n } from 'vue-i18n'
 import SparklineChart from '@/components/base/SparklineChart.vue'
-import { computed } from 'vue'
-
+import { computed, onUnmounted } from 'vue'
+import { useTimeago } from '@/utils/timeago'
 import SkeletonRectangle from '@/components/base/SkeletonRectangle.vue'
+
 const props = defineProps({
   sensor: {
     type: Object,
@@ -87,6 +80,14 @@ const sortedData = computed(() => {
 
 // Get the current language
 const { locale } = useI18n()
+
+// Use the reactive timeago function with 1 second update interval
+const { value: timeagoValue, stopUpdates } = useTimeago(props.sensor.lastUpdate, locale, 1000)
+
+// Clean up the timer when component is unmounted
+onUnmounted(() => {
+  stopUpdates()
+})
 </script>
 
 <style scoped>
