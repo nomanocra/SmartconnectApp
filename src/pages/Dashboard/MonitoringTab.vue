@@ -42,6 +42,7 @@
       :deviceAddress="selectedDeviceSerial"
       @device-edited="handleCloseEditDeviceDialog"
       @close-edit-device="() => handleCloseEditDeviceDialog()"
+      @device-deleted="handleDeviceDeleted"
     />
   </Dialog>
 </template>
@@ -84,6 +85,13 @@ const handleOpenEditDeviceDialog = () => {
 const handleCloseEditDeviceDialog = (deviceName) => {
   editDeviceDialogVisible.value = false
   selectedDeviceName.value = deviceName
+  treeDataStatus.value = 'reloading'
+}
+
+const handleDeviceDeleted = () => {
+  editDeviceDialogVisible.value = false
+  selectedDeviceSerial.value = null
+  selectedDeviceName.value = null
   treeDataStatus.value = 'reloading'
 }
 

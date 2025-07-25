@@ -75,6 +75,22 @@
       </div>
     </div>
   </Form>
+
+  <!-- Delete Device Confirmation Dialog -->
+  <Dialog
+    v-model:visible="deleteDeviceDialogVisible"
+    modal
+    :header="$t('deleteDevice.title')"
+    :style="{ width: '32rem' }"
+    :draggable="false"
+  >
+    <ConfirmDeviceDeleteForm
+      :deviceName="newDeviceName"
+      :deviceAddress="newDeviceAddress"
+      @device-deleted="handleDeviceDeleted"
+      @close-delete-dialog="handleCloseDeleteDialog"
+    />
+  </Dialog>
 </template>
 
 <script setup>
@@ -83,7 +99,9 @@ import InputText from 'primevue/inputtext'
 import { Form } from '@primevue/forms'
 import Button from 'primevue/button'
 import SelectButton from 'primevue/selectbutton'
+import Dialog from 'primevue/dialog'
 import LabeledInput from '@/components/base/LabeledInput.vue'
+import ConfirmDeviceDeleteForm from '@/components/features/ConfirmDeviceDeleteForm.vue'
 
 import {
   PhUpload,
@@ -115,7 +133,7 @@ const newDeviceAddress = ref(props.deviceAddress)
 const editDeviceStatus = ref(null)
 const editDeviceResponse = ref(null)
 
-const emit = defineEmits(['device-edited', 'close-edit-device'])
+const emit = defineEmits(['device-edited', 'close-edit-device', 'device-deleted'])
 
 const isButtonLoading = computed(() => {
   return editDeviceStatus.value === 'loading'
@@ -139,8 +157,20 @@ const deviceRefreshIntervalOptions = ref([
 ])
 const deviceRefreshInterval = ref(null)
 
+// Delete device dialog state
+const deleteDeviceDialogVisible = ref(false)
+
 const handleDeleteDevice = () => {
-  console.log('delete device')
+  deleteDeviceDialogVisible.value = true
+}
+
+const handleCloseDeleteDialog = () => {
+  deleteDeviceDialogVisible.value = false
+}
+
+const handleDeviceDeleted = (deviceAddress) => {
+  deleteDeviceDialogVisible.value = false
+  emit('device-deleted', deviceAddress)
 }
 
 const handleCancel = () => {
