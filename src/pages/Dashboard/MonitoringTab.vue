@@ -18,8 +18,8 @@
   </Drawer>
   <MonitoringContent
     @open-drawer="openDrawer()"
-    @open-add-device-dialog="handleOpenAddDeviceDialog()"
-    @open-edit-device-dialog="handleOpenEditDeviceDialog()"
+    @open-add-device-dialog="handleOpenAddDeviceDialog"
+    @open-edit-device-dialog="handleOpenEditDeviceDialog"
   />
   <Dialog
     v-model:visible="addDeviceDialogVisible"
@@ -28,7 +28,7 @@
     :style="{ width: '41rem' }"
     :draggable="false"
   >
-    <AddDeviceForm @device-added="handleCloseAddDeviceDialog()" />
+    <AddDeviceForm @device-added="handleCloseAddDeviceDialog" />
   </Dialog>
   <Dialog
     v-model:visible="editDeviceDialogVisible"
@@ -41,7 +41,7 @@
       :deviceName="selectedDeviceName"
       :deviceAddress="selectedDeviceSerial"
       @device-edited="handleCloseEditDeviceDialog"
-      @close-edit-device="() => handleCloseEditDeviceDialog()"
+      @close-edit-device="() => handleCloseEditDeviceDialog"
       @device-deleted="handleDeviceDeleted"
     />
   </Dialog>
@@ -76,6 +76,7 @@ const handleCloseAddDeviceDialog = (deviceId, deviceName) => {
   addDeviceDialogVisible.value = false
   selectedDeviceSerial.value = deviceId
   selectedDeviceName.value = deviceName
+  treeDataStatus.value = 'reloading'
 }
 
 const handleOpenEditDeviceDialog = () => {
