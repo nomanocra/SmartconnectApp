@@ -23,9 +23,8 @@
             placeholder="192.168.1.100"
             :delay="300"
             :minLength="1"
-            optionLabel="address"
-            optionValue="address"
             :loading="isDeviceHistoryLoading"
+            :emptySearchMessage="emptyMessage"
           />
         </LabeledInput>
       </div>
@@ -146,13 +145,18 @@ const isDeviceHistoryLoading = computed(() => {
   return deviceHistoryStatus.value === 'loading'
 })
 
+// Message personnalisé pour l'AutoComplete
+const emptyMessage = computed(() => {
+  if (deviceHistoryStatus.value === 'loading') {
+    return t('addDevice.loadingMessage')
+  }
+  return t('addDevice.noResultsMessage')
+})
+
 const filteredDeviceAddresses = ref([])
 
 // Fonction pour récupérer l'historique des appareils
 const fetchDeviceHistory = () => {
-  console.log('fetchDeviceHistory called')
-  console.log('API URL:', `${config.apiBaseUrl}/users/device-history`)
-
   fetchData(`${config.apiBaseUrl}/users/device-history`, {
     method: 'GET',
     status: deviceHistoryStatus,
@@ -163,71 +167,34 @@ const fetchDeviceHistory = () => {
 
 // Fonction de filtrage pour l'autosuggestion d'adresses IP
 const searchDeviceAddresses = (event) => {
-  const query = event.query.toLowerCase()
-  filteredDeviceAddresses.value = deviceHistoryAddresses.value.filter((device) =>
-    device.address.toLowerCase().includes(query),
-  )
-}
-
-// Charger l'historique des appareils au montage du composant
-onMounted(() => {
-  console.log('Component mounted, calling fetchDeviceHistory')
-  fetchDeviceHistory()
-})
-
-// Surveiller la réponse de l'historique des appareils
-watch(
-  () => deviceHistoryResponse.value,
-  (newResponse, oldResponse) => {
-    console.log('deviceHistoryResponse changed:', { newResponse, oldResponse })
-    console.log('deviceHistoryStatus:', deviceHistoryStatus.value)
-
-    // Traiter la réponse même si le statut n'est pas mis à jour correctement
-    if (newResponse && newResponse.success) {
-      // Log de la réponse complète pour debug
-      console.log('Device History API Response:', newResponse)
-      console.log('Device History Data:', newResponse.data)
-
-      // Transformer les données de l'API en format attendu par l'autocomplétion
-      if (Array.isArray(newResponse.data)) {
-        deviceHistoryAddresses.value = newResponse.data
-          .map((device) => ({
-            address: device.address || device.deviceAddress || device.ipAddress || device,
-          }))
-          .filter((device) => device.address) // Filtrer les entrées sans adresse
-
-        // Log des adresses transformées
-        console.log('Transformed Device Addresses:', deviceHistoryAddresses.value)
-      } else {
-        console.log('newResponse.data is not an array:', newResponse.data)
-      }
+  setTimeout(() => {
+    if (!event.query.trim().length) {
+      filteredDeviceAddresses.value = [...deviceHistoryAddresses.value]
     } else {
-      console.log('Conditions not met for processing response:', {
-        hasResponse: !!newResponse,
-        hasSuccess: newResponse?.success,
-        status: deviceHistoryStatus.value,
+      filteredDeviceAddresses.value = deviceHistoryAddresses.value.filter((address) => {
+        return address.toLowerCase().includes(event.query.toLowerCase())
       })
     }
-  },
-  { immediate: true },
-)
+  }, 250)
+}
+// Charger l'historique des appareils au montage du composant
+onMounted(() => {
+  fetchDeviceHistory()
+})
 
 // Surveiller les erreurs de l'historique des appareils
 watch(
   () => deviceHistoryStatus.value,
-  (newStatus, oldStatus) => {
-    console.log('deviceHistoryStatus changed:', { newStatus, oldStatus })
-
+  (newStatus) => {
     if (newStatus === 'error') {
       console.warn("Impossible de charger l'historique des appareils:", deviceHistoryResponse.value)
       // En cas d'erreur, on peut utiliser une liste de fallback ou laisser vide
       deviceHistoryAddresses.value = []
-    } else if (newStatus === 'loading') {
-      console.log('Device history loading started')
     } else if (newStatus === 'loaded') {
-      console.log('Device history loading completed')
+      deviceHistoryAddresses.value = deviceHistoryResponse.value.data
     }
   },
+  { immediate: true },
 )
 
 const emit = defineEmits(['device-added'])
@@ -257,7 +224,6 @@ const deviceInitialHistoryOptions = ref([
 const deviceInitialHistory = ref(1)
 
 const handleAddDevice = () => {
-  addDeviceStatus.value = 'loading'
   const now = new Date()
 
   let startYear = now.getFullYear()
@@ -306,7 +272,6 @@ const handleAddDevice = () => {
       startSec = 0
       break
   }
-
   fetchData(`${config.apiBaseUrl}/device/pull-data`, {
     method: 'POST',
     body: {
@@ -316,7 +281,6 @@ const handleAddDevice = () => {
       password: devicePassword.value,
       updateStamp: deviceRefreshInterval.value,
       autoPull: true,
-      requiresAuth: true,
       startYear,
       startMonth,
       startDay,
@@ -344,7 +308,7 @@ const errorDetail = computed(() => {
   return 'An error occurred while adding the device. Please try again later.'
 })
 
-// Watch for error status and display toast
+// Watch for status changes and handle all effects
 watch(
   () => addDeviceStatus.value,
   (newStatus) => {
@@ -362,6 +326,13 @@ watch(
     }
 
     if (newStatus === 'loaded') {
+      // Emit device-added event
+      emit(
+        'device-added',
+        addDeviceResponse.value.data.deviceInfo.deviceSerial,
+        addDeviceResponse.value.data.deviceInfo.name,
+      )
+      // Show success toast
       toast.add({
         severity: 'success',
         summary: 'Device added successfully',
@@ -372,16 +343,6 @@ watch(
     }
   },
 )
-
-watch(addDeviceStatus, (newStatus) => {
-  if (newStatus === 'loaded') {
-    emit(
-      'device-added',
-      addDeviceResponse.value.data.deviceInfo.deviceSerial,
-      addDeviceResponse.value.data.deviceInfo.name,
-    )
-  }
-})
 </script>
 <style scoped>
 i {
@@ -430,5 +391,19 @@ i {
 :deep(.p-autocomplete-panel) {
   width: 100%;
   min-width: 100%;
+}
+
+/* Style spécifique pour l'AutoComplete de ce formulaire */
+:deep(
+  .device-address-autocomplete
+    .p-autocomplete-list-container
+    .p-autocomplete-list
+    .p-autocomplete-option
+) {
+  font-size: 12px !important;
+}
+
+:deep(.device-address-autocomplete .p-autocomplete-list-container li) {
+  font-size: 12px !important;
 }
 </style>

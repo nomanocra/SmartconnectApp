@@ -86,8 +86,6 @@ const handleDeleteConfirmationInput = () => {
 }
 
 const handleConfirmDelete = () => {
-  deleteDeviceStatus.value = 'loading'
-
   const requestBody = {
     deviceAddress: props.deviceAddress,
   }

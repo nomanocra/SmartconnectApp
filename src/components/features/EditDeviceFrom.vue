@@ -178,8 +178,6 @@ const handleCancel = () => {
 }
 
 const handleEditDevice = () => {
-  editDeviceStatus.value = 'loading'
-
   const requestBody = {
     deviceName: newDeviceName.value,
     deviceAddress: newDeviceAddress.value,

@@ -32,7 +32,7 @@ export default function fetchData(url, options = {}) {
     cacheDuration = 120 * 60 * 1000,
     requiresAuth = false,
     abortController = { value: null },
-    status = { value: null },
+    status = null,
     method = 'GET',
     body,
   } = options
@@ -40,7 +40,7 @@ export default function fetchData(url, options = {}) {
   if (!fetchedResponse) {
     throw new Error('The "data" ref is required in options.')
   }
-
+  if (status) status.value = 'loading'
   // Try to get cached data first if cacheKey is provided
   if (cacheKey) {
     const cachedRes = localStorage.getItem(cacheKey)
@@ -51,7 +51,7 @@ export default function fetchData(url, options = {}) {
 
         if (isDataFresh) {
           fetchedResponse.value = cachedResponse
-          if (status.value) status.value = 'loaded'
+          if (status) status.value = 'loaded'
         }
       } catch (error) {
         console.error('Error parsing cached data:', error)
@@ -65,7 +65,6 @@ export default function fetchData(url, options = {}) {
     abortController.value.abort()
   }
   abortController.value = new AbortController()
-  if (status.value) status.value = 'loading'
 
   const headers = {
     'Content-Type': 'application/json',
@@ -105,13 +104,11 @@ export default function fetchData(url, options = {}) {
             }),
           )
         }
-        if (status.value) {
-          status.value = 'loaded'
-        }
+        if (status) status.value = 'loaded'
       } else {
         // Error case - store the error response
         fetchedResponse.value = responseData
-        if (status.value) status.value = 'error'
+        if (status) status.value = 'error'
         console.error('API Error:', responseData)
       }
     })
@@ -127,7 +124,7 @@ export default function fetchData(url, options = {}) {
           instance: url,
           timestamp: new Date().toISOString(),
         }
-        if (status.value) status.value = 'error'
+        if (status) status.value = 'error'
       }
     })
 }

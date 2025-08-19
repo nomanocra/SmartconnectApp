@@ -64,6 +64,8 @@ export default {
       fiveMinutes: '5min',
       tenMinutes: '10min',
       twentyMinutes: '20min',
+      loadingMessage: 'Chargement en cours...',
+      noResultsMessage: 'Aucun résultat trouvé',
     },
     errors: {
       noData: 'Désolé, aucune donnée historique trouvée.',
@@ -165,6 +167,8 @@ export default {
       fiveMinutes: '5min',
       tenMinutes: '10min',
       twentyMinutes: '20min',
+      loadingMessage: 'Loading...',
+      noResultsMessage: 'No results found',
     },
     errors: {
       noData: 'Sorry, no historical data found.',
