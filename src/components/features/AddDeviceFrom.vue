@@ -16,7 +16,17 @@
           <template #icon>
             <PhGlobeSimple :size="14" color="var(--p-primary-color)" />
           </template>
-          <InputText v-model="deviceAddress" type="text" placeholder="192.168.1.100" />
+          <AutoComplete
+            v-model="deviceAddress"
+            :suggestions="filteredDeviceAddresses"
+            @complete="searchDeviceAddresses"
+            placeholder="192.168.1.100"
+            :delay="300"
+            :minLength="1"
+            optionLabel="address"
+            optionValue="address"
+            :loading="isDeviceHistoryLoading"
+          />
         </LabeledInput>
       </div>
     </div>
@@ -95,8 +105,9 @@
 </template>
 
 <script setup>
-import { ref, computed, watch } from 'vue'
+import { ref, computed, watch, onMounted } from 'vue'
 import InputText from 'primevue/inputtext'
+import AutoComplete from 'primevue/autocomplete'
 import { Form } from '@primevue/forms'
 import Button from 'primevue/button'
 import SelectButton from 'primevue/selectbutton'
@@ -124,6 +135,100 @@ const deviceLogin = ref('')
 const devicePassword = ref('')
 const addDeviceStatus = ref(null)
 const addDeviceResponse = ref(null)
+
+// États pour l'historique des appareils
+const deviceHistoryStatus = ref(null)
+const deviceHistoryResponse = ref(null)
+const deviceHistoryAddresses = ref([])
+
+// État de chargement pour l'historique des appareils
+const isDeviceHistoryLoading = computed(() => {
+  return deviceHistoryStatus.value === 'loading'
+})
+
+const filteredDeviceAddresses = ref([])
+
+// Fonction pour récupérer l'historique des appareils
+const fetchDeviceHistory = () => {
+  console.log('fetchDeviceHistory called')
+  console.log('API URL:', `${config.apiBaseUrl}/users/device-history`)
+
+  fetchData(`${config.apiBaseUrl}/users/device-history`, {
+    method: 'GET',
+    status: deviceHistoryStatus,
+    fetchedResponse: deviceHistoryResponse,
+    requiresAuth: true,
+  })
+}
+
+// Fonction de filtrage pour l'autosuggestion d'adresses IP
+const searchDeviceAddresses = (event) => {
+  const query = event.query.toLowerCase()
+  filteredDeviceAddresses.value = deviceHistoryAddresses.value.filter((device) =>
+    device.address.toLowerCase().includes(query),
+  )
+}
+
+// Charger l'historique des appareils au montage du composant
+onMounted(() => {
+  console.log('Component mounted, calling fetchDeviceHistory')
+  fetchDeviceHistory()
+})
+
+// Surveiller la réponse de l'historique des appareils
+watch(
+  () => deviceHistoryResponse.value,
+  (newResponse, oldResponse) => {
+    console.log('deviceHistoryResponse changed:', { newResponse, oldResponse })
+    console.log('deviceHistoryStatus:', deviceHistoryStatus.value)
+
+    // Traiter la réponse même si le statut n'est pas mis à jour correctement
+    if (newResponse && newResponse.success) {
+      // Log de la réponse complète pour debug
+      console.log('Device History API Response:', newResponse)
+      console.log('Device History Data:', newResponse.data)
+
+      // Transformer les données de l'API en format attendu par l'autocomplétion
+      if (Array.isArray(newResponse.data)) {
+        deviceHistoryAddresses.value = newResponse.data
+          .map((device) => ({
+            address: device.address || device.deviceAddress || device.ipAddress || device,
+          }))
+          .filter((device) => device.address) // Filtrer les entrées sans adresse
+
+        // Log des adresses transformées
+        console.log('Transformed Device Addresses:', deviceHistoryAddresses.value)
+      } else {
+        console.log('newResponse.data is not an array:', newResponse.data)
+      }
+    } else {
+      console.log('Conditions not met for processing response:', {
+        hasResponse: !!newResponse,
+        hasSuccess: newResponse?.success,
+        status: deviceHistoryStatus.value,
+      })
+    }
+  },
+  { immediate: true },
+)
+
+// Surveiller les erreurs de l'historique des appareils
+watch(
+  () => deviceHistoryStatus.value,
+  (newStatus, oldStatus) => {
+    console.log('deviceHistoryStatus changed:', { newStatus, oldStatus })
+
+    if (newStatus === 'error') {
+      console.warn("Impossible de charger l'historique des appareils:", deviceHistoryResponse.value)
+      // En cas d'erreur, on peut utiliser une liste de fallback ou laisser vide
+      deviceHistoryAddresses.value = []
+    } else if (newStatus === 'loading') {
+      console.log('Device history loading started')
+    } else if (newStatus === 'loaded') {
+      console.log('Device history loading completed')
+    }
+  },
+)
 
 const emit = defineEmits(['device-added'])
 
@@ -311,5 +416,19 @@ i {
       flex: 1;
     }
   }
+}
+
+/* Styles pour que l'AutoComplete prenne toute la largeur disponible */
+:deep(.p-autocomplete) {
+  width: 100%;
+}
+
+:deep(.p-autocomplete .p-inputtext) {
+  width: 100%;
+}
+
+:deep(.p-autocomplete-panel) {
+  width: 100%;
+  min-width: 100%;
 }
 </style>
