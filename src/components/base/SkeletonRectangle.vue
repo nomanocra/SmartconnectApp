@@ -10,35 +10,35 @@
   background-color: color-mix(in srgb, var(--p-background-lvl4) 50%, transparent);
   border-radius: var(--p-form-field-border-radius);
   overflow: hidden;
-  background-image: linear-gradient(
+  /* background-image: linear-gradient(
     90deg,
     transparent 0%,
     color-mix(in srgb, var(--p-background-lvl0) 70%, transparent) 30%,
     transparent 60%
-  );
+  ); */
   background-size: 200% 100%;
-  animation: shimmer 3s ease-in-out infinite;
-  /* pulsate 2s ease-in-out infinite; */
+  /* animation: shimmer 3s ease-in-out infinite; */
+  animation: pulsate 2s ease-in-out infinite;
 }
 
-@keyframes shimmer {
+/* @keyframes shimmer {
   0% {
     background-position: 200% 0;
   }
   100% {
     background-position: -200% 0;
   }
-}
-/*
+} */
+
 @keyframes pulsate {
   0% {
-    opacity: 1;
-  }
-  50% {
     opacity: 0.7;
   }
-  100% {
-    opacity: 1;
+  50% {
+    opacity: 0.4;
   }
-} */
+  100% {
+    opacity: 0.7;
+  }
+}
 </style>
