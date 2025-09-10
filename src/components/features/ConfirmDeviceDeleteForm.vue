@@ -1,10 +1,10 @@
 <template>
-  <div class="delete-device-content">
+  <Form @submit="handleConfirmDelete" class="form-group">
     <p class="delete-device-description">{{ $t('deleteDevice.description') }}</p>
 
     <LabeledInput :label="$t('deleteDevice.confirmationLabel')" id="deleteConfirmation">
       <template #icon>
-        <PhWarning :size="14" color="var(--p-danger-color)" />
+        <PhWarning :size="14" color="var(--p-button-warn-background)" />
       </template>
       <InputText
         v-model="deleteConfirmationText"
@@ -13,27 +13,25 @@
         @input="handleDeleteConfirmationInput"
       />
     </LabeledInput>
-  </div>
-
-  <div class="dialog-footer">
-    <Button
-      type="button"
-      :label="$t('common.cancel')"
-      text
-      severity="secondary"
-      @click="handleCancelDelete"
-      :disabled="isDeleteButtonLoading"
-    />
-    <Button
-      type="button"
-      :label="$t('common.confirmDelete')"
-      icon="pi pi-trash"
-      severity="danger"
-      @click="handleConfirmDelete"
-      :loading="isDeleteButtonLoading"
-      :disabled="!isDeleteConfirmationValid"
-    />
-  </div>
+    <div class="form-actions-right">
+      <Button
+        type="button"
+        :label="$t('common.cancel')"
+        text
+        severity="secondary"
+        @click="handleCancelDelete"
+        :disabled="isDeleteButtonLoading"
+      />
+      <Button
+        type="submit"
+        :label="$t('common.confirmDelete')"
+        icon="pi pi-trash"
+        severity="danger"
+        :loading="isDeleteButtonLoading"
+        :disabled="!isDeleteConfirmationValid"
+      />
+    </div>
+  </Form>
 </template>
 
 <script setup>
@@ -136,12 +134,6 @@ watch(
 </script>
 
 <style scoped>
-.delete-device-content {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-}
-
 .delete-device-description {
   color: var(--p-text-secondary-color);
   font-size: 0.875rem;
@@ -149,7 +141,7 @@ watch(
   margin: 0;
 }
 
-.dialog-footer {
+.form-actions-right {
   display: flex;
   gap: 0.5rem;
   justify-content: flex-end;
