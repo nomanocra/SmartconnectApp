@@ -11,7 +11,7 @@
         </div>
       </div>
       <div class="header-right">
-        <span class="value">{{ sensor.value }}</span>
+        <span class="value">{{ formatSensorValue(sensor.value) }}</span>
         <span class="unit">{{ sensor.unit }}</span>
       </div>
     </div>
@@ -88,6 +88,21 @@ const { value: timeagoValue, stopUpdates } = useTimeago(props.sensor.lastUpdate,
 onUnmounted(() => {
   stopUpdates()
 })
+
+// Function to format sensor value with maximum 2 decimal places
+function formatSensorValue(value) {
+  if (value === null || value === undefined || value === '') {
+    return value
+  }
+
+  const numValue = parseFloat(value)
+  if (isNaN(numValue)) {
+    return value
+  }
+
+  // Round to 2 decimal places and remove trailing zeros
+  return parseFloat(numValue.toFixed(2)).toString()
+}
 </script>
 
 <style scoped>
