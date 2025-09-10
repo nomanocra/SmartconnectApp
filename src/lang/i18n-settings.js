@@ -82,10 +82,10 @@ export default {
     deleteDevice: {
       title: "Supprimer l'appareil",
       description:
-        'Cette action est irréversible. Pour confirmer, tapez "supprimer l\'appareil" dans le champ ci-dessous.',
-      confirmationLabel: 'Pour confirmer, tapez "supprimer l\'appareil"',
-      confirmationPlaceholder: "supprimer l'appareil",
-      confirmationText: "supprimer l'appareil",
+        'Cette action est irréversible. Pour confirmer, tapez "Supprimer l\'appareil" dans le champ ci-dessous.',
+      confirmationLabel: 'Pour confirmer, tapez "Supprimer l\'appareil"',
+      confirmationPlaceholder: "Supprimer l'appareil",
+      confirmationText: "Supprimer l'appareil",
     },
     timeago: {
       now: "À l'instant",
@@ -185,10 +185,10 @@ export default {
     deleteDevice: {
       title: 'Delete Device',
       description:
-        'This action is irreversible. To confirm, type "delete device" in the field below.',
-      confirmationLabel: 'To confirm, type "delete device"',
-      confirmationPlaceholder: 'delete device',
-      confirmationText: 'delete device',
+        'This action is irreversible. To confirm, type "Delete device" in the field below.',
+      confirmationLabel: 'To confirm, type "Delete device"',
+      confirmationPlaceholder: 'Delete device',
+      confirmationText: 'Delete device',
     },
     timeago: {
       now: 'Just now',
